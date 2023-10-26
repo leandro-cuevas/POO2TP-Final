@@ -9,6 +9,7 @@ class ContainerRefri extends Container {
 		this.consumoPorHora = consumoPorHora;
 	}
 
+	@Override 
 	public int getConsumoPorHora() {
 		return consumoPorHora;
 	}
