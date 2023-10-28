@@ -16,7 +16,7 @@ public class Buque {
 	}
 
 	public int getDistanciaDeLaTerminal() {
-		// TODO Auto-generated method stub
+		// TODO Terminar de implementar
 		return 0;
 	}
 	
