@@ -10,7 +10,7 @@ class ContainerRefri extends Container {
 	}
 
 	@Override 
-	public int getConsumoPorHora() {
+	public int getConsumo() {
 		return consumoPorHora;
 	}
 
