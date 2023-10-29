@@ -5,8 +5,11 @@ import java.util.List;
 import ar.edu.unq.po2.TerminalPortuaria.Tramo;
 
 public class CriterioMenorDistancia extends Criterio {
-	ComparadorCircuito comparador = new ComparadorCircuitoDistancia();
+	ComparadorCircuito comparador;
 	
+	public CriterioMenorDistancia() {
+		comparador = new ComparadorCircuitoDistancia();
+	}
 	@Override
 	public List<Tramo> elMejor(List<Circuito> circuitos) {
 		return circuitos.stream()
