@@ -11,6 +11,13 @@ public class Tramo {
 	private Time tiempoDeDuracion;
 	
 	private double precio;
+	
+	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, Time tiempoDeDuracion, double precio) {
+		this.origen = origen;
+		this.destino = destino;
+		this.tiempoDeDuracion = tiempoDeDuracion;
+		this.precio = precio;
+	}
 
 	public TerminalPortuaria getOrigen() {
 		return origen;
