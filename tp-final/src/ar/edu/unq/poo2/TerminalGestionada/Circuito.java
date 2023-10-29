@@ -10,11 +10,13 @@ public class Circuito {
 		return comp.comparar(this, c2);
 	}
 	public double getTiempo() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	public List<Tramo> getTramos() {
 		return null;
+	}
+	public double getPrecio() {
+		return 0;
 	}
 
 }
