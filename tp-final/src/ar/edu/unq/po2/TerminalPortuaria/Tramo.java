@@ -4,28 +4,46 @@ import java.sql.Time;
 
 public class Tramo {
 	
-	TerminalPortuaria origen;
+	private TerminalPortuaria origen;
 	
-	TerminalPortuaria destino;
+	private TerminalPortuaria destino;
 	
-	private Time tiempoDeDuracion;
+	private int tiempoDeDuracionEnHoras;
 	
 	private double precio;
+	
+	private double distancia;
+	
+	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, int tiempoDeDuracionEnHoras, double precio) {
+		this.origen = origen;
+		this.destino = destino;
+		this.tiempoDeDuracionEnHoras = tiempoDeDuracionEnHoras;
+		this.precio = precio;
+	}
 
 	public TerminalPortuaria getOrigen() {
+		//Devuelve la terminal de origen.
 		return origen;
 	}
 
 	public TerminalPortuaria getDestino() {
+		//Devuelve la terminal de destino.
 		return destino;
 	}
 
-	public Time getTiempoDeDuracion() {
-		return tiempoDeDuracion;
+	public int getTiempoDeDuracionEnHoras() {
+		//Devuelve las horas de duración del viaje.
+		return tiempoDeDuracionEnHoras;
 	}
 
 	public double getPrecio() {
+		//Devuelve el precio.
 		return precio;
+	}
+
+	public double getDistancia() {
+		//Devuelve la distancia.
+		return distancia;
 	}
 	
 	
