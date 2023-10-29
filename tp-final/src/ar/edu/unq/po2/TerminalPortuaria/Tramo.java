@@ -4,13 +4,15 @@ import java.sql.Time;
 
 public class Tramo {
 	
-	TerminalPortuaria origen;
+	private TerminalPortuaria origen;
 	
-	TerminalPortuaria destino;
+	private TerminalPortuaria destino;
 	
 	private Time tiempoDeDuracion;
 	
 	private double precio;
+	
+	private double distancia;
 	
 	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, Time tiempoDeDuracion, double precio) {
 		this.origen = origen;
@@ -33,6 +35,10 @@ public class Tramo {
 
 	public double getPrecio() {
 		return precio;
+	}
+
+	public double getDistancia() {
+		return distancia;
 	}
 	
 	
