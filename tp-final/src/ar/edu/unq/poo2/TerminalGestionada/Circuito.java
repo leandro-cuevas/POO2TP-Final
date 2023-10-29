@@ -38,5 +38,9 @@ public class Circuito {
 	public double getPrecio() {
 		return 0;
 	}
+	public double getDistancia() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
