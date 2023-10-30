@@ -6,27 +6,44 @@ abstract class Container {
 	
 	protected int largo;
 	
+	protected int altura;
+	
 	protected int peso;
 	
-	public Container(int ancho, int largo, int peso) {
+	public Container(int ancho, int largo, int altura, int peso) {
 		this.ancho = ancho;
 		this.largo = largo;
+		this.altura = altura;
 		this.peso = peso;
 	}
 
 	public int getConsumo() {
+		//Es un hook por defecto.
 		return 0;
 	}
 
 	public int getAncho() {
+		//El ancho del container.
 		return ancho;
 	}
 
 	public int getLargo() {
+		//El largo del container.
 		return largo;
 	}
 
 	public int getPeso() {
+		//El peso del container.
 		return peso;
+	}
+	
+	public int getAltura() {
+		//La altura del container.
+		return altura;
+	}
+	
+	public int getMetrosCubicos() {
+		//Los metros cúbicos del container.
+		return altura * ancho * largo;
 	}
 }
