@@ -20,6 +20,12 @@ public class Circuito {
 			throw new Exception("El tramo agregado rompe el invariante de representación");
 		}
 	}
+	
+	public void eliminarUltimoTramo() {
+		
+		listaDeTramos.remove(listaDeTramos.size() - 1);
+		
+	}
 
 	private boolean coincideConElUltimoAgregado(Tramo tramo) {
 		Tramo ultimoAgregado = listaDeTramos.get(listaDeTramos.size() - 1);
