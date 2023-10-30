@@ -8,7 +8,7 @@ public class EstadoDeBuqueDepart extends EstadoDeBuque {
 
 	@Override
 	public void comunicarConTerminal(Buque buque) {
-		buque.terminal.elBuqueHaPartido(buque);
+		buque.avisarQueSePartio();
 	}
 
 	@Override

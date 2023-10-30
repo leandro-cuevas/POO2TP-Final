@@ -73,5 +73,59 @@ class EstadoDeBuqueTest {
 		verify(buque, times(1)).avisarArriboInminente();
 
 	}
+	
+	@Test
+	void testArrived() {
+		//Activo gps.
+		arrived.activarGPS(buque);
+		//En este caso no se pide distancia con la terminal.
+		verify(buque, never()).getDistanciaDeLaTerminal();
+		//Pero sí se indica que se arribó.
+		verify(buque, times(1)).avisarQueSeArribo();
+	}
+	
+	@Test
+	void testWorking() {
+		//Activo gps.
+		working.activarGPS(buque);
+		//Comunico con la terminal. No hace nada.
+		working.comunicarConTerminal(buque);
+		//No hace nada porque el cambio de estado depende de la terminal.
+		verify(buque, never()).getDistanciaDeLaTerminal();
+		verify(buque, never()).avisarQueSeArribo();
+	}
+	
+	@Test
+	void testDepart() {
+		//Cuando pida la distancia, ya está suficientemente lejos
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(2);
+		//Activo gps
+		depart.activarGPS(buque);
+		verify(buque, times(1)).getDistanciaDeLaTerminal();
+		verify(buque, times(1)).avisarQueSePartio();
+
+	}
+	
+	@Test
+	void testHabilitacionParaSalir() {
+		//Por defecto, ninguno esta habilitado para salir.
+		assertFalse(inbound.isHabilitadoParaSalir()); 
+		assertFalse(outbound.isHabilitadoParaSalir()); 
+		assertFalse(arrived.isHabilitadoParaSalir()); 
+		assertFalse(working.isHabilitadoParaSalir());
+		assertFalse(depart.isHabilitadoParaSalir()); 
+		//Seteo que pueden salir.
+		inbound.setHabilitadoParaSalir(true);
+		outbound.setHabilitadoParaSalir(true);
+		arrived.setHabilitadoParaSalir(true);
+		working.setHabilitadoParaSalir(true);
+		depart.setHabilitadoParaSalir(true);
+		//Ahora todos estan habilitados.
+		assertTrue(inbound.isHabilitadoParaSalir()); 
+		assertTrue(outbound.isHabilitadoParaSalir()); 
+		assertTrue(arrived.isHabilitadoParaSalir()); 
+		assertTrue(working.isHabilitadoParaSalir());
+		assertTrue(depart.isHabilitadoParaSalir()); 
+	}
 
 }

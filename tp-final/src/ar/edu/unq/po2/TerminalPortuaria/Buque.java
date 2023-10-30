@@ -47,6 +47,10 @@ public class Buque {
 		
 	}
 	
+	public void avisarQueSePartio() {
+		terminal.elBuqueHaPartido(this);
+	}
+	
 	
 	
 
