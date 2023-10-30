@@ -107,4 +107,25 @@ public class Circuito {
 		return this.listaDeTramos;
 	}
 
+	public double getDistancia() {
+		//Retorna la distancia total del circuito.
+		return listaDeTramos.stream()
+				.mapToDouble(e-> e.getDistancia())
+				.sum();
+	}
+
+	public double getPrecio() {
+		// Retorna el precio por recorrer todo el circuito.
+		return listaDeTramos.stream()
+				.mapToDouble(e-> e.getPrecio())
+				.sum();
+	}
+
+	public double getTiempo() {
+		// Retorna el tiempo total de recorrer todo el circuito.
+		return listaDeTramos.stream()
+				.mapToInt(e-> e.getTiempoDeDuracionEnHoras())
+				.sum();
+	}
+
 }

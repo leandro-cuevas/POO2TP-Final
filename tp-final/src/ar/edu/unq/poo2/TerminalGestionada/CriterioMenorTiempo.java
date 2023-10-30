@@ -12,7 +12,7 @@ public class CriterioMenorTiempo extends Criterio{
 		return circuitos.stream()
 				.min((v1,v2) -> v1.compararCon(v2, comparador))
 				.get()
-				.getTramos();
+				.getListaDeTramos();
 	}
 
 }
