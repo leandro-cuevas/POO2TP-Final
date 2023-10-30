@@ -10,6 +10,23 @@ public class Circuito {
 	
 	private List<Tramo> listaDeTramos;
 	
+	public void agregarTramo(Tramo tramo) throws Exception {
+		this.validarAgregarTramo(tramo);
+		listaDeTramos.add(tramo);
+	}
+	
+	private void validarAgregarTramo(Tramo tramo) throws Exception {
+		if (!this.coincideConElUltimoAgregado(tramo)) {
+			throw new Exception("El tramo agregado rompe el invariante de representación");
+		}
+	}
+
+	private boolean coincideConElUltimoAgregado(Tramo tramo) {
+		Tramo ultimoAgregado = listaDeTramos.get(listaDeTramos.size() - 1);
+		
+		return ultimoAgregado.getDestino() == tramo.getOrigen();
+	}
+
 	private Tramo tramoConOrigen (TerminalPortuaria origen) {
 		//Busca el tramo con el origen y lo devuelve. Debe existir.
 		return listaDeTramos.stream()
