@@ -1,18 +1,17 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ContainerDryTest {
+class ContainerTanqueTest {
 
 	Container container;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		container = new ContainerDry(20, 40, 60, 200);
+		container = new ContainerTanque(20, 40, 60, 200);
 	}
 
 	@Test
