@@ -14,11 +14,12 @@ public class Tramo {
 	
 	private double distancia;
 	
-	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, int tiempoDeDuracionEnHoras, double precio) {
+	public Tramo(TerminalPortuaria origen, TerminalPortuaria destino, int tiempoDeDuracionEnHoras, double precio, double distancia) {
 		this.origen = origen;
 		this.destino = destino;
 		this.tiempoDeDuracionEnHoras = tiempoDeDuracionEnHoras;
 		this.precio = precio;
+		this.distancia = distancia;
 	}
 
 	public TerminalPortuaria getOrigen() {
