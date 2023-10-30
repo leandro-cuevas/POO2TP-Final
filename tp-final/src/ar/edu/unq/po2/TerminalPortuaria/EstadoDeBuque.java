@@ -16,7 +16,6 @@ abstract class EstadoDeBuque {
 		
 	public void cambiarFase(Buque buque) {
 		buque.setEstado(siguiente);
-		this.activarGPS(buque);
 	}
 	
 	public void setSiguiente(EstadoDeBuque siguiente) {

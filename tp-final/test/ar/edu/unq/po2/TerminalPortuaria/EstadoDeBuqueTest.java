@@ -5,16 +5,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
 import static org.mockito.Mockito.*;
 
 class EstadoDeBuqueTest {
 
 	Buque buque;
-	EstadoDeBuqueOutbound outbound;
-	EstadoDeBuqueInbound inbound;
-	EstadoDeBuqueArrived arrived;
-	EstadoDeBuqueWorking working;
-	EstadoDeBuqueDepart depart;
+	EstadoDeBuque outbound;
+	EstadoDeBuque inbound;
+	EstadoDeBuque arrived;
+	EstadoDeBuque working;
+	EstadoDeBuque depart;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -29,9 +31,17 @@ class EstadoDeBuqueTest {
 		arrived.setSiguiente(working);
 		working.setSiguiente(depart);
 		depart.setSiguiente(outbound);
+	}
+	@Test
+	void testOutboundMenorA50() {
+		//Cuando pida la distancia, está cerca.
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(15);
+		outbound.activarGPS(buque);
+		verify(buque, times(1)).getDistanciaDeLaTerminal();
+		verify(buque, times(1)).setEstado(inbound);
 
 	}
-
+	
 	@Test
 	void testOutboundMayorA50() {
 		//Cuando pida la distancia, es demasiado lejos.
@@ -42,18 +52,7 @@ class EstadoDeBuqueTest {
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
 		verify(buque, never()).avisarArriboInminente();
 	}
-	
-	@Test
-	void testOutboundMenorA50() {
-		//Cuando pida la distancia, está cerca.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(15);
-		//Entonces llama al a condicion y cambia de fase.
-		outbound.activarGPS(buque);
-		verify(buque, times(1)).getDistanciaDeLaTerminal();
-		verify(buque, times(1)).avisarArriboInminente();
 
-	}
-	
 	@Test
 	void testInboundMayora0() {
 		//Cuando pida la distancia, no es igual a la terminal.
@@ -74,11 +73,5 @@ class EstadoDeBuqueTest {
 		verify(buque, times(1)).avisarArriboInminente();
 
 	}
-	
-	@Test
-	void testArrivedNoHaceNada() {
-		
-	}
-	
 
 }
