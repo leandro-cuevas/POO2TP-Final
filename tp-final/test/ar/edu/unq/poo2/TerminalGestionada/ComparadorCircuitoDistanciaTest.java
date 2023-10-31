@@ -6,9 +6,6 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.poo2.TerminalGestionada.ComparadorCircuito;
-import ar.edu.unq.poo2.TerminalGestionada.ComparadorCircuitoDistancia;
-
 class ComparadorCircuitoDistanciaTest {
 	ComparadorCircuito comparador;
 	Circuito circ1;
