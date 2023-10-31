@@ -6,9 +6,6 @@ import ar.edu.unq.po2.TerminalPortuaria.Tramo;
 
 public class Circuito {
 
-	public int compararCon(Circuito c2, ComparadorCircuito comp) {
-		return comp.comparar(this, c2);
-	}
 	public double getTiempo() {
 		return 0;
 	}
