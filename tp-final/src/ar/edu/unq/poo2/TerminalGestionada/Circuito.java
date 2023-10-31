@@ -121,10 +121,6 @@ public class Circuito {
 				.sum();
 	}
 	
-	public int compararCon(Circuito c, ComparadorCircuito comp) {
-		//Dado un circuito y un comparador de circuito, chequea si este objeto es menor al parámetro según la lógica del ComparadorCircuito
-		return comp.comparar(this, c);
-	}
 	public List<Tramo> getListaDeTramos() {
 		//Getter de la lista de tramos.
 		return this.listaDeTramos;
