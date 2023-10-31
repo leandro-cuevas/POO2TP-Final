@@ -1,5 +1,6 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,13 +11,17 @@ public class Circuito {
 	
 	private List<Tramo> listaDeTramos;
 	
+	public Circuito() {
+		this.listaDeTramos = new ArrayList<Tramo>();
+	}
+
 	public void agregarTramo(Tramo tramo) throws Exception {
 		this.validarAgregarTramo(tramo);
 		listaDeTramos.add(tramo);
 	}
 	
 	private void validarAgregarTramo(Tramo tramo) throws Exception {
-		if (!this.coincideConElUltimoAgregado(tramo)) {
+		if (!listaDeTramos.isEmpty() && !this.coincideConElUltimoAgregado(tramo)) {
 			throw new Exception("El tramo agregado rompe el invariante de representación");
 		}
 	}
