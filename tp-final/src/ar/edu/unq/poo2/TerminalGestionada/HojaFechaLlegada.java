@@ -1,6 +1,5 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
@@ -17,7 +16,7 @@ public class HojaFechaLlegada implements Condicion {
 	}
 	
 	@Override
-	public boolean chequear(Viaje viaje) throws Exception {
+	public boolean chequear(Viaje viaje) throws Exception { 
 		if (viaje.contienePuertos(viaje.getCircuitoRecorrido().puertoOrigen(), ptoDestino)) {
 			return viaje.fechaDeArriboAlPuerto(ptoDestino).isBefore(fecha);	
 		} else {

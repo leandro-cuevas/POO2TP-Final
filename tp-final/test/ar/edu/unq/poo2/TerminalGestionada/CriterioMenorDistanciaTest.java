@@ -32,16 +32,16 @@ class CriterioMenorDistanciaTest {
 			t1 = mock(Tramo.class);
 			// Creamos Arrays de circuitos y tramos de mocks.
 			circuitos = new ArrayList<Circuito>();
-			tramos = new ArrayList<Tramo>();
-			circuitos.add(c1);
-			circuitos.add(c2);
-			circuitos.add(c3);
+			tramos = new ArrayList<Tramo>();			
 			tramos.add(t1);
 			
 		}
 
 		@Test
 		void elMejorCon3Circuitos() {
+			circuitos.add(c1);
+			circuitos.add(c2);
+			circuitos.add(c3);
 			// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
 			when(c1.getDistancia()).thenReturn(800.0);
 			when(c2.getDistancia()).thenReturn(900.0);
@@ -55,6 +55,8 @@ class CriterioMenorDistanciaTest {
 		
 		@Test
 		void elMejorCon2CircuitosIguales() {
+			circuitos.add(c1);
+			circuitos.add(c2);
 			// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
 			when(c1.getDistancia()).thenReturn(800.0);
 			when(c2.getDistancia()).thenReturn(800.0);
@@ -75,8 +77,7 @@ class CriterioMenorDistanciaTest {
 		
 		@Test 
 		void elMejorConListaDeCircuitosVacia() {
-			// Testeamos que no rompe en caso de pasarle una lista de circuitos vacia.
-			criterioMP.elMejor(circuitos);
-			assertEquals(0, 0);
+			// Testeamos que devuelve una lista vacia.
+			assertEquals(criterioMP.elMejor(circuitos), circuitos);
 		}
 }

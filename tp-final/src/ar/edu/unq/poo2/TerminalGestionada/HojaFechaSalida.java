@@ -1,6 +1,5 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;

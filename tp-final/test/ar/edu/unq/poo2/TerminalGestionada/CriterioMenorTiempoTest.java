@@ -33,15 +33,15 @@ class CriterioMenorTiempoTest {
 				// Creamos Arrays de circuitos y tramos de mocks.
 				circuitos = new ArrayList<Circuito>();
 				tramos = new ArrayList<Tramo>();
-				circuitos.add(c1);
-				circuitos.add(c2);
-				circuitos.add(c3);
 				tramos.add(t1);
 				
 			}
 
 			@Test
 			void elMejorCon3CircuitosDistintos() {
+				circuitos.add(c1);
+				circuitos.add(c2);
+				circuitos.add(c3);
 				// Seteo precios de cada circuito, ya que el comparador del criterio compara por tiempo.
 				when(c1.getTiempo()).thenReturn(800.0);
 				when(c2.getTiempo()).thenReturn(900.0);
@@ -55,9 +55,12 @@ class CriterioMenorTiempoTest {
 			
 			@Test
 			void elMejorCon2CircuitosIguales() {
+				circuitos.add(c1);
+				circuitos.add(c2);
+				circuitos.add(c3);
 				// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
-				when(c1.getDistancia()).thenReturn(800.0);
-				when(c2.getDistancia()).thenReturn(800.0);
+				when(c1.getTiempo()).thenReturn(800.0);
+				when(c2.getTiempo()).thenReturn(800.0);
 				// C1 es el tramo mas barato, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
 				// le pregunten el tramo queremos que nos devuelva eso mismo.
 				when(c1.getListaDeTramos()).thenReturn(tramos);
@@ -75,8 +78,7 @@ class CriterioMenorTiempoTest {
 			
 			@Test 
 			void elMejorConListaDeCircuitosVacia() {
-				//Testeamos que en caso de que se le pase una lista de circuitos vacia, devuelve una lista vacia.
-				criterioMP.elMejor(circuitos);
-				assertEquals(0, 0);
+				// Testeamos que devuelve una lista vacia.
+				assertEquals(criterioMP.elMejor(circuitos), circuitos);
 			}
 }

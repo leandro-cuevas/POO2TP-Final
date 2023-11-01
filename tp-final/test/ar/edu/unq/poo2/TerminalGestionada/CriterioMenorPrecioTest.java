@@ -55,9 +55,11 @@ class CriterioMenorPrecioTest {
 	
 	@Test
 	void elMejorCon2CircuitosIguales() {
+		circuitos.add(c1);
+		circuitos.add(c2);
 		// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
-		when(c1.getDistancia()).thenReturn(800.0);
-		when(c2.getDistancia()).thenReturn(800.0);
+		when(c1.getPrecio()).thenReturn(800.0);
+		when(c2.getPrecio()).thenReturn(800.0);
 		// C1 es el tramo mas barato, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
 		// le pregunten el tramo queremos que nos devuelva eso mismo.
 		when(c1.getListaDeTramos()).thenReturn(tramos);
@@ -75,8 +77,8 @@ class CriterioMenorPrecioTest {
 	
 	@Test 
 	void elMejorConListaDeCircuitosVacia() {
-		criterioMP.elMejor(circuitos);
-		assertEquals(0, 0);
+		// Testeamos que devuelve una lista vacia.
+		assertEquals(criterioMP.elMejor(circuitos), circuitos);
 	}
 
 }
