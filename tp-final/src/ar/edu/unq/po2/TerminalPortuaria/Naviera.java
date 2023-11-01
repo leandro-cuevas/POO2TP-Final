@@ -18,7 +18,13 @@ public class Naviera {
 	}
 
 	public boolean contienePuertos(TerminalPortuaria origen, TerminalPortuaria destino) {
-		circuitos.stream().anyMatch(circuito->circuito.contienePuertos(origen, destino));
+		return circuitos.stream().anyMatch(circuito->circuito.contienePuertos(origen, destino));
+	}
+	
+	private List<Buque> busquesDisponibles(){
+		  return buques.stream()
+				  .filter(b -> b.isDisponible())
+				  .toList();
 	}
 	
 	public void agregarBuque(Buque b) {
@@ -26,8 +32,8 @@ public class Naviera {
 	}
 	
 	public void establecerViaje(LocalDateTime fechaSalida, Circuito circuitoElegido) {
-		Buque buque; //TODO: Falta poder filtrar por buques que no estén en un viaje.
-		viajes.add(new Viaje(fechaSalida, circuitoElegido, buque));
+		Buque buqueAsignado = this.busquesDisponibles().get(0); 
+		viajes.add(new Viaje(fechaSalida, circuitoElegido, buqueAsignado));
 	}
 	
 	public void agregarCircuito(Circuito c) {

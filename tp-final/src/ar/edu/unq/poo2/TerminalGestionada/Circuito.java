@@ -104,7 +104,7 @@ public class Circuito {
 				.sum();
 	}
 
-	public double getTiempoEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+	public int getTiempoEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		//Dados un origen y un destino, me dice cuánto tardo en viajar entre esos lugares.
 		
 		//Primero valido la existencia.
@@ -150,6 +150,11 @@ public class Circuito {
 		return listaDeTramos.stream()
 				.mapToInt(e-> e.getTiempoDeDuracionEnHoras())
 				.sum();
+	}
+
+	public TerminalPortuaria puertoOrigen() {
+		// Retorna el puerto de origen. El circuito debe tener al menos un tramo.
+		return listaDeTramos.get(0).getOrigen();
 	}
 
 }

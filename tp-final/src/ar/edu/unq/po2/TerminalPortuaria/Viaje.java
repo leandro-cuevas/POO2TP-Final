@@ -30,9 +30,9 @@ public class Viaje {
 		}
 		
 		//Calcula la fecha de llegada a un puerto pasado por parámetro
-		public LocalDateTime fechaDeArriboAlPuerto(TerminalPortuaria p) {
+		public LocalDateTime fechaDeArriboAlPuerto(TerminalPortuaria p) throws Exception {
 			
-	        int horasViaje = circuitoRecorrido.getTiempoEntrePuertos(circuitoRecorrido.puertoOrigen, p);
+	        int horasViaje = circuitoRecorrido.getTiempoEntrePuertos(circuitoRecorrido.puertoOrigen(), p);
 				        
 	        return fechaSalida.plus(horasViaje, ChronoUnit.HOURS);
 		}

@@ -2,9 +2,11 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 public class Buque {
 	
-	TerminalPortuaria terminal;
+	private TerminalPortuaria terminal;
 	
-	EstadoDeBuque estado;
+	private EstadoDeBuque estado;
+	
+	private boolean disponible;
 
 	public Buque(TerminalPortuaria terminal, EstadoDeBuque estado) {
 		this.terminal = terminal;
@@ -18,6 +20,10 @@ public class Buque {
 	public int getDistanciaDeLaTerminal() {
 		// TODO Terminar de implementar
 		return 0;
+	}
+	
+	public boolean isDisponible() {
+		return this.disponible;
 	}
 	
 	public void activarGPS() {
