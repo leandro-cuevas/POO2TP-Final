@@ -1,5 +1,8 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Buque {
 	
 	private TerminalPortuaria terminal;
@@ -7,10 +10,13 @@ public class Buque {
 	private EstadoDeBuque estado;
 	
 	private boolean disponible;
+	
+	private List<Container> containers;
 
 	public Buque(TerminalPortuaria terminal, EstadoDeBuque estado) {
 		this.terminal = terminal;
 		this.estado = estado;
+		this.containers = new ArrayList<Container>();
 	}
 
 	public void setEstado(EstadoDeBuque estado) {
@@ -55,6 +61,10 @@ public class Buque {
 	
 	public void avisarQueSePartio() {
 		terminal.elBuqueHaPartido(this);
+	}
+	
+	public void cargarContainer(Container c) {
+		containers.add(c);
 	}
 	
 	
