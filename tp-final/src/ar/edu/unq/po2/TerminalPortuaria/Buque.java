@@ -9,12 +9,13 @@ public class Buque {
 	
 	private EstadoDeBuque estado;
 	
-	private boolean disponible;
+	private boolean estaEnViaje;
 	
 	private List<Container> containers;
 
 	public Buque(TerminalPortuaria terminal, EstadoDeBuque estado) {
 		this.terminal = terminal;
+		this.estaEnViaje = false;
 		this.estado = estado;
 		this.containers = new ArrayList<Container>();
 	}
@@ -28,8 +29,8 @@ public class Buque {
 		return 0;
 	}
 	
-	public boolean isDisponible() {
-		return this.disponible;
+	public boolean estaEnViaje() {
+		return estaEnViaje;
 	}
 	
 	public void activarGPS() {
@@ -67,7 +68,7 @@ public class Buque {
 		containers.add(c);
 	}
 	
-	
-	
-
+	public void asignarViaje() {
+		this.estaEnViaje = true;
+	}
 }

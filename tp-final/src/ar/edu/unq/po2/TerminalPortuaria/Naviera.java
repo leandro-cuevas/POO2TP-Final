@@ -3,6 +3,7 @@ package ar.edu.unq.po2.TerminalPortuaria;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 
 public class Naviera {
@@ -23,7 +24,7 @@ public class Naviera {
 	
 	private List<Buque> busquesDisponibles(){
 		  return buques.stream()
-				  .filter(b -> b.isDisponible())
+				  .filter(b -> b.estaEnViaje())
 				  .toList();
 	}
 	
@@ -31,12 +32,18 @@ public class Naviera {
 		buques.add(b);
 	}
 	
-	public void establecerViaje(LocalDateTime fechaSalida, Circuito circuitoElegido) {
-		//TODO hacer una validación
+	public void establecerViaje(LocalDateTime fechaSalida, Circuito circuitoElegido) throws Exception {
+		validarCircuito(circuitoElegido);
 		Buque buqueAsignado = this.busquesDisponibles().get(0); 
 		viajes.add(new Viaje(fechaSalida, circuitoElegido, buqueAsignado));
+		buqueAsignado.asignarViaje(); 
 	}
 	
+	private void validarCircuito(Circuito circuitoAValidar) throws Exception {
+		if (!circuitos.contains(circuitoAValidar)) {
+			throw new Exception("El circuito no puede ser elegido.");
+		}
+	}
 	public void agregarCircuito(Circuito c) {
 		circuitos.add(c);
 	}
