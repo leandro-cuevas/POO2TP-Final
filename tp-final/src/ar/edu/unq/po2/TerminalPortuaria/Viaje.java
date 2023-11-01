@@ -39,5 +39,9 @@ public class Viaje {
 				        
 	        return fechaSalida.plus(horasViaje, ChronoUnit.HOURS);
 		}
+		
+		public boolean contienePuertos (TerminalPortuaria origen, TerminalPortuaria destino){
+			return circuitoRecorrido.contienePuertos(origen, destino);
+		}
 
 }
