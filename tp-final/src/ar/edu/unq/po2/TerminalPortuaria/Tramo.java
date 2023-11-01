@@ -45,10 +45,6 @@ public class Tramo {
 	public double getDistancia() {
 		//Devuelve la distancia.
 		return distancia;
-	}
-	
-	
-	
-	
+	}	
 
 }

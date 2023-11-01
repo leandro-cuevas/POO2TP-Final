@@ -32,6 +32,7 @@ public class Naviera {
 	}
 	
 	public void establecerViaje(LocalDateTime fechaSalida, Circuito circuitoElegido) {
+		//TODO hacer una validación
 		Buque buqueAsignado = this.busquesDisponibles().get(0); 
 		viajes.add(new Viaje(fechaSalida, circuitoElegido, buqueAsignado));
 	}

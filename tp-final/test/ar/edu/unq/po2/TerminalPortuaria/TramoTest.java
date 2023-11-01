@@ -8,21 +8,23 @@ import org.junit.jupiter.api.Test;
 
 class TramoTest {
 	
-	TerminalPortuaria origen;
-	TerminalPortuaria destino;
+	TerminalPortuaria bsAs;
+	TerminalPortuaria lp;
 	Tramo buenosAiresLaPlata;
+	Tramo laPlataBuenosAires;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		origen = mock(TerminalPortuaria.class);
-		destino = mock(TerminalPortuaria.class);
-		buenosAiresLaPlata = new Tramo(origen, destino, 24, 5000, 60);
+		bsAs = mock(TerminalPortuaria.class);
+		lp = mock(TerminalPortuaria.class);
+		buenosAiresLaPlata = new Tramo(bsAs, lp, 24, 5000, 60);
+		laPlataBuenosAires = new Tramo(lp, bsAs, 24, 5000, 60);
 	}
 
 	@Test
 	void constructorTest() {
-		assertEquals(origen, buenosAiresLaPlata.getOrigen());
-		assertEquals(destino, buenosAiresLaPlata.getDestino());
+		assertEquals(bsAs, buenosAiresLaPlata.getOrigen());
+		assertEquals(lp, buenosAiresLaPlata.getDestino());
 		assertEquals(24, buenosAiresLaPlata.getTiempoDeDuracionEnHoras());
 		assertEquals(5000, buenosAiresLaPlata.getPrecio());
 		assertEquals(60, buenosAiresLaPlata.getDistancia());

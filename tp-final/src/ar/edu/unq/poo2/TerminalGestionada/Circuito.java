@@ -36,6 +36,7 @@ public class Circuito {
 		Tramo ultimoAgregado = listaDeTramos.get(listaDeTramos.size() - 1);
 		
 		return ultimoAgregado.getDestino() == tramo.getOrigen();
+				
 	}
 
 	private Tramo tramoConOrigen (TerminalPortuaria origen) {
