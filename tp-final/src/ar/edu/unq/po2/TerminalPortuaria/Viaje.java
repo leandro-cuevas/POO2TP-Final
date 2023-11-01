@@ -18,19 +18,22 @@ public class Viaje {
 		}
 		
 		public LocalDateTime getFechaSalida() {
+			//Devuelve la fecha de salida de este viaje.
 			return fechaSalida;
 		}
 		
 		public Circuito getCircuitoRecorrido() {
+			//Devuelve el circuito que recorre este viaje
 			return circuitoRecorrido;
 		}
 		
 		public Buque getBuqueRecorrido() {
+			//Devuelve el buque que recorre este viaje.
 			return buqueRecorrido;
 		}
 		
-		//Calcula la fecha de llegada a un puerto pasado por parámetro
 		public LocalDateTime fechaDeArriboAlPuerto(TerminalPortuaria p) throws Exception {
+			//Calcula la fecha de llegada a un puerto pasado por parámetro
 			
 	        int horasViaje = circuitoRecorrido.getTiempoEntrePuertos(circuitoRecorrido.puertoOrigen(), p);
 				        
