@@ -157,9 +157,5 @@ public class Circuito {
 		// Retorna el puerto de origen. El circuito debe tener al menos un tramo.
 		return listaDeTramos.get(0).getOrigen();
 	}
-	
-	public TerminalPortuaria puertoDestino() {
-		return listaDeTramos.get(listaDeTramos.size() - 1).getDestino();
-	}
 
 }
