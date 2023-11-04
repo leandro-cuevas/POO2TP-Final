@@ -21,7 +21,8 @@ public class HojaFechaSalida implements Condicion{
 		// Como el metodo fechaDeArriboAlPuerto tira error en caso de no estar, catchea y devuelve
 		// falso en caso de no estar, ya que de todas maneras va a poder cumplir con el requisito de ser filtrada.
 		try {
-				return viaje.fechaDeArriboAlPuerto(ptoSalida).isAfter(fecha);
+			LocalDateTime fechaViaje = viaje.fechaDeArriboAlPuerto(ptoSalida);
+				return fechaViaje.isBefore(fecha) || fechaViaje.isEqual(fecha);
 			} catch (Exception e) {
 				return false;
 			}	
