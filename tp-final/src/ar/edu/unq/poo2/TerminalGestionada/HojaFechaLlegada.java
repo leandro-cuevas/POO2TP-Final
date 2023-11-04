@@ -16,12 +16,14 @@ public class HojaFechaLlegada implements Condicion {
 	}
 	
 	@Override
-	public boolean chequear(Viaje viaje) throws Exception { 
-		if (viaje.contienePuertos(viaje.getCircuitoRecorrido().puertoOrigen(), ptoDestino)) {
-			return viaje.fechaDeArriboAlPuerto(ptoDestino).isBefore(fecha);	
-		} else {
-			return false;
+	public boolean chequear(Viaje viaje) { 
+	// Indica si el la fecha de arribo del viaje al ptoDestino ingresada es posterior a la de la condicion
+	// Como el metodo fechaDeArriboAlPuerto tira error en caso de no estar, catchea y devuelve
+	// falso en caso de no estar, ya que de todas maneras va a poder cumplir con el requisito de ser filtrada.
+			try {
+				return viaje.fechaDeArriboAlPuerto(ptoDestino).isAfter(fecha);
+			} catch (Exception e) {
+				return false;
+			}	
 		}
-		
-	}
 }

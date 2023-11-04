@@ -1,6 +1,6 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
-abstract class Container {
+public abstract class Container {
 	
 	protected int ancho;
 	

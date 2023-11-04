@@ -7,7 +7,7 @@ public class Or implements Condicion {
 	Condicion expr;
 	
 	@Override
-	public boolean chequear(Viaje viaje) throws Exception {
+	public boolean chequear(Viaje viaje) {
 		return exp.chequear(viaje) || expr.chequear(viaje);
 	}
 	

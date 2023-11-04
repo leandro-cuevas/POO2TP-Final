@@ -6,7 +6,7 @@ public class And implements Condicion {
 	Condicion exp;
 	Condicion expr;
 	@Override
-	public boolean chequear(Viaje viaje) throws Exception {
+	public boolean chequear(Viaje viaje) {
 		return exp.chequear(viaje) && expr.chequear(viaje);
 	}
 }

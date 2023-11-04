@@ -47,5 +47,9 @@ public class Naviera {
 	public void agregarCircuito(Circuito c) {
 		circuitos.add(c);
 	}
+
+	public List<Viaje> getViajes() {
+		return viajes;
+	}
 	
 }
