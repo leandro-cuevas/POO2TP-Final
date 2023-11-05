@@ -24,7 +24,7 @@ public class Naviera {
 	
 	private List<Buque> busquesDisponibles(){
 		  return buques.stream()
-				  .filter(b -> b.estaEnViaje())
+				  .filter(b -> !b.estaEnViaje())
 				  .toList();
 	}
 	
@@ -44,6 +44,7 @@ public class Naviera {
 			throw new Exception("El circuito no puede ser elegido.");
 		}
 	}
+	
 	public void agregarCircuito(Circuito c) {
 		circuitos.add(c);
 	}
