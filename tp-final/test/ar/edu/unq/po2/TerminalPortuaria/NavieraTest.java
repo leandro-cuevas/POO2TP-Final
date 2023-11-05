@@ -56,7 +56,7 @@ class NavieraTest {
 	}
 	
 	@Test
-	void testEstablecerViaje() {
+	void testEstablecerViaje() throws Exception {
 		naviera.agregarBuque(buque1);
 		naviera.agregarBuque(buque2);
 		naviera.agregarCircuito(circuito1);
