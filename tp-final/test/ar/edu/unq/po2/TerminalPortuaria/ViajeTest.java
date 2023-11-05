@@ -58,7 +58,7 @@ class ViajeTest {
 	}
 	
 	@Test
-	void testFechaDeArribo() {
+	void testFechaDeArribo() throws Exception {
 		assertEquals(fecha2, viaje.fechaDeArriboAlPuerto(terminal2));
 	}
 }
