@@ -24,7 +24,7 @@ public class Naviera {
 	
 	private List<Buque> busquesDisponibles(){
 		  return buques.stream()
-				  .filter(b -> b.estaEnViaje())
+				  .filter(b -> !b.estaEnViaje())
 				  .toList();
 	}
 	
