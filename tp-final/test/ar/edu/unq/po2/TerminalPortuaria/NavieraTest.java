@@ -40,7 +40,7 @@ class NavieraTest {
 		when(buque1.estaEnViaje()).thenReturn(true);
 		when(buque2.estaEnViaje()).thenReturn(false);
 		when(circuito1.contienePuertos(terminal1, terminal2)).thenReturn(false);
-		when(circuito1.contienePuertos(terminal1, terminal2)).thenReturn(true);		
+		when(circuito2.contienePuertos(terminal1, terminal2)).thenReturn(true);		
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ class NavieraTest {
 		naviera.agregarBuque(buque2);
 		naviera.agregarCircuito(circuito1);
 		naviera.agregarCircuito(circuito2);
-//		naviera.establecerViaje(fecha, circuito1);
+		naviera.establecerViaje(fecha, circuito1);
 		verify(buque2, times(1)).asignarViaje();
 		assertFalse(naviera.getViajes().isEmpty());
 	}
