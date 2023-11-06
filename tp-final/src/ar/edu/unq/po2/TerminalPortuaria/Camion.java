@@ -16,7 +16,7 @@ public class Camion {
 	}
 	
 	public LocalDateTime horarioDelTurno() {
-		//Retorna el horario del turno asignado a este camión.
+		return null;//Retorna el horario del turno asignado a este camión.
 	}
 	
 	public void descargar() {
