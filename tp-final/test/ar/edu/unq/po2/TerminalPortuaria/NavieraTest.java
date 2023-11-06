@@ -37,6 +37,7 @@ class NavieraTest {
 		fecha = mock(LocalDateTime.class);
 		naviera = new Naviera();
 		
+		//Defino las respuestas que se van a usar de los mocks
 		when(buque1.estaEnViaje()).thenReturn(true);
 		when(buque2.estaEnViaje()).thenReturn(false);
 		when(circuito1.contienePuertos(terminal1, terminal2)).thenReturn(false);
@@ -45,25 +46,43 @@ class NavieraTest {
 	
 	@Test
 	void contienePuertos() {
+		//Testea si está el circuito con los puertos dados
 		naviera.agregarCircuito(circuito2);
 		assertTrue(naviera.contienePuertos(terminal1, terminal2));
 	}
 	
 	@Test
 	void noContienePuertos() {
+		//Testea que no naviera no contiene el circuito con los puertos dados 
 		naviera.agregarCircuito(circuito1);
 		assertFalse(naviera.contienePuertos(terminal1, terminal2));
 	}
 	
 	@Test
 	void testEstablecerViaje() throws Exception {
+		//Testea que se asigne el buque que no está en viaje y que se valide que el circuito existe en la naviera.
+		//Al crearse el viaje, se agrega a la lista de viajes y se testea que se haya creado como es esperado.
 		naviera.agregarBuque(buque1);
 		naviera.agregarBuque(buque2);
 		naviera.agregarCircuito(circuito1);
 		naviera.agregarCircuito(circuito2);
 		naviera.establecerViaje(fecha, circuito1);
 		verify(buque2, times(1)).asignarViaje();
-		assertFalse(naviera.getViajes().isEmpty());
+		Viaje viaje = naviera.getViajes().get(0);
+		assertEquals(buque2,viaje.getBuqueRecorrido());
+		assertEquals(fecha, viaje.getFechaSalida());
+		assertEquals(circuito1, viaje.getCircuitoRecorrido());
+	}
+	
+	@Test
+	void testEstablecerViajeLanzaExcepcion() throws Exception {
+		//Testea que se asigne el buque que está disponible y que se valide que el circuito no existe en la naviera.
+		//Por lo tanto el viaje no se crea y la lista de viajes es vacía.
+		naviera.agregarBuque(buque1);
+		naviera.agregarBuque(buque2);
+		naviera.agregarCircuito(circuito2);
+		assertThrows (Exception.class,()->{naviera.establecerViaje(fecha, circuito1);});
+		assertTrue(naviera.getViajes().isEmpty());
 	}
 
 }

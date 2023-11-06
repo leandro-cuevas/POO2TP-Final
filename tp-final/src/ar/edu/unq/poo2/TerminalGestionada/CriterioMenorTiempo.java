@@ -1,9 +1,8 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
 public class CriterioMenorTiempo extends Criterio{
-	// Constructor para el CriterioMenorTiempo, que contara con un colaborador que compara dos circuitos por su tiempo
-	public CriterioMenorTiempo() {
-		this.comparador = new ComparadorCircuitoTiempo(); 
+	@Override
+	public int comparar(Circuito c1, Circuito c2) {
+		return Double.compare(c1.getTiempo(), c2.getTiempo());
 	}
-
 }
