@@ -4,17 +4,13 @@ import java.time.LocalDateTime;
 
 public class Camion {
 	
-	Container carga;
+	private Container carga;
 		
 	private boolean disponible;
 	
 	public Camion() {
 		disponible = true;
 		carga = null;
-	}
-	
-	public void solicitarIngreso(TerminalPortuaria terminal) {
-		//
 	}
 	
 	public LocalDateTime horarioDelTurno() {
