@@ -1,9 +1,8 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
 public class CriterioMenorDistancia extends Criterio {
-	// Constructor para el CriterioMenorDistancia, que contara con un colaborador que compara dos circuitos por su distancia
-	public CriterioMenorDistancia() {
-		comparador = new ComparadorCircuitoDistancia();
+	@Override
+	public int comparar(Circuito c1, Circuito c2) {
+		return Double.compare(c1.getTiempo(), c2.getTiempo());
 	}
-
 }

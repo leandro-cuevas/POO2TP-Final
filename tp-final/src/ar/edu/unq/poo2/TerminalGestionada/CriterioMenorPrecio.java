@@ -1,8 +1,8 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
 public class CriterioMenorPrecio extends Criterio {
-	// Constructor para el CriterioMenorPrecio, que contara con un colaborador que compara dos circuitos por su precio.
-	public CriterioMenorPrecio() {
-		this.comparador = new ComparadorCircuitoPrecio();	
+	@Override
+	public int comparar(Circuito c1, Circuito c2) {
+		return Double.compare(c1.getPrecio(), c2.getPrecio());
 	}
 }	
