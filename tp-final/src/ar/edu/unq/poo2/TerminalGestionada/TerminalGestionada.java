@@ -2,6 +2,7 @@ package ar.edu.unq.poo2.TerminalGestionada;
 
 import static org.mockito.ArgumentMatchers.contains;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -68,14 +69,26 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 
 	private void registrarExportacion() {
-		// TODO Auto-generated method stub
-		
+		// No contemplado en el TP. 
 	}
 	
-	public void ingresarCarga(Camion coche, Conductor chofer, Turno turno) {
-		if (turno.esConductor(chofer) && turno.esCamion(camion)) {
-			
+	public void ingresarCarga(Conductor chofer) {
+		validarTurno(chofer.getTurno(), LocalDateTime.now());   //Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
+		validarCocheyChofer(chofer.getCamion(), chofer); 		//Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
+		cargasSinRetirar.add(turno.getCarga());
+	}
+
+
+	private void validarTurno(Turno turno, LocalDateTime now) {
+		if ((Duration.between(turno.getFecha(), now).toHours() > -3) && (Duration.between(turno.getFecha(), now).toHours() < 3)) {
+			throw new Exception("El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario.");
 		}
+	}
+
+
+	private void validarCocheyChofer(Camion coche, Conductor chofer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 
 public class Turno {
 	Conductor chofer;
@@ -14,5 +15,9 @@ public class Turno {
 		this.camion = camion;
 		this.cliente = cliente;
 		this.diaYHora = diaYHora;
+	}
+
+	public LocalDateTime getFecha() {
+		return diaYHora;
 	}
 }
