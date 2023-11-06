@@ -37,21 +37,23 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	
 	public void exportar(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga, TerminalPortuaria destino) throws Exception {
-		this.validarExportacion(viaje, destino); //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error
-		this.validarTransporte(coche, chofer);
-		this.registrarExportacion();
-		this.asignarTurno(viaje, shipper, coche, chofer);
+		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
+		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
+		this.registrarExportacion();              // 
+		this.asignarTurno(viaje, shipper, coche, chofer); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 	
 	private void validarTransporte(Camion coche, Conductor chofer) {
-		 if (transportistas.stream().anyMatch(t -> t.tieneChofer(chofer) && t.tieneCamion(coche))) {
+	// En caso de que ninguna empresa transportista tenga al chofer y al camion indicados, suelta la excepcion.
+		if (!transportistas.stream().anyMatch(t -> t.tieneChofer(chofer) && t.tieneCamion(coche))) {
 			throw new Exception("El chofer y camion no son validos."); 
-		 }
+		 } 
 	}
 
 
 	private void validarExportacion(Viaje viaje, TerminalPortuaria destino) throws Exception {
-		if (viaje.contienePuertos(this, destino)) {
+	// En caso de el viaje elegido NO contenga a la terminal y al puerto destino en ESE orden suelta excepcion.
+		if (!viaje.contienePuertos(this, destino)) {
 			throw new Exception("El viaje seleccionado no esta dirigido a la terminal Destino seleccionada");
 		}
 	}
@@ -59,9 +61,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer) throws Exception {
 		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
-		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);
-		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS);
-		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar));
+		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);         
+		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS); // Le resta 12 horas a la fecha de arribo a la terminal, para hacier eficiente todo el tiempo que la carga este en la terminal
+		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar)); 
 	}
 
 
@@ -70,8 +72,10 @@ public class TerminalGestionada extends TerminalPortuaria {
 		
 	}
 	
-	public ingresarCarga(Camion coche, Conductor chofer) {
-		
+	public void ingresarCarga(Camion coche, Conductor chofer, Turno turno) {
+		if (turno.esConductor(chofer) && turno.esCamion(camion)) {
+			
+		}
 	}
 
 
