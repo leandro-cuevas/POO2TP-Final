@@ -1,15 +1,17 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Camion {
 	
-	Conductor conductor;
+	Container carga;
+		
+	private boolean disponible;
 	
-	List<Container> containers;
-	
-	Turno turno;
+	public Camion() {
+		disponible = true;
+		carga = null;
+	}
 	
 	public void solicitarIngreso(TerminalPortuaria terminal) {
 		//
@@ -20,11 +22,18 @@ public class Camion {
 	}
 	
 	public void descargar() {
-		containers.clear();
+		carga = null;
 	}
 	
-	public void cargar(Container c) {
-		containers.add(c);
+	public void cargar(Container container) {
+		carga = container;
 	}
-
+	
+	public void asignarTurno() {
+		disponible = false;
+	}
+	
+	public boolean isDisponible() {
+		return disponible;
+	}
 }
