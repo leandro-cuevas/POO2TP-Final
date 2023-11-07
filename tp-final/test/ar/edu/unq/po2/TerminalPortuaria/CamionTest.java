@@ -40,7 +40,5 @@ class CamionTest {
 		camion.asignarTurno();
 		assertFalse(camion.isDisponible());
 	}
-	
-	
 
 }
