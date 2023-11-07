@@ -32,4 +32,8 @@ public class Camion {
 	public boolean isDisponible() {
 		return disponible;
 	}
+	
+	public Container getCarga() {
+		return carga;
+	}
 }

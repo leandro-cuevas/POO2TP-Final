@@ -31,4 +31,8 @@ public class Conductor {
 	public Turno getTurno() {
 		return turnoTerminal;
 	}
+	
+	public Container getCarga() {
+		return camionManejado.getCarga();
+	}
 }
