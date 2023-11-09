@@ -1,30 +1,40 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Camion {
 	
-	Conductor conductor;
+	private Container carga;
+		
+	private boolean disponible;
 	
-	List<Container> containers;
-	
-	Turno turno;
-	
-	public void solicitarIngreso(TerminalPortuaria terminal) {
-		//
-	}
-	
-	public LocalDateTime horarioDelTurno() {
-		//Retorna el horario del turno asignado a este camión.
+	public Camion() {
+		disponible = true;
+		carga = null;
 	}
 	
 	public void descargar() {
-		containers.clear();
+		//Setea la carga en null para modelar la descarga
+		carga = null;
 	}
 	
-	public void cargar(Container c) {
-		containers.add(c);
+	public void cargar(Container container) {
+		//Setea la carga con el container pasado por parámetro
+		carga = container;
 	}
-
+	
+	public void asignarTurno() {
+		//Asigna un falso a disponible porque al tener turno el camión no está disponible.
+		disponible = false;
+	}
+	
+	public boolean isDisponible() {
+		//Getter de disponible
+		return disponible;
+	}
+	
+	public Container getCarga() {
+		//Getter de carga
+		return carga;
+	}
 }
