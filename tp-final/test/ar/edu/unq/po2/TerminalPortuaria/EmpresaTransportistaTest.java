@@ -22,7 +22,7 @@ class EmpresaTransportistaTest {
 		camion1 = mock(Camion.class);
 		camion2 = mock(Camion.class);
 		chofer1 =  mock(Conductor.class);
-		chofer2 = new Conductor();
+		chofer2 = mock(Conductor.class);
 		empresa = new EmpresaTransportista();
 		
 		//Defino las respuestas que voy a necesitar de los mocks
@@ -55,7 +55,7 @@ class EmpresaTransportistaTest {
 		assertThrows (Exception.class,()->{empresa.camionDisponible();});
 		empresa.addCamion(camion2);
 		assertTrue(empresa.tieneCamion(camion2));
-		assertFalse(empresa.tieneCamion(camion2));
+		assertFalse(empresa.tieneCamion(camion1));
 		assertThrows (Exception.class,()->{empresa.camionDisponible();});
 		empresa.addCamion(camion1);
 		assertEquals(camion1, empresa.camionDisponible());

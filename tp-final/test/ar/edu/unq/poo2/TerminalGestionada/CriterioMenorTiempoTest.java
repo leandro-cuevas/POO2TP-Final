@@ -24,7 +24,7 @@ class CriterioMenorTiempoTest {
 			@BeforeEach
 			void setUp() throws Exception {
 				// Instanciamos SUT
-				criterioMP = new CriterioMenorPrecio();
+				criterioMP = new CriterioMenorDistancia();
 				// Instanciamos DOC con Mocks.
 				c1 = mock(Circuito.class);
 				c2 = mock(Circuito.class);
@@ -61,7 +61,8 @@ class CriterioMenorTiempoTest {
 				// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
 				when(c1.getTiempo()).thenReturn(800.0);
 				when(c2.getTiempo()).thenReturn(800.0);
-				// C1 es el tramo mas barato, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
+				when(c3.getTiempo()).thenReturn(900.0);
+				// C1 es el tramo mas rapido, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
 				// le pregunten el tramo queremos que nos devuelva eso mismo.
 				when(c1.getListaDeTramos()).thenReturn(tramos);
 				// La lista de tramos de C1 == elMejor circuito 
