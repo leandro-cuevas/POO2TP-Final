@@ -23,11 +23,14 @@ class ConductorTest {
 		carga = mock(Container.class);
 		chofer = new Conductor();
 		
+		//Define la respuesta que se va a necesitar para el mock
 		when(camion.getCarga()).thenReturn(carga);
 	}
 	
 	@Test
 	void testDisponibilidad() {
+		//Testea que el chofer esté disponible antes de asignarle un turno, 
+		//y luego de asignarlo testea que no esté disponible.
 		assertTrue(chofer.isDisponible());
 		chofer.asignarTurno(camion,  turno);
 		assertFalse(chofer.isDisponible());
@@ -35,6 +38,7 @@ class ConductorTest {
 	
 	@Test
 	void testGetters() {
+		//Testea los getters del chofer, habiéndole asignado un turno.
 		chofer.asignarTurno(camion,  turno);
 		assertEquals(carga, chofer.getCarga());
 		assertEquals(camion, chofer.getCamion());

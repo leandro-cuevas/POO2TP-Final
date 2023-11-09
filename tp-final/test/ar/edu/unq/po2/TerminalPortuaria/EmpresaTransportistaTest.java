@@ -24,7 +24,8 @@ class EmpresaTransportistaTest {
 		chofer1 =  mock(Conductor.class);
 		chofer2 = new Conductor();
 		empresa = new EmpresaTransportista();
-
+		
+		//Defino las respuestas que voy a necesitar de los mocks
 		when(camion1.isDisponible()).thenReturn(true);
 		when(camion2.isDisponible()).thenReturn(false);
 		when(chofer1.isDisponible()).thenReturn(false);
@@ -33,6 +34,9 @@ class EmpresaTransportistaTest {
 	
 	@Test
 	void testAgregarChoferesyBusqueda() throws Exception{
+		//Testea que la empresa lanza una excepción cuando no tiene choferes o no tiene
+		//ninguno disponible. Testea los getters de chofer y también que devuelva al chofer
+		//que está disponible cuando ya fue agregado a la empresa.
 		assertThrows (Exception.class,()->{empresa.choferDisponible();});
 		empresa.addConductor(chofer1);
 		assertTrue(empresa.tieneChofer(chofer1));
@@ -45,6 +49,9 @@ class EmpresaTransportistaTest {
 	
 	@Test
 	void testAgregarCamionesyBusqueda() throws Exception{
+		//Testea que la empresa lanza una excepción cuando no tiene camiones o no tiene
+		//ninguno disponible. Testea los getters de camión y también que devuelva al camión
+		//que está disponible cuando ya fue agregado a la empresa.
 		assertThrows (Exception.class,()->{empresa.camionDisponible();});
 		empresa.addCamion(camion2);
 		assertTrue(empresa.tieneCamion(camion2));

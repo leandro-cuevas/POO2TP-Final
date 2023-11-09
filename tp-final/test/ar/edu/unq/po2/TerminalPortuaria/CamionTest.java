@@ -22,20 +22,17 @@ class CamionTest {
 	}
 	
 	@Test
-	void testCargaCamion() {
+	void testCargaYDescargaCamion() {
+		//Testea la carga y descarga del camión, utilizando el getter
 		camion.cargar(carga);
 		assertEquals(carga,camion.getCarga());
-	}
-	
-	@Test
-	void testDescargaCamion() {
-		camion.cargar(carga);
 		camion.descargar();
 		assertEquals(null,camion.getCarga());
 	}
 	
 	@Test
 	void testDisponibilidadCamion() {
+		//Testea la disponibilidad del camión antes y después de ser asignado un turno.
 		assertTrue(camion.isDisponible());
 		camion.asignarTurno();
 		assertFalse(camion.isDisponible());
