@@ -75,11 +75,11 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void ingresarCarga(Conductor chofer) {
 		validarTurno(chofer.getTurno(), LocalDateTime.now());   //Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
 		validarCocheyChofer(chofer.getCamion(), chofer); 		//Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
-		cargasSinRetirar.add(turno.getCarga());
+		cargasSinRetirar.add(chofer.getCarga());
 	}
 
 
-	private void validarTurno(Turno turno, LocalDateTime now) {
+	private void validarTurno(Turno turno, LocalDateTime now) throws Exception {
 		if ((Duration.between(turno.getFecha(), now).toHours() > -3) && (Duration.between(turno.getFecha(), now).toHours() < 3)) {
 			throw new Exception("El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario.");
 		}
