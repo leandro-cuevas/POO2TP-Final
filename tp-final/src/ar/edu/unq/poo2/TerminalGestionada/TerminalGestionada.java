@@ -1,15 +1,10 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
-import static org.mockito.ArgumentMatchers.contains;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import ar.edu.unq.po2.TerminalPortuaria.Camion;
 import ar.edu.unq.po2.TerminalPortuaria.Cliente;
 import ar.edu.unq.po2.TerminalPortuaria.Conductor;
@@ -44,7 +39,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.asignarTurno(viaje, shipper, coche, chofer); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 	
-	private void validarTransporte(Camion coche, Conductor chofer) {
+	private void validarTransporte(Camion coche, Conductor chofer) throws Exception{
 	// En caso de que ninguna empresa transportista tenga al chofer y al camion indicados, suelta la excepcion.
 		if (!transportistas.stream().anyMatch(t -> t.tieneChofer(chofer) && t.tieneCamion(coche))) {
 			throw new Exception("El chofer y camion no son validos."); 
@@ -72,14 +67,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		// No contemplado en el TP. 
 	}
 	
-	public void ingresarCarga(Conductor chofer) {
+	public void ingresarCarga(Conductor chofer) throws Exception{
 		validarTurno(chofer.getTurno(), LocalDateTime.now());   //Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
 		validarCocheyChofer(chofer.getCamion(), chofer); 		//Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
-		cargasSinRetirar.add(chofer.getCarga());
+		//cargasSinRetirar.add(turno.getCarga());
 	}
 
-
-	private void validarTurno(Turno turno, LocalDateTime now) throws Exception {
+	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
 		if ((Duration.between(turno.getFecha(), now).toHours() > -3) && (Duration.between(turno.getFecha(), now).toHours() < 3)) {
 			throw new Exception("El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario.");
 		}
