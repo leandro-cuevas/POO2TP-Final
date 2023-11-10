@@ -2,6 +2,7 @@ package ar.edu.unq.poo2.TerminalGestionada;
 
 import static org.mockito.ArgumentMatchers.contains;
 
+import java.awt.Point;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -26,14 +27,16 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private List<Container> cargasSinRetirar;
 	private Criterio criterioElMejor;
 	private List<Turno> turnos;
+	private Point coordenada;
 	
-	public TerminalGestionada(Criterio criterioElMejor) {
+	public TerminalGestionada(Criterio criterioElMejor, int x, int y) {
 		super();
 		this.navieras = new ArrayList<Naviera>();
 		this.transportistas = new ArrayList<EmpresaTransportista>();
 		this.cargasSinRetirar = new ArrayList<Container>();
 		this.criterioElMejor = criterioElMejor;
 		this.turnos = new ArrayList<Turno>();
+		this.coordenada = new Point(x, y);
 	}
 
 	
@@ -106,5 +109,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public void registrarEmpresaTransportista(EmpresaTransportista et) {
 		transportistas.add(et);
+	}
+	
+	public double getX() {
+		return this.coordenada.getX();
+	}
+	
+	public double getY() {
+		return this.coordenada.getY();
 	}
 }

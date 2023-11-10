@@ -30,7 +30,7 @@ class TerminalGestionadaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 	// Seteamos el SUT, sin criterio por el momento
-	terminal = new TerminalGestionada(null);
+	terminal = new TerminalGestionada(null, 8, 8);
 	queryMock = mock(Condicion.class);
 	n1 = mock(Naviera.class);
 	n2 = mock(Naviera.class);	

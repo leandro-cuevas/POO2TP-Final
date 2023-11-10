@@ -1,32 +1,37 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
+
 public class Buque {
 	
-	private TerminalPortuaria terminal;
+	private TerminalGestionada terminal;
 	
 	private EstadoDeBuque estado;
 	
 	private boolean estaEnViaje;
 	
 	private List<Container> containers;
+	
+	private Point coordenada;
 
-	public Buque(TerminalPortuaria terminal, EstadoDeBuque estado) {
+	public Buque(TerminalGestionada terminal, EstadoDeBuque estado) {
 		this.terminal = terminal;
 		this.estaEnViaje = false;
 		this.estado = estado;
 		this.containers = new ArrayList<Container>();
+		this.coordenada = new Point(0, 0);
 	}
 
 	public void setEstado(EstadoDeBuque estado) {
 		this.estado = estado;
 	}
 
-	public int getDistanciaDeLaTerminal() {
-		// TODO Terminar de implementar
-		return 0;
+	public double getDistanciaDeLaTerminal() {
+		return Point.distance(coordenada.getX(), coordenada.getY(), terminal.getX(), terminal.getY());
 	}
 	
 	public boolean estaEnViaje() {

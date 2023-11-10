@@ -35,7 +35,7 @@ class EstadoDeBuqueTest {
 	@Test
 	void testOutboundMenorA50() {
 		//Cuando pida la distancia, está cerca.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(15);
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(15d);
 		outbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
 		verify(buque, times(1)).setEstado(inbound);
@@ -45,7 +45,7 @@ class EstadoDeBuqueTest {
 	@Test
 	void testOutboundMayorA50() {
 		//Cuando pida la distancia, es demasiado lejos.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(70);
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(70d);
 		outbound.comunicarConTerminal(buque);
 		//Entonces llama a la condicion y no cambia de fase.
 		outbound.activarGPS(buque);
@@ -56,7 +56,7 @@ class EstadoDeBuqueTest {
 	@Test
 	void testInboundMayora0() {
 		//Cuando pida la distancia, no es igual a la terminal.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(2);
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
 		//Entonces no cambia de fase.
 		inbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
@@ -66,7 +66,7 @@ class EstadoDeBuqueTest {
 	@Test
 	void testInboundIgualA0() {
 		//Cuando pida la distancia, es igual a la terminal.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(0);
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(0d);
 		//Entonces cambia de fase.
 		inbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
@@ -98,7 +98,7 @@ class EstadoDeBuqueTest {
 	@Test
 	void testDepart() {
 		//Cuando pida la distancia, ya está suficientemente lejos
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(2);
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
 		//Activo gps
 		depart.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
