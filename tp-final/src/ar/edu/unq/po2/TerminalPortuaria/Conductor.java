@@ -1,7 +1,6 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
-public class Conductor {
-	
+public class Conductor {	
 	private boolean disponible;
 	
 	private Turno turnoTerminal;

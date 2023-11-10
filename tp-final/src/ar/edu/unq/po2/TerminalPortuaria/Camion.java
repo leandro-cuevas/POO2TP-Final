@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 public class Camion {
 	
 	private Container carga;
-		
 	private boolean disponible;
-	
+
 	public Camion() {
 		disponible = true;
 		carga = null;
@@ -22,7 +21,7 @@ public class Camion {
 		//Setea la carga con el container pasado por parámetro
 		carga = container;
 	}
-	
+			
 	public void asignarTurno() {
 		//Asigna un falso a disponible porque al tener turno el camión no está disponible.
 		disponible = false;

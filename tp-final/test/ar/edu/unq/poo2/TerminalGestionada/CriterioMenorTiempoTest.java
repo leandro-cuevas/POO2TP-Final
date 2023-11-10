@@ -24,7 +24,7 @@ class CriterioMenorTiempoTest {
 			@BeforeEach
 			void setUp() throws Exception {
 				// Instanciamos SUT
-				criterioMP = new CriterioMenorDistancia();
+				criterioMP = new CriterioMenorTiempo();
 				// Instanciamos DOC con Mocks.
 				c1 = mock(Circuito.class);
 				c2 = mock(Circuito.class);

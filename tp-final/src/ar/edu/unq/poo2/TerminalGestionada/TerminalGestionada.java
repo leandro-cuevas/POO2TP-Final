@@ -7,10 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import ar.edu.unq.po2.TerminalPortuaria.Camion;
 import ar.edu.unq.po2.TerminalPortuaria.Cliente;
 import ar.edu.unq.po2.TerminalPortuaria.Conductor;
@@ -80,7 +77,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		validarCocheyChofer(chofer.getCamion(), chofer); 		//Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
 		//cargasSinRetirar.add(turno.getCarga());
 	}
-
 
 	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
 		if ((Duration.between(turno.getFecha(), now).toHours() > -3) && (Duration.between(turno.getFecha(), now).toHours() < 3)) {

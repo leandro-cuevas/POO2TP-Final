@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmpresaTransportista {
-	
 	private List<Conductor> choferes;
 	private List<Camion> camiones;
 	
