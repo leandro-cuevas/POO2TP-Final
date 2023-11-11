@@ -72,13 +72,12 @@ public class Circuito {
 		
 		//El primer colaborador interno opera como short circuit, si ya es false, no va a tratar de buscar los index y por tanto no rompe.
 		//Debo corroborar que el origen sea menor al destino porque sino signfica que el destino existe, pero que está antes en el recorrido.
-		return existenElOrigenYEldestino && (indexDelOrigen < indexDelDestino);
+		return existenElOrigenYEldestino && (indexDelOrigen <= indexDelDestino);
 	}
 	
 	private void validarExistenciaDePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		//Es una validación de que los puertos existen.
-		if (!this.contienePuertos(origen, destino)){
-			throw new Exception("No existe el origen o el destino");
+		if (!this.contienePuertos(origen, destino)){ throw new Exception("No existe el origen o el destino");
 		}
 	}
 	
@@ -98,7 +97,7 @@ public class Circuito {
 		//A la misma le aplico stream.
 		//Mapeo los doubles para conseguir los precios.
 		//Los sumo.
-		return listaDeTramos.subList(indexDelOrigen, indexDelDestino)
+		return listaDeTramos.subList(indexDelOrigen, indexDelDestino+1)
 				.stream()
 				.mapToDouble(e-> e.getPrecio())
 				.sum();
@@ -120,9 +119,31 @@ public class Circuito {
 		//A la misma le aplico stream.
 		//Mapeo los int para conseguir la duración de cada uno.
 		//Los sumo.
-		return listaDeTramos.subList(indexDelOrigen, indexDelDestino)
+		return listaDeTramos.subList(indexDelOrigen, indexDelDestino+1)
 				.stream()
 				.mapToInt(e-> e.getTiempoDeDuracionEnHoras())
+				.sum();
+	}
+	
+	public double getDistanciaEntrePuertos (TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+		//Dados un origen y un destino, me dice cuánto tardo en viajar entre esos lugares.
+		
+		//Primero valido la existencia.
+		this.validarExistenciaDePuertos(origen, destino);
+		
+		//Consigo el index de origen.
+		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));
+		
+		//Consigo el index de destino.
+		final int indexDelDestino = listaDeTramos.indexOf(this.tramoConDestino(destino));
+
+		//Utilizo subList con ambos index para obtener una lista que contienen la coleccion de tramos que me interesan.
+		//A la misma le aplico stream.
+		//Mapeo los int para conseguir la duración de cada uno.
+		//Los sumo.
+		return listaDeTramos.subList(indexDelOrigen, indexDelDestino+1)
+				.stream()
+				.mapToDouble(e-> e.getDistancia())
 				.sum();
 	}
 	
