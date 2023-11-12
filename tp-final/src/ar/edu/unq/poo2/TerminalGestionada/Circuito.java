@@ -54,39 +54,43 @@ public class Circuito {
 				.get();
 	}
 	
-	public boolean contienePuertos(TerminalPortuaria origen, TerminalPortuaria destino) {
-		//Dadas dos terminales portuarias, una de origen y una de destino, indica si existen.
+	private boolean existenElOrigenYEldestino (TerminalPortuaria origen, TerminalPortuaria destino) {
+		//Busco si hay algun con ese origen y alguno con ese destino.
 		
 		//Aplico stream a la lista.
 		//Busco si hay algun con ese origen y alguno con ese destino.
-		final boolean existenElOrigenYEldestino = listaDeTramos.stream()
-													.anyMatch(o-> o.getOrigen() == origen)
-												  && listaDeTramos.stream().
-												  anyMatch(e-> e.getDestino() == destino);
-						
+		return listaDeTramos.stream()
+				.anyMatch(o-> o.getOrigen() == origen)
+				  && listaDeTramos.stream().
+				  anyMatch(e-> e.getDestino() == destino);
+	}
+	
+	private int indexDelOrigen(TerminalPortuaria terminal) {
 		//Consigo el index del origen.
-		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));
-		
+		return listaDeTramos.indexOf(this.tramoConOrigen(terminal));
+	}
+	
+	private int indexDelDestino(TerminalPortuaria terminal) {
 		//Consigo el index del destino.
-		final int indexDelDestino = listaDeTramos.indexOf(this.tramoConDestino(destino));
+		return listaDeTramos.indexOf(this.tramoConDestino(terminal));
+	}
+	
+	private boolean origenEstaAntesQueDestino(TerminalPortuaria origen, TerminalPortuaria destino) {
+		return (indexDelOrigen(origen) <= indexDelDestino(destino));
+	}
+	
+	public boolean contienePuertos(TerminalPortuaria origen, TerminalPortuaria destino) {
+		//Dadas dos terminales portuarias, una de origen y una de destino, indica si existen.
 		
 		//El primer colaborador interno opera como short circuit, si ya es false, no va a tratar de buscar los index y por tanto no rompe.
 		//Debo corroborar que el origen sea menor al destino porque sino signfica que el destino existe, pero que está antes en el recorrido.
-		return existenElOrigenYEldestino && (indexDelOrigen <= indexDelDestino);
-	}
-	
-	private void validarExistenciaDePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
-		//Es una validación de que los puertos existen.
-		if (!this.contienePuertos(origen, destino)){ throw new Exception("No existe el origen o el destino");
-		}
+		return (existenElOrigenYEldestino(origen, destino)) && origenEstaAntesQueDestino(origen, destino);	
+						
 	}
 	
 	public double getPrecioEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		//Dados un origen y un destino, me dice cuánto cuesta viajar entre esos lugares.
-		
-		//Primero valido la existencia.
-		this.validarExistenciaDePuertos(origen, destino);
-		
+				
 		//Consigo el index de origen.
 		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));
 		
@@ -106,9 +110,6 @@ public class Circuito {
 	public int getTiempoEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		//Dados un origen y un destino, me dice cuánto tardo en viajar entre esos lugares.
 		
-		//Primero valido la existencia.
-		this.validarExistenciaDePuertos(origen, destino);
-		
 		//Consigo el index de origen.
 		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));
 		
@@ -127,9 +128,6 @@ public class Circuito {
 	
 	public double getDistanciaEntrePuertos (TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
 		//Dados un origen y un destino, me dice cuánto tardo en viajar entre esos lugares.
-		
-		//Primero valido la existencia.
-		this.validarExistenciaDePuertos(origen, destino);
 		
 		//Consigo el index de origen.
 		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));

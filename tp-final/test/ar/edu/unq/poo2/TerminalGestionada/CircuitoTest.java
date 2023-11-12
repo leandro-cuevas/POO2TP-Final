@@ -20,6 +20,7 @@ class CircuitoTest {
 	Tramo laPlataQuilmes;
 	Tramo quilmesRetiro;
 	Tramo retiroTigre;
+	Tramo tigreParana;
 	Circuito circuito;
 	
 
@@ -33,6 +34,7 @@ class CircuitoTest {
 		laPlataQuilmes = mock(Tramo.class);
 		quilmesRetiro = mock(Tramo.class);
 		retiroTigre = mock(Tramo.class);
+		tigreParana = mock(Tramo.class);
 		circuito = new Circuito();
 		
 		//Cuando pida el origen y el destino, respondera como indica su nombre.
@@ -52,6 +54,8 @@ class CircuitoTest {
 		when(retiroTigre.getTiempoDeDuracionEnHoras()).thenReturn(15);
 		when(retiroTigre.getDistancia()).thenReturn(500d);
 		when(retiroTigre.getPrecio()).thenReturn(1000d);
+		when(tigreParana.getOrigen()).thenReturn(tigre);
+		when(tigreParana.getDestino()).thenReturn(parana);
 
 	}
 
@@ -73,7 +77,7 @@ class CircuitoTest {
 		//Como está vacía la lista de tramos, el primero no tiene problema.
 		circuito.agregarTramo(quilmesRetiro);
 		//Para el segundo, debe lanzar la excepction.
-		assertThrows (Exception.class,()->{circuito.agregarTramo(laPlataQuilmes);});
+		assertThrowsExactly (Exception.class,()->{circuito.agregarTramo(laPlataQuilmes);}, "El tramo agregado rompe el invariante de representación");
 	}
 	
 	@Test
@@ -82,10 +86,22 @@ class CircuitoTest {
 		circuito.agregarTramo(laPlataQuilmes);
 		circuito.agregarTramo(quilmesRetiro);
 		circuito.agregarTramo(retiroTigre);
-		//Sí contiene origen la plata destino tigre.
+		circuito.agregarTramo(tigreParana);
+		//Sí contiene origen destino.
 		assertTrue(circuito.contienePuertos(laPlata, quilmes));
-		//Pero al revés falla.
-		assertThrows (Exception.class,() -> {circuito.contienePuertos(tigre, laPlata);});
+		assertTrue(circuito.contienePuertos(laPlata, retiro));
+		assertTrue(circuito.contienePuertos(laPlata, tigre));
+		assertTrue(circuito.contienePuertos(quilmes, retiro));
+		assertTrue(circuito.contienePuertos(quilmes, tigre));
+		//Existe origen y no destino.
+		assertFalse(circuito.contienePuertos(laPlata, laPlata));
+		//Existen pero tigre está más adelante que la plata.
+		assertFalse(circuito.contienePuertos(tigre, laPlata));
+		//Existen pero tigre está más adelante que quilmes.
+		assertFalse(circuito.contienePuertos(tigre, quilmes));
+		//Existe destino pero no origen.
+		assertFalse(circuito.contienePuertos(parana, quilmes));
+		
 	}
 	
 	@Test
@@ -100,7 +116,7 @@ class CircuitoTest {
 		assertEquals(15, circuito.getTiempoEntrePuertos(retiro, tigre));
 		assertEquals(37, circuito.getTiempoEntrePuertos(laPlata, tigre));
 		//Aca lanzo excepción.
-		assertThrows (Exception.class,() -> {circuito.getTiempoEntrePuertos(tigre, laPlata);});
+		assertThrows(Exception.class,() -> {circuito.getTiempoEntrePuertos(tigre, laPlata);});
 		//El metodo get tiempo suma el tiempo de punta a punta.
 		assertEquals(37, circuito.getTiempo());
 	}

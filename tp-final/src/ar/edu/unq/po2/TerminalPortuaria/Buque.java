@@ -43,15 +43,15 @@ public class Buque {
 	}
 	
 	public void recibirOrdenInicioDeTrabajo() throws Exception {
-		if (this.getDistanciaDeLaTerminal() > 0 && !estado.isHabilitadoParaSalir()) {
-			throw new Exception("La nave no está en la terminal y no puede empezar a trabajar");
+		if (this.getDistanciaDeLaTerminal() > 0 || estado.isHabilitadoParaSalir()) {
+			throw new Exception("La nave no está en la terminal o no puede empezar a trabajar");
 		} else estado.cambiarFase(this);
 	}
 	
 	public void depart() throws Exception {
 		
 		estado.setHabilitadoParaSalir(true);
-		if (this.getDistanciaDeLaTerminal() == 0 && !estado.isHabilitadoParaSalir()) {
+		if (this.getDistanciaDeLaTerminal() == 0 && estado.isHabilitadoParaSalir()) {
 			throw new Exception("La nave no está en la terminal y por tanto no puede ser Depart");
 		} else estado.cambiarFase(this);
 	}
