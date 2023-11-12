@@ -48,7 +48,7 @@ class TerminalGestionadaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 	// Seteamos el SUT, sin criterio por el momento
-	terminal  = new TerminalGestionada(null, 8, 8);
+	terminal  = new TerminalGestionada(null, 8, 20);
 	queryMock = mock(Condicion.class);
 	n1        = mock(Naviera.class);
 	n2        = mock(Naviera.class);	
@@ -178,6 +178,31 @@ class TerminalGestionadaTest {
 		assertThrowsExactly(Exception.class, 
 				() -> {terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 16, 00));},    // Metodo que causa la excepcion, el chofer es invalido
 				"El transporte indicado en la terminal no es el indicado por el Shipper."); // String del error
+	}
+	
+	@Test 
+	void sePuedeIngresarLaCargaCorrectamente() throws Exception {
+		// Creamos una operacion de exportar 
+		when(viaje1.contienePuertos(terminal, destino)).thenReturn(true);
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(LocalDateTime.of(2023,12,13,10,00));
+		terminal.registrarEmpresaTransportista(empresaT);
+		when(empresaT.tieneCamion(coche)).thenReturn(true);
+		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
+		// Obtenemos el turno para poder setearle al DOC del chofer que responda el turno correctamente
+		Turno t2 = terminal.getTurnos().get(0);
+		//Seteamos las respuestas que queremos para el chofer. 
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(t2);
+		terminal.ingresarCarga(chofer, LocalDateTime.of(2023,12,12,22,00));
+		// Chequeamos que la carga haya ingresado corretamente, es decir, que la lista de Turnos este vacia.
+		assertEquals(0, terminal.getTurnos().size());
+	}
+	
+	@Test 
+	void testGetterXY() {
+		assertEquals(8, terminal.getX());
+		assertEquals(20, terminal.getY());
 	}
 	
 	
