@@ -10,11 +10,14 @@ public abstract class Container {
 	
 	protected int peso;
 	
+	protected Viaje viaje;
+	
 	public Container(int ancho, int largo, int altura, int peso) {
 		this.ancho = ancho;
 		this.largo = largo;
 		this.altura = altura;
 		this.peso = peso;
+		this.viaje = null;
 	}
 
 	public int getConsumo() {
@@ -45,5 +48,9 @@ public abstract class Container {
 	public int getMetrosCubicos() {
 		//Los metros cúbicos del container.
 		return altura * ancho * largo;
+	}
+	
+	public void setViaje(Viaje viaje) {
+		this.viaje = viaje;
 	}
 }

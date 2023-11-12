@@ -194,6 +194,7 @@ class TerminalGestionadaTest {
 		//Seteamos las respuestas que queremos para el chofer. 
 		when(chofer.getCamion()).thenReturn(coche);
 		when(chofer.getTurno()).thenReturn(t2);
+		when(chofer.getCarga()).thenReturn(carga);
 		terminal.ingresarCarga(chofer, LocalDateTime.of(2023,12,12,22,00));
 		// Chequeamos que la carga haya ingresado corretamente, es decir, que la lista de Turnos este vacia.
 		assertEquals(0, terminal.getTurnos().size());

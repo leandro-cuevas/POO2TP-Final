@@ -39,7 +39,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
 		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
 		this.registrarExportacion();              // 
-		this.asignarTurno(viaje, shipper, coche, chofer); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
+		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 	
 	private void validarTransporte(Camion coche, Conductor chofer) throws Exception{
@@ -58,11 +58,14 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 
-	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer) throws Exception {
+	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga) throws Exception {
 		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
 		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);         
 		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS); // Le resta 12 horas a la fecha de arribo a la terminal, para hacier eficiente todo el tiempo que la carga este en la terminal
-		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar)); 
+		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
+		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
+		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
+		carga.setViaje(viaje);
 	}
 
 
@@ -76,6 +79,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		//cargasSinRetirar.add(turno.getCarga());
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
+		cargasSinRetirar.add(chofer.getCarga());
 	}
 
 	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{

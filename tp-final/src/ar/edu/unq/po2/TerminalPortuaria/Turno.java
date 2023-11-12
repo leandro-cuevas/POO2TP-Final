@@ -9,7 +9,7 @@ public class Turno {
 	Cliente cliente;
 	LocalDateTime diaYHora;
 	
-	public Turno(Conductor chofer, Camion camion, Cliente cliente, LocalDateTime diaYHora) {
+	public Turno(Conductor chofer, Camion camion, Cliente cliente, LocalDateTime diaYHora, Container carga) {
 		super();
 		this.chofer = chofer;
 		this.camion = camion;
@@ -17,6 +17,7 @@ public class Turno {
 		this.diaYHora = diaYHora;
 		chofer.setTurno(this);
 		chofer.setCamionManejado(camion);
+		camion.cargar(carga);
 	}
 	
 	public Conductor getChofer() {
