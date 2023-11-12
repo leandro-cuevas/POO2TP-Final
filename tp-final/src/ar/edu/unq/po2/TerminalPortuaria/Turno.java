@@ -20,4 +20,20 @@ public class Turno {
 	public LocalDateTime getFecha() {
 		return diaYHora;
 	}
+	
+	public Conductor getChofer() {
+		return chofer;
+	}
+
+	public Camion getCamion() {
+		return camion;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public LocalDateTime getDiaYHora() {
+		return diaYHora;
+	}
 }

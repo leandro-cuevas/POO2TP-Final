@@ -1,7 +1,5 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
-import static org.mockito.ArgumentMatchers.contains;
-
 import java.awt.Point;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -113,5 +111,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public double getY() {
 		return this.coordenada.getY();
+	}
+	
+	public List<Turno> getTurnos() {
+		return turnos;
 	}
 }
