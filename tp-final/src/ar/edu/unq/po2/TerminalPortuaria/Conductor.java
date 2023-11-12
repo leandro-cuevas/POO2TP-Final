@@ -40,4 +40,12 @@ public class Conductor {
 		//Getter de carga
 		return camionManejado.getCarga();
 	}
+	
+	public void setCamionManejado(Camion camion) {
+		this.camionManejado = camion;
+	}
+	
+	public void setTurno(Turno t) {
+		this.turnoTerminal = t;
+	}
 }

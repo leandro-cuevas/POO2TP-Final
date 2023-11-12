@@ -18,6 +18,7 @@ import ar.edu.unq.po2.TerminalPortuaria.Container;
 import ar.edu.unq.po2.TerminalPortuaria.EmpresaTransportista;
 import ar.edu.unq.po2.TerminalPortuaria.Naviera;
 import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
+import ar.edu.unq.po2.TerminalPortuaria.Turno;
 import ar.edu.unq.po2.TerminalPortuaria.Viaje;
 
 class TerminalGestionadaTest {
@@ -41,6 +42,9 @@ class TerminalGestionadaTest {
 	TerminalPortuaria destino; 
 	EmpresaTransportista empresaT;
 	
+	// DOC de ingresarCarga
+	Turno turno;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 	// Seteamos el SUT, sin criterio por el momento
@@ -59,8 +63,12 @@ class TerminalGestionadaTest {
 	carga    = mock (Container.class);
 	destino  = mock(TerminalPortuaria.class);
 	empresaT = mock(EmpresaTransportista.class);
+	
+	turno    = mock(Turno.class);
 	}
-
+	/////////////////////////////////////////
+	// TESTEO PARA FILTRADO DE QUERY
+	/////////////////////////////////////////
 	@Test
 	void testeoDeQueryMockeada() {
 		// Registramos las navieras y ponemos el DOC para que responda como queremos
@@ -75,6 +83,9 @@ class TerminalGestionadaTest {
 		assertEquals(viajes1, terminal.filtrarViajes(queryMock));
 	}
 	
+	/////////////////////////////////////////
+	// TESTEO PARA METODO EXPORTAR
+	/////////////////////////////////////////
 	@Test 
 	void testNoSePuedeExportarViajeINVALIDO() {
 		when(viaje1.contienePuertos(terminal, destino)).thenReturn(false);
@@ -111,4 +122,63 @@ class TerminalGestionadaTest {
 		assertEquals(coche, terminal.getTurnos().get(0).getCamion());
 		assertEquals(terminal.getTurnos().get(0).getDiaYHora(), LocalDateTime.of(2023,12,12,22,00));
 	}
+	
+	/////////////////////////////////////////
+	// TESTEO PARA INGRESAR CARGA
+	/////////////////////////////////////////
+	@Test
+	void ingresarCargaElTurnoDifiereEn4HorasMAS() {
+		// Seteamos el DOC para el chofer, con un camion y un turno asignado (supuestamente ya asignado en Exportar)
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(turno);
+		// Seteamos el diaYHora para el turno. ya asignado en Exportar normalmente
+		when(turno.getDiaYHora()).thenReturn(LocalDateTime.of(2023, 12, 12, 17, 00));
+		assertThrowsExactly(Exception.class, 
+		() -> {terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 22, 00));},    // Metodo que causa la excepcion, quiere entrar a las 22 cuando el turno era a las 17.
+		"El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario."); // String del error
+	}
+	
+	@Test
+	void ingresarCargaElTurnoDifiereEn4HorasMENOS() {
+		// Seteamos el DOC para el chofer, con un camion y un turno asignado (supuestamente ya asignado en Exportar)
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(turno);
+		// Seteamos el diaYHora para el turno. ya asignado en Exportar normalmente
+		when(turno.getDiaYHora()).thenReturn(LocalDateTime.of(2023, 12, 12, 17, 00));
+		assertThrowsExactly(Exception.class, 
+		() -> {terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 13, 00));},    // Metodo que causa la excepcion, quiere entrar a las 22 cuando el turno era a las 17.
+		"El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario."); // String del error
+	}
+	
+	@Test
+	void elChoferNoEsElingresadoPorElShipper() {
+		// Seteamos el DOC para el chofer, con un camion y un turno asignado (supuestamente ya asignado en Exportar)
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(turno);
+		// Seteamos el diaYHora para el turno. ya asignado en Exportar normalmente
+		when(turno.getDiaYHora()).thenReturn(LocalDateTime.of(2023, 12, 12, 17, 00));
+		when(turno.esCamion(coche)).thenReturn(true);
+		when(turno.esChofer(chofer)).thenReturn(false);
+		
+		assertThrowsExactly(Exception.class, 
+				() -> {terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 16, 00));},    // Metodo que causa la excepcion, el chofer es invalido
+				"El transporte indicado en la terminal no es el indicado por el Shipper."); // String del error
+	}
+	
+	@Test
+	void elCamionNoEsElingresadoPorElShipper() {
+		// Seteamos el DOC para el chofer, con un camion y un turno asignado (supuestamente ya asignado en Exportar)
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(turno);
+		// Seteamos el diaYHora para el turno. ya asignado en Exportar normalmente
+		when(turno.getDiaYHora()).thenReturn(LocalDateTime.of(2023, 12, 12, 17, 00));
+		when(turno.esCamion(coche)).thenReturn(false);
+		when(turno.esChofer(chofer)).thenReturn(true);
+		
+		assertThrowsExactly(Exception.class, 
+				() -> {terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 16, 00));},    // Metodo que causa la excepcion, el chofer es invalido
+				"El transporte indicado en la terminal no es el indicado por el Shipper."); // String del error
+	}
+	
+	
 }

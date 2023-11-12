@@ -15,16 +15,14 @@ public class Turno {
 		this.camion = camion;
 		this.cliente = cliente;
 		this.diaYHora = diaYHora;
-	}
-
-	public LocalDateTime getFecha() {
-		return diaYHora;
+		chofer.setTurno(this);
+		chofer.setCamionManejado(camion);
 	}
 	
 	public Conductor getChofer() {
 		return chofer;
 	}
-
+	
 	public Camion getCamion() {
 		return camion;
 	}
@@ -35,5 +33,17 @@ public class Turno {
 
 	public LocalDateTime getDiaYHora() {
 		return diaYHora;
+	}
+	
+	public boolean esFecha(LocalDateTime fecha) {
+		return diaYHora == fecha;
+	}
+	
+	public boolean esChofer(Conductor conductor) {
+		return chofer == conductor;
+	}
+	
+	public boolean esCamion(Camion coche) {
+		return camion == coche;
 	}
 }

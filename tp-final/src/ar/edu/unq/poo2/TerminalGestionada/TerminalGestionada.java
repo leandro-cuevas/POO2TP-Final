@@ -70,22 +70,29 @@ public class TerminalGestionada extends TerminalPortuaria {
 		// No contemplado en el TP. 
 	}
 	
-	public void ingresarCarga(Conductor chofer) throws Exception{
-		validarTurno(chofer.getTurno(), LocalDateTime.now());   //Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
-		validarCocheyChofer(chofer.getCamion(), chofer); 		//Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
+	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
+		validarTurno(chofer.getTurno(), diaYHora);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
+		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
 		//cargasSinRetirar.add(turno.getCarga());
+		int indexTurno = turnos.indexOf(chofer.getTurno());
+		turnos.remove(indexTurno);
 	}
 
 	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
-		if ((Duration.between(turno.getFecha(), now).toHours() > -3) && (Duration.between(turno.getFecha(), now).toHours() < 3)) {
+		// Planteamos la duracion entre la fecha del turno y la hora en la que se quiere ingresar
+		int duracionEntreTurnoYAhora = (int) Duration.between(turno.getDiaYHora(), now).toHours(); 
+		// En caso de NO ser mayor a -3 horas (es decir, llego 3 horas temprano) O NO ser menor o igual a 3 horas (es decir, llego 3 horas tarde)
+		// lanza la excepcion
+		if (!( duracionEntreTurnoYAhora >= -3) || !(duracionEntreTurnoYAhora <= 3)) {
 			throw new Exception("El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario.");
 		}
 	}
 
 
-	private void validarCocheyChofer(Camion coche, Conductor chofer) {
-		// TODO Auto-generated method stub
-		
+	private void validarCocheyChofer(Camion coche, Conductor chofer, Turno turno) throws Exception {
+		if (!turno.esCamion(coche) || !turno.esChofer(chofer)) {
+			throw new Exception("El transporte indicado en la terminal no es el indicado por el Shipper.");
+		}
 	}
 
 
