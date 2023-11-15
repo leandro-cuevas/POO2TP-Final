@@ -21,11 +21,11 @@ class EstadoDeBuqueTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		buque = mock(Buque.class);
-		outbound = new EstadoDeBuqueOutbound(null);
-		inbound = new EstadoDeBuqueInbound(null);
-		arrived = new EstadoDeBuqueArrived(null);
-		working = new EstadoDeBuqueWorking(null);
-		depart = new  EstadoDeBuqueDepart(null);
+		outbound = new EstadoDeBuqueOutbound();
+		inbound = new EstadoDeBuqueInbound();
+		arrived = new EstadoDeBuqueArrived();
+		working = new EstadoDeBuqueWorking();
+		depart = new  EstadoDeBuqueDepart();
 		outbound.setSiguiente(inbound);
 		inbound.setSiguiente(arrived);
 		arrived.setSiguiente(working);

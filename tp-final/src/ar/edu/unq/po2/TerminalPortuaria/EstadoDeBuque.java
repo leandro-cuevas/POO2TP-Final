@@ -4,10 +4,11 @@ abstract class EstadoDeBuque {
 	
 	protected EstadoDeBuque siguiente;
 	
-	private boolean habilitadoParaSalir = false; 
+	private boolean habilitadoParaSalir; 
 	
-	public EstadoDeBuque(EstadoDeBuque siguiente) {
-		this.siguiente = siguiente;
+	public EstadoDeBuque() {
+		this.siguiente = null;
+		this.habilitadoParaSalir = false;
 	}
 
 	abstract public void comunicarConTerminal(Buque buque);
@@ -18,6 +19,7 @@ abstract class EstadoDeBuque {
 		buque.setEstado(siguiente);
 	}
 	
+	// Setter del siguiente estado, ya que en principio no conoce a
 	public void setSiguiente(EstadoDeBuque siguiente) {
 		this.siguiente = siguiente;
 	}

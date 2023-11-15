@@ -18,6 +18,5 @@ public abstract class Criterio {
 		}
 	}
 
-	
 	protected abstract int comparar(Circuito c1, Circuito c2);
 }

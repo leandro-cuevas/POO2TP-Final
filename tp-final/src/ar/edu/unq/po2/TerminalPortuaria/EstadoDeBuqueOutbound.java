@@ -1,11 +1,7 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 public class EstadoDeBuqueOutbound extends EstadoDeBuque {
-
-	public EstadoDeBuqueOutbound(EstadoDeBuque siguiente) {
-		super(siguiente);
-	}
-
+	
 	@Override
 	public void comunicarConTerminal(Buque buque) {
 		
