@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.unq.po2.TerminalPortuaria.Buque;
 import ar.edu.unq.po2.TerminalPortuaria.Camion;
 import ar.edu.unq.po2.TerminalPortuaria.Cliente;
 import ar.edu.unq.po2.TerminalPortuaria.Conductor;
@@ -38,7 +40,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void exportar(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga, TerminalPortuaria destino) throws Exception {
 		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
 		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
-		this.registrarExportacion();              // 
+		this.registrarExportacion(carga, destino, viaje);              // 
 		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 	
@@ -65,12 +67,12 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
 		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
 		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
-		carga.setViaje(viaje);
 	}
 
 
-	private void registrarExportacion() {
-		// No contemplado en el TP. 
+	private void registrarExportacion(Container carga, TerminalPortuaria destino, Viaje viaje) {
+		carga.setDestino(destino);
+		carga.setViaje(viaje);
 	}
 	
 	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
@@ -108,6 +110,22 @@ public class TerminalGestionada extends TerminalPortuaria {
 				
 	}
 	
+	public void importarCargas(Buque buque) {
+		List<Container> cargasParaAca = buque.containersParaDescargar(this);
+		cargasParaAca.stream().forEach(c->manejarImportaciones(buque, c));
+	}
+	
+	public void manejarImportaciones(Buque buque, Container carga) {
+		buque.descargarContainer(carga);
+		this.ingresarCarga(carga);
+		this.generarOrdenImportacion();
+	}
+	
+	private void generarOrdenImportacion() {
+		// TODO Auto-generated method stub
+	}
+
+
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
 	}
@@ -126,5 +144,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public List<Turno> getTurnos() {
 		return turnos;
+	}
+	
+	private void ingresarCarga(Container c) {
+		cargasSinRetirar.add(c);
 	}
 }

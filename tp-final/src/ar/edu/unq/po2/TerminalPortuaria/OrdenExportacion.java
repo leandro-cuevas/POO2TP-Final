@@ -1,5 +1,6 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
-public class Cliente {
+public class OrdenExportacion extends Orden {
 	
+
 }
