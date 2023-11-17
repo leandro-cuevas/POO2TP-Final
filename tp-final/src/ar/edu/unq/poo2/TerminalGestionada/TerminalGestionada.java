@@ -7,22 +7,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.po2.TerminalPortuaria.Buque;
-import ar.edu.unq.po2.TerminalPortuaria.Camion;
-import ar.edu.unq.po2.TerminalPortuaria.Cliente;
-import ar.edu.unq.po2.TerminalPortuaria.Conductor;
-import ar.edu.unq.po2.TerminalPortuaria.Container;
-import ar.edu.unq.po2.TerminalPortuaria.EmpresaTransportista;
-import ar.edu.unq.po2.TerminalPortuaria.Naviera;
-import ar.edu.unq.po2.TerminalPortuaria.Orden;
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Turno;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import ar.edu.unq.po2.TerminalPortuaria.*;
+
 
 public class TerminalGestionada extends TerminalPortuaria {
 	private List<Naviera> navieras;
 	private List<EmpresaTransportista> transportistas;
-	private List<Container> cargasSinRetirar;
 	private Criterio criterioElMejor;
 	private List<Turno> turnos;
 	private Point coordenada;
@@ -34,7 +24,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		super();
 		this.navieras = new ArrayList<Naviera>();
 		this.transportistas = new ArrayList<EmpresaTransportista>();
-		this.cargasSinRetirar = new ArrayList<Container>();
 		this.criterioElMejor = criterioElMejor;
 		this.turnos = new ArrayList<Turno>();
 		this.coordenada = new Point(x, y);
@@ -60,9 +49,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		de la terminal */
 	}
 
-	public void arriboElBuque(Buque buque) {
+	public void arriboElBuque(Buque buque) throws Exception {
 		/* TODO Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
 		no está claro cómo la terminal lo sabría */
+		buque.recibirOrdenInicioDeTrabajo();
+		this.importarCargas(buque);
+		this.exportarCargas();
+		buque.depart();
 		
 	}
 	
@@ -94,16 +87,16 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	private void registrarExportacion(Container carga, TerminalPortuaria destino, Viaje viaje) {
 		carga.setDestino(destino);
-		carga.setViaje(viaje);
+		//carga.setViaje(viaje);
 	}
 	
 	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
 		validarTurno(chofer.getTurno(), diaYHora);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
 		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
-		//cargasSinRetirar.add(turno.getCarga());
+		//TODO cambiar a ordenes cargasSinRetirar.add(turno.getCarga());
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
-		cargasSinRetirar.add(chofer.getCarga());
+		//TODO cambiar a ordenes cargasSinRetirar.add(chofer.getCarga());
 	}
 
 	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
@@ -139,12 +132,15 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public void manejarImportaciones(Buque buque, Container carga) {
 		buque.descargarContainer(carga);
-		this.ingresarCarga(carga);
-		this.generarOrdenImportacion();
+		this.generarOrdenImportacion(buque, carga);
 	}
 	
-	private void generarOrdenImportacion() {
-		// TODO Auto-generated method stub
+	public void exportarCargas() {
+		
+	}
+	
+	private void generarOrdenImportacion(Buque buque, Container carga) {
+		ordenes.add(new OrdenImportacion(buque.getViaje(), carga , this, carga.getDuenio()));
 	}
 
 
@@ -166,10 +162,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public List<Turno> getTurnos() {
 		return turnos;
-	}
-	
-	private void ingresarCarga(Container c) {
-		cargasSinRetirar.add(c);
 	}
 	
 	private Orden ordenDelContainer(Container c) {

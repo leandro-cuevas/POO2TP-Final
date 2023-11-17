@@ -34,6 +34,10 @@ public class Buque {
 		this.estado = estado;
 	}
 
+	public Viaje getViaje() {
+		return viajeAsignado;
+	}
+
 	public double getDistanciaDeLaTerminal() {
 		//Retorna la distancia entre las coordenadas del buque respecto de su terminal.
 		return Point.distance(coordenada.getX(), coordenada.getY(), terminal.getX(), terminal.getY());
