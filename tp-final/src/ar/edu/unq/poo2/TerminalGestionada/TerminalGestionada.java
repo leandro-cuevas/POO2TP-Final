@@ -14,6 +14,7 @@ import ar.edu.unq.po2.TerminalPortuaria.Conductor;
 import ar.edu.unq.po2.TerminalPortuaria.Container;
 import ar.edu.unq.po2.TerminalPortuaria.EmpresaTransportista;
 import ar.edu.unq.po2.TerminalPortuaria.Naviera;
+import ar.edu.unq.po2.TerminalPortuaria.Orden;
 import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
 import ar.edu.unq.po2.TerminalPortuaria.Turno;
 import ar.edu.unq.po2.TerminalPortuaria.Viaje;
@@ -25,6 +26,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private Criterio criterioElMejor;
 	private List<Turno> turnos;
 	private Point coordenada;
+	private int costoPorContainerPequenio;
+	private int costoPorContainerGrande;
+	private List<Orden> ordenes;
 	
 	public TerminalGestionada(Criterio criterioElMejor, int x, int y) {
 		super();
@@ -42,6 +46,24 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
 		this.registrarExportacion(carga, destino, viaje);              // 
 		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
+	}
+	
+	public void arriboInminenteDelBuque(Buque buque) {
+		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
+		que estén esperando ese buque (orden de importación con ese viaje) avisando
+		que su carga está llegando */
+	}
+
+	public void elBuqueHaPartido(Buque buque) {
+		/* TODO la terminal enviará un mail a todos los shippers cuyas órdenes de
+		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
+		de la terminal */
+	}
+
+	public void arriboElBuque(Buque buque) {
+		/* TODO Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
+		no está claro cómo la terminal lo sabría */
+		
 	}
 	
 	private void validarTransporte(Camion coche, Conductor chofer) throws Exception{
@@ -148,5 +170,23 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	private void ingresarCarga(Container c) {
 		cargasSinRetirar.add(c);
+	}
+	
+	private Orden ordenDelContainer(Container c) {
+		return ordenes.stream().filter(o-> o.getContainer() == c).findFirst().get();
+	}
+
+	
+	public void retirarCarga(Container c) {
+		
+	}
+
+	
+	public void realizarLavadoDeContainer(Container c) {
+		//Creo el servicio lavado con los costos.
+		Lavado lavado = new Lavado (this.costoPorContainerPequenio, this.costoPorContainerGrande, c);
+		//Busco la orden del container.
+		//Le agrego este servicio
+		ordenDelContainer(c).agregarServicio(lavado);
 	}
 }
