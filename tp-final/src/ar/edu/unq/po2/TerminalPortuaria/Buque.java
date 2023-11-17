@@ -91,13 +91,9 @@ public class Buque {
 		//Carga containers.
 		getContainers().add(c);
 	}
-	
+		
 	public void descargarContainer(Container c) {
 		//Descarga containers.
-		getContainers().remove(c);
-	}
-	
-	public void descargarContainer(Container c) {
 		containers.remove(c);
 	}
 	
@@ -110,6 +106,7 @@ public class Buque {
 	
 	public List<Container> containersParaDescargar(TerminalPortuaria terminal){
 		return containers.stream().filter(c->c.finDelRecorrido(terminal)).toList();
+	}
 
 
 	public List<Container> getContainers() {
