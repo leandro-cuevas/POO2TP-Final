@@ -19,7 +19,7 @@ public abstract class Orden {
 	
 	protected List<Servicio> servicios;
 	
-	protected LocalDateTime fechaDeRetiro;
+	protected LocalDateTime fechaRetirada;
 	
 	public LocalDateTime fechaSalida() throws Exception{
 		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
@@ -37,11 +37,11 @@ public abstract class Orden {
 		return this.container;
 	}
 
-	public LocalDateTime getFechaDeRetiro() {
-		return fechaDeRetiro;
+	public LocalDateTime fechaRetirada() {
+		return fechaRetirada;
 	}
 
-	public void setFechaDeRetiro(LocalDateTime fechaDeRetiro) {
-		this.fechaDeRetiro = fechaDeRetiro;
+	public void setFechaRetirada(LocalDateTime fechaDeRetiro) {
+		this.fechaRetirada = fechaDeRetiro;
 	}
 }
