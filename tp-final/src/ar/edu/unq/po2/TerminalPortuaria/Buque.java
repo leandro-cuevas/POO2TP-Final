@@ -7,9 +7,7 @@ import java.util.List;
 import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
 
 public class Buque {
-	
-	private TerminalGestionada terminal;
-	
+		
 	private EstadoDeBuque estado;
 	
 	private boolean estaEnViaje;
@@ -17,13 +15,18 @@ public class Buque {
 	private List<Container> containers;
 	
 	private Point coordenada;
+	
+	private TerminalGestionada terminal;
+	
+	private Viaje viajeAsignado;
 
 	public Buque(TerminalGestionada terminal, EstadoDeBuque estado) {
-		this.terminal = terminal;
 		this.estaEnViaje = false;
 		this.estado = estado;
 		this.containers = new ArrayList<Container>();
 		this.coordenada = new Point(0, 0);
+		this.viajeAsignado = null;
+		this.terminal = terminal;
 	}
 
 	public void setEstado(EstadoDeBuque estado) {
@@ -94,14 +97,24 @@ public class Buque {
 		getContainers().remove(c);
 	}
 	
+	public void descargarContainer(Container c) {
+		containers.remove(c);
+	}
+	
 	public void asignarViaje() {
 		//Una vez que se asigna un viaje, el buque pasa a estar en viaje.
 		//Es una manera de poder decidir que buque está o no disponible para un nuevo viaje.
 		this.estaEnViaje = true;
 	}
 
+	
+	public List<Container> containersParaDescargar(TerminalPortuaria terminal){
+		return containers.stream().filter(c->c.finDelRecorrido(terminal)).toList();
+
+
 	public List<Container> getContainers() {
 		//Retorna la lista de los containers de este buque.
 		return containers;
+
 	}
 }

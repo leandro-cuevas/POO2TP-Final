@@ -2,15 +2,19 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 public abstract class Container {
 	
-	protected int ancho;
+	private int ancho;
 	
-	protected int largo;
+	private int largo;
 	
-	protected int altura;
+	private int altura;
 	
-	protected int peso;
+	private int peso;
 	
-	protected Viaje viaje;
+	private Viaje viaje;
+	
+	private Cliente dueño;
+	
+	private TerminalPortuaria terminalDestino;
 	
 	public Container(int ancho, int largo, int altura, int peso) {
 		this.ancho = ancho;
@@ -18,6 +22,8 @@ public abstract class Container {
 		this.altura = altura;
 		this.peso = peso;
 		this.viaje = null;
+		this.dueño = null;
+		this.terminalDestino = null;
 	}
 
 	public int getConsumo() {
@@ -52,5 +58,13 @@ public abstract class Container {
 	
 	public void setViaje(Viaje viaje) {
 		this.viaje = viaje;
+	}
+	
+	public void setDestino(TerminalPortuaria destino) {
+		this.terminalDestino = destino;
+	}
+	
+	public boolean finDelRecorrido(TerminalPortuaria terminal) {
+		return this.terminalDestino == terminal;
 	}
 }
