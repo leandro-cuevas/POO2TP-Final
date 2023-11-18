@@ -20,10 +20,10 @@ public class HojaFechaLlegada implements Condicion {
 	// Indica si el la fecha de arribo del viaje al ptoDestino ingresada es posterior a la de la condicion
 	// Como el metodo fechaDeArriboAlPuerto tira error en caso de no estar, catchea y devuelve
 	// falso en caso de no estar, ya que de todas maneras va a poder cumplir con el requisito de ser filtrada.
-			try {
+			if (viaje.contienePuertos(null, ptoDestino)) {
 				LocalDateTime fechaViaje = viaje.fechaDeArriboAlPuerto(ptoDestino);
 				return fechaViaje.isBefore(fecha) || fechaViaje.isEqual(fecha);
-			} catch (Exception e) {
+			} else {
 				return false;
 			}	
 		}

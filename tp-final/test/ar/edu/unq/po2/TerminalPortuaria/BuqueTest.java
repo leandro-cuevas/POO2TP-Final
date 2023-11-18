@@ -42,7 +42,7 @@ class BuqueTest {
 	}
 	
 	@Test
-	void setEstadoYGpsTest() {
+	void setEstadoYGpsTest() throws Exception {
 		//Pruebo el setter.
 		buque.setEstado(otroEstado);
 		//Activo GPS.

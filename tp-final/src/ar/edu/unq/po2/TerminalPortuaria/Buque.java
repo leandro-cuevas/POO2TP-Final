@@ -48,7 +48,7 @@ public class Buque {
 		return estaEnViaje;
 	}
 	
-	public void activarGPS() {
+	public void activarGPS() throws Exception {
 		//Invoca al gps del estado.
 		estado.activarGPS(this);
 	}
@@ -78,11 +78,10 @@ public class Buque {
 		terminal.arriboInminenteDelBuque(this);
 	}
 
-	public void avisarQueSeArribo() throws Exception {
+	public void avisarQueSeArribo() throws Exception{
 		//Avisa a la terminal que el buque arribó
 		//Este método es invocado por el estado que es el que se encarga de gestionar este mensaje.
-		terminal.arriboElBuque(this);
-		
+		terminal.arriboElBuque(this);		
 	}
 	
 	public void avisarQueSePartio() {

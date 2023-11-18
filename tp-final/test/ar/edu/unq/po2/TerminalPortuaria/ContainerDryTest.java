@@ -30,5 +30,4 @@ class ContainerDryTest {
 	void metrosCubicosTest() {
 		assertEquals(48000, container.getMetrosCubicos());
 	}
-
 }
