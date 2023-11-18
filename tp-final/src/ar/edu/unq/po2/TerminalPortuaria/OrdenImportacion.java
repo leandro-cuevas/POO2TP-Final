@@ -16,4 +16,8 @@ public class OrdenImportacion extends Orden {
 		this.chofer = c;
 	}
 
+	public Cliente getConsignee() {
+		return consignee;
+	}
+
 }

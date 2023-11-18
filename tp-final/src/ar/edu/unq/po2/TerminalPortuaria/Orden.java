@@ -49,4 +49,12 @@ public abstract class Orden {
 	public void setFechaRetirada(LocalDateTime fechaDeRetiro) {
 		this.fechaRetirada = fechaDeRetiro;
 	}
+	
+	public boolean tieneMismoViaje(Viaje viaje) {
+		return this.viaje == viaje;
+	}
+	
+	public TerminalPortuaria getDestino() {
+		return terminalDestino;
+	}
 }

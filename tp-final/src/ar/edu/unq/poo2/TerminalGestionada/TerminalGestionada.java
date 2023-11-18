@@ -19,6 +19,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private int costoPorContainerPequenio;
 	private int costoPorContainerGrande;
 	private List<Orden> ordenes;
+	private List<OrdenExportacion> ordenesExportadas;
 	
 	public TerminalGestionada(Criterio criterioElMejor, int x, int y) {
 		super();
@@ -30,12 +31,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	
-	public void exportar(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga, TerminalPortuaria destino) throws Exception {
-		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
-		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
-		this.registrarExportacion(carga, destino, viaje);              // 
-		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
-	}
 	
 	public void arriboInminenteDelBuque(Buque buque) {
 		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
@@ -47,6 +42,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO la terminal enviará un mail a todos los shippers cuyas órdenes de
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
+		ordenesExportadas.stream().forEach(o->o.getShipper().avisarExportacion());
 	}
 
 	public void arriboElBuque(Buque buque) throws Exception {
@@ -54,26 +50,10 @@ public class TerminalGestionada extends TerminalPortuaria {
 		no está claro cómo la terminal lo sabría */
 		buque.recibirOrdenInicioDeTrabajo();
 		this.importarCargas(buque);
-		this.exportarCargas();
+		this.exportarCargas(buque);
 		buque.depart();
 		
 	}
-	
-	private void validarTransporte(Camion coche, Conductor chofer) throws Exception{
-	// En caso de que ninguna empresa transportista tenga al chofer y al camion indicados, suelta la excepcion.
-		if (!transportistas.stream().anyMatch(t -> t.tieneChofer(chofer) && t.tieneCamion(coche))) {
-			throw new Exception("El chofer y camion no son validos."); 
-		 } 
-	}
-
-
-	private void validarExportacion(Viaje viaje, TerminalPortuaria destino) throws Exception {
-	// En caso de el viaje elegido NO contenga a la terminal y al puerto destino en ESE orden suelta excepcion.
-		if (!viaje.contienePuertos(this, destino)) {
-			throw new Exception("El viaje seleccionado no esta dirigido a la terminal Destino seleccionada");
-		}
-	}
-
 
 	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga) throws Exception {
 		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
@@ -82,12 +62,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
 		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
 		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
-	}
-
-
-	private void registrarExportacion(Container carga, TerminalPortuaria destino, Viaje viaje) {
-		carga.setDestino(destino);
-		//carga.setViaje(viaje);
 	}
 	
 	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
@@ -98,7 +72,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.remove(indexTurno);
 		//TODO cambiar a ordenes cargasSinRetirar.add(chofer.getCarga());
 	}
-
+		
+	/// VALIDACIONES
+	
 	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
 		// Planteamos la duracion entre la fecha del turno y la hora en la que se quiere ingresar
 		int duracionEntreTurnoYAhora = (int) Duration.between(turno.getDiaYHora(), now).toHours(); 
@@ -116,14 +92,52 @@ public class TerminalGestionada extends TerminalPortuaria {
 		}
 	}
 
-
-	public List<Viaje> filtrarViajes(Condicion query) {
-		return navieras.stream()
-				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
-				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception
-				.toList();
-				
+	private void validarTransporte(Camion coche, Conductor chofer) throws Exception{
+		// En caso de que ninguna empresa transportista tenga al chofer y al camion indicados, suelta la excepcion.
+		if (!transportistas.stream().anyMatch(t -> t.tieneChofer(chofer) && t.tieneCamion(coche))) {
+			throw new Exception("El chofer y camion no son validos."); 
+		} 
 	}
+	
+	
+	private void validarExportacion(Viaje viaje, TerminalPortuaria destino) throws Exception {
+		// En caso de el viaje elegido NO contenga a la terminal y al puerto destino en ESE orden suelta excepcion.
+		if (!viaje.contienePuertos(this, destino)) {
+			throw new Exception("El viaje seleccionado no esta dirigido a la terminal Destino seleccionada");
+		}
+	}
+
+	
+	/// EXPORTACIONES
+
+	public void exportar(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga, TerminalPortuaria destino) throws Exception {
+		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
+		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
+		this.generarOrdenExportacion(viaje, carga, chofer, coche, destino, shipper);              // 
+		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
+	}
+
+	private void generarOrdenExportacion(Viaje viaje, Container carga, Conductor chofer, Camion camion,
+			TerminalPortuaria destino, Cliente shipper) {
+		ordenes.add(new OrdenExportacion(viaje, carga, chofer, camion, destino, this, shipper));
+	}
+
+	public void exportarCargas(Buque buque) {
+		List<Orden> ordenesParaExportar = ordenes.stream().filter(o->o.tieneMismoViaje(buque.getViaje())).toList();
+		ordenesParaExportar.stream().forEach(o-> manejarExportaciones(buque, o));
+	}
+	
+	public void manejarExportaciones(Buque buque, Orden orden) {
+		Container carga = orden.getContainer();
+		carga.setDestino(orden.getDestino());
+		buque.cargarContainer(carga);
+		ordenesExportadas.add(orden);
+		ordenes.remove(orden);		
+	}
+	
+
+
+	/// IMPORTACIONES
 	
 	public void importarCargas(Buque buque) {
 		List<Container> cargasParaAca = buque.containersParaDescargar(this);
@@ -135,13 +149,11 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.generarOrdenImportacion(buque, carga);
 	}
 	
-	public void exportarCargas() {
-		
-	}
 	
 	private void generarOrdenImportacion(Buque buque, Container carga) {
 		ordenes.add(new OrdenImportacion(buque.getViaje(), carga , this, carga.getDuenio()));
 	}
+	
 
 
 	public void registrarNaviera(Naviera n) {
@@ -181,4 +193,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		//Le agrego este servicio
 		ordenDelContainer(c).agregarServicio(lavado);
 	}
+	
+	public List<Viaje> filtrarViajes(Condicion query) {
+		return navieras.stream()
+				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
+				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception
+				.toList();
+		
+	}
+	
 }

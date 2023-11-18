@@ -25,5 +25,9 @@ public class OrdenExportacion extends Orden {
 	public LocalDateTime fechaSalida() throws Exception{
 		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
 	}
+	
+	public Cliente getShipper() {
+		return shipper;
+	}
 
 }

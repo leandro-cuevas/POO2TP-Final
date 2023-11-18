@@ -11,9 +11,9 @@ abstract class EstadoDeBuque {
 		this.habilitadoParaSalir = false;
 	}
 
-	abstract public void comunicarConTerminal(Buque buque);
+	abstract public void comunicarConTerminal(Buque buque) throws Exception;
 	
-	abstract public void activarGPS(Buque buque);
+	abstract public void activarGPS(Buque buque) throws Exception;
 		
 	public void cambiarFase(Buque buque) {
 		buque.setEstado(siguiente);
