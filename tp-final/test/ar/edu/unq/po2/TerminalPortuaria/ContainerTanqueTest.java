@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,12 @@ import org.junit.jupiter.api.Test;
 class ContainerTanqueTest {
 
 	Container container;
+	Cliente duenio;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		container = new ContainerTanque(20, 40, 60, 200);
+		duenio = mock(Cliente.class);
+		container = new ContainerTanque(20, 40, 60, 200, duenio);
 	}
 
 	@Test

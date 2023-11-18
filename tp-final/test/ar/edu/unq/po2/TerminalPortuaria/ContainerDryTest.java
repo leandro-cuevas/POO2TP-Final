@@ -1,7 +1,7 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 class ContainerDryTest {
 
 	Container container;
+	Cliente duenio;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		container = new ContainerDry(20, 40, 60, 200);
+		duenio = mock(Cliente.class);
+		container = new ContainerDry(20, 40, 60, 200, duenio);
 	}
 
 	@Test

@@ -115,7 +115,7 @@ class BuqueTest {
 	}
 	
 	@Test
-	void avisosATerminal() {
+	void avisosATerminal() throws Exception {
 		//Aviso los distintos mensajes a terminarl.
 		buque.avisarArriboInminente();
 		buque.avisarQueSeArribo();

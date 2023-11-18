@@ -75,7 +75,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testArrived() {
+	void testArrived() throws Exception {
 		//Activo gps.
 		arrived.activarGPS(buque);
 		//En este caso no se pide distancia con la terminal.
@@ -85,7 +85,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testWorking() {
+	void testWorking() throws Exception {
 		//Activo gps.
 		working.activarGPS(buque);
 		//Comunico con la terminal. No hace nada.

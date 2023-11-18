@@ -78,7 +78,7 @@ public class Buque {
 		terminal.arriboInminenteDelBuque(this);
 	}
 
-	public void avisarQueSeArribo() {
+	public void avisarQueSeArribo() throws Exception {
 		//Avisa a la terminal que el buque arribó
 		//Este método es invocado por el estado que es el que se encarga de gestionar este mensaje.
 		terminal.arriboElBuque(this);
