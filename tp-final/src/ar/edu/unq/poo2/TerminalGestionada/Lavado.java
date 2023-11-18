@@ -1,22 +1,23 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
 import ar.edu.unq.po2.TerminalPortuaria.Container;
+import ar.edu.unq.po2.TerminalPortuaria.Orden;
 import ar.edu.unq.po2.TerminalPortuaria.Servicio;
 
 public class Lavado implements Servicio {
 	
 	private int costoPorContainerPequenio;
 	private int costoPorContainerGrande;
-	private Container c;
+	private Orden orden;
 
-	public Lavado(int costoPorContainerPequenio, int costoPorContainerGrande, Container c) {
+	public Lavado(int costoPorContainerPequenio, int costoPorContainerGrande, Orden orden) {
 		this.costoPorContainerPequenio = costoPorContainerPequenio;
 		this.costoPorContainerGrande = costoPorContainerGrande;
-		this.c = c;
+		this.orden = orden;
 	}
 
 	public double getCostoDeServicio() {
-		if (c.getMetrosCubicos() > 70) {
+		if (orden.getContainer().getMetrosCubicos() > 70) {
 			return costoPorContainerPequenio;
 		}
 			else {

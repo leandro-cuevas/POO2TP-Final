@@ -32,7 +32,7 @@ public class Viaje {
 			return buqueRecorrido;
 		}
 		
-		public LocalDateTime fechaDeArriboAlPuerto(TerminalPortuaria p) throws Exception {
+		public LocalDateTime fechaDeArriboAlPuerto(TerminalPortuaria p) {
 			//Calcula la fecha de llegada a un puerto pasado por parámetro
 			
 	        int horasViaje = circuitoRecorrido.getTiempoEntrePuertos(circuitoRecorrido.puertoOrigen(), p);
