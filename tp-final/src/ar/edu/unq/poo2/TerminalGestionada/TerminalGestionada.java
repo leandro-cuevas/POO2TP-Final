@@ -28,6 +28,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private Point coordenada;
 	private int costoPorContainerPequenio;
 	private int costoPorContainerGrande;
+	private int costoPorKw;
+	private double costoDePesado;
+	private double costoPorEstadia;
 	private List<Orden> ordenes;
 	
 	public TerminalGestionada(Criterio criterioElMejor, int x, int y) {
@@ -177,16 +180,66 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	
-	public void retirarCarga(Container c) {
+	public void retirarCarga(Conductor ch, Container c) {
+		//Aca va todo lo demás
+		Orden orden = ordenDelContainer(c);
+		orden.setFechaRetirada(LocalDateTime.now());
+		ordenes.remove(orden);
 		
 	}
 
 	
 	public void realizarLavadoDeContainer(Container c) {
 		//Creo el servicio lavado con los costos.
-		Lavado lavado = new Lavado (this.costoPorContainerPequenio, this.costoPorContainerGrande, c);
+		Lavado lavado = new Lavado (this.costoPorContainerPequenio, this.costoPorContainerGrande, ordenDelContainer(c));
 		//Busco la orden del container.
 		//Le agrego este servicio
 		ordenDelContainer(c).agregarServicio(lavado);
 	}
+	
+	private void realizarServicioElectrico(Container c) {
+		//Creo el servicio eléctrico
+		Electricidad electricidad = new Electricidad(this.costoPorKw, ordenDelContainer(c));
+		//Busco la orden del container.
+		//Le agrego este servicio
+		ordenDelContainer(c).agregarServicio(electricidad);
+	}
+	
+	private void realizarServicioDePesado(Container c) {
+		//Creo el servicio de pesado
+		Pesado pesado = new Pesado(costoDePesado, ordenDelContainer(c));
+		//Busco la orden del container.
+		//Le agrego este servicio
+		ordenDelContainer(c).agregarServicio(pesado);
+
+	}
+	
+	private void realizarServicioDeAlmacenamientoExcedente(Container c) {
+		//Creo el servicio de pesado
+		Almacenamiento almacenamiento = new Almacenamiento(costoPorEstadia, ordenDelContainer(c));
+		//Busco la orden del container.
+		//Le agrego este servicio
+		ordenDelContainer(c).agregarServicio(almacenamiento);
+	}
+
+
+	public void setCostoPorContainerPequenio(int costoPorContainerPequenio) {
+		this.costoPorContainerPequenio = costoPorContainerPequenio;
+	}
+
+
+	public void setCostoPorContainerGrande(int costoPorContainerGrande) {
+		this.costoPorContainerGrande = costoPorContainerGrande;
+	}
+
+
+	public void setCostoPorKw(int costoPorKw) {
+		this.costoPorKw = costoPorKw;
+	}
+	
+	public void setCostoDePesado(int costoDePesado) {
+		this.costoDePesado =  costoDePesado;
+	}
+	
+	
 }
