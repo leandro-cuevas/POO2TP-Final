@@ -28,6 +28,8 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.criterioElMejor = criterioElMejor;
 		this.turnos = new ArrayList<Turno>();
 		this.coordenada = new Point(x, y);
+		this.ordenes = new ArrayList<Orden>();
+		this.ordenesExportadas = new ArrayList<OrdenExportacion>();
 	}
 
 	
@@ -43,6 +45,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
 		ordenesExportadas.stream().forEach(o->o.getShipper().avisarExportacion());
+		ordenesExportadas.clear();
 	}
 
 	public void arriboElBuque(Buque buque) throws Exception {
@@ -131,7 +134,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		Container carga = orden.getContainer();
 		carga.setDestino(orden.getDestino());
 		buque.cargarContainer(carga);
-		ordenesExportadas.add(orden);
+		ordenesExportadas.add((OrdenExportacion) orden);
 		ordenes.remove(orden);		
 	}
 	
