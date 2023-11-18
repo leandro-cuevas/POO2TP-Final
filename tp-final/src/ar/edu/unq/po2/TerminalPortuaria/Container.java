@@ -9,21 +9,18 @@ public abstract class Container {
 	private int altura;
 	
 	private int peso;
-	
-	private Viaje viaje;
-	
-	private Cliente dueño;
+		
+	private Cliente duenio;
 	
 	private TerminalPortuaria terminalDestino;
 	
-	public Container(int ancho, int largo, int altura, int peso) {
+	public Container(int ancho, int largo, int altura, int peso, Cliente consignee) {
 		this.ancho = ancho;
 		this.largo = largo;
 		this.altura = altura;
 		this.peso = peso;
-		this.viaje = null;
-		this.dueño = null;
 		this.terminalDestino = null;
+		this.duenio = consignee;
 	}
 
 	public int getConsumo() {
@@ -56,15 +53,16 @@ public abstract class Container {
 		return altura * ancho * largo;
 	}
 	
-	public void setViaje(Viaje viaje) {
-		this.viaje = viaje;
-	}
-	
+
 	public void setDestino(TerminalPortuaria destino) {
 		this.terminalDestino = destino;
 	}
 	
 	public boolean finDelRecorrido(TerminalPortuaria terminal) {
 		return this.terminalDestino == terminal;
+	}
+
+	public Cliente getDuenio() {
+		return duenio;
 	}
 }

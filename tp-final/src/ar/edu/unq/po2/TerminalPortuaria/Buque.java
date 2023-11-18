@@ -34,6 +34,10 @@ public class Buque {
 		this.estado = estado;
 	}
 
+	public Viaje getViaje() {
+		return viajeAsignado;
+	}
+
 	public double getDistanciaDeLaTerminal() {
 		//Retorna la distancia entre las coordenadas del buque respecto de su terminal.
 		return Point.distance(coordenada.getX(), coordenada.getY(), terminal.getX(), terminal.getY());
@@ -44,7 +48,7 @@ public class Buque {
 		return estaEnViaje;
 	}
 	
-	public void activarGPS() {
+	public void activarGPS() throws Exception {
 		//Invoca al gps del estado.
 		estado.activarGPS(this);
 	}
@@ -74,7 +78,7 @@ public class Buque {
 		terminal.arriboInminenteDelBuque(this);
 	}
 
-	public void avisarQueSeArribo() {
+	public void avisarQueSeArribo() throws Exception{
 		//Avisa a la terminal que el buque arribó
 		//Este método es invocado por el estado que es el que se encarga de gestionar este mensaje.
 		terminal.arriboElBuque(this);
