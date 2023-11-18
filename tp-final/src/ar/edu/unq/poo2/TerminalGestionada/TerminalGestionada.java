@@ -38,6 +38,8 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
 		que su carga está llegando */
+		List<Container> cargasParaAca = buque.containersParaDescargar(this);
+		cargasParaAca.stream().forEach(c -> c.getDuenio().avisarProntaLlegada());
 	}
 
 	public void elBuqueHaPartido(Buque buque) {
