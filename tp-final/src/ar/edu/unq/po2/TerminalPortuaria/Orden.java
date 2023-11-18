@@ -20,6 +20,7 @@ public abstract class Orden {
 	
 	protected LocalDateTime fechaRetirada;
 	
+
 	
 	
 	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino) {
@@ -28,9 +29,13 @@ public abstract class Orden {
 		this.terminalDestino = terminalDestino;
 		this.servicios = new ArrayList<Servicio>();
 		this.fechaRetirada = null;
+
+	public LocalDateTime fechaSalida() {
+		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
+
 	}
 	
-	public LocalDateTime fechaLlegada() throws Exception{
+	public LocalDateTime fechaLlegada(){
 		return viaje.fechaDeArriboAlPuerto(terminalDestino);
 	}
 	

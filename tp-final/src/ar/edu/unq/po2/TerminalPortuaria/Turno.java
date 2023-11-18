@@ -19,25 +19,12 @@ public class Turno {
 		chofer.setCamionManejado(camion);
 		camion.cargar(carga);
 	}
-	
-	public Conductor getChofer() {
-		return chofer;
-	}
-	
+
 	public Camion getCamion() {
 		return camion;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
 	public LocalDateTime getDiaYHora() {
 		return diaYHora;
-	}
-	
-	public boolean esFecha(LocalDateTime fecha) {
-		return diaYHora == fecha;
 	}
 	
 	public boolean esChofer(Conductor conductor) {
