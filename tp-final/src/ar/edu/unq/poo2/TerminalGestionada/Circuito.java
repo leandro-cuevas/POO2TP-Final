@@ -107,7 +107,7 @@ public class Circuito {
 				.sum();
 	}
 
-	public int getTiempoEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) throws Exception {
+	public int getTiempoEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) {
 		//Dados un origen y un destino, me dice cuánto tardo en viajar entre esos lugares.
 		
 		//Consigo el index de origen.

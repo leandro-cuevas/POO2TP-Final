@@ -21,11 +21,11 @@ public abstract class Orden {
 	
 	protected LocalDateTime fechaRetirada;
 	
-	public LocalDateTime fechaSalida() throws Exception{
+	public LocalDateTime fechaSalida() {
 		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
 	}
 	
-	public LocalDateTime fechaLlegada() throws Exception{
+	public LocalDateTime fechaLlegada(){
 		return viaje.fechaDeArriboAlPuerto(terminalDestino);
 	}
 	
