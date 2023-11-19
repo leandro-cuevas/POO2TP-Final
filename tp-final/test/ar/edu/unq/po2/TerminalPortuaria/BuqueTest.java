@@ -42,7 +42,7 @@ class BuqueTest {
 	}
 	
 	@Test
-	void setEstadoYGpsTest() {
+	void setEstadoYGpsTest() throws Exception {
 		//Pruebo el setter.
 		buque.setEstado(otroEstado);
 		//Activo GPS.
@@ -115,7 +115,7 @@ class BuqueTest {
 	}
 	
 	@Test
-	void avisosATerminal() {
+	void avisosATerminal() throws Exception {
 		//Aviso los distintos mensajes a terminarl.
 		buque.avisarArriboInminente();
 		buque.avisarQueSeArribo();

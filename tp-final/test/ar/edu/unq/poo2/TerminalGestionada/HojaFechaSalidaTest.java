@@ -19,42 +19,43 @@ class HojaFechaSalidaTest {
 	Condicion hf;
 	Viaje v1;
 	TerminalPortuaria tp1;
-	TerminalPortuaria tp2;
 	@BeforeEach
 	void setUp() throws Exception {
 	fecha1 = LocalDateTime.of(2023, 11, 5, 12, 30);
 	fecha2 = LocalDateTime.of(2023, 8, 2, 12, 30);
 	fecha3 = LocalDateTime.of(2024, 11, 5, 12,30);
 	tp1 = mock(TerminalPortuaria.class);
-	tp2 = mock(TerminalPortuaria.class);
 	hf = new HojaFechaSalida(fecha1, tp1);
 	v1 = mock(Viaje.class);
 	}
 
 	@Test
-	void laFechaIngresadaEsMayorALaDelViaje() throws Exception {
+	void laFechaIngresadaEsMayorALaDelViaje() {
+		when(v1.contienePuertos(tp1, null)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha2);
 		assertTrue(hf.chequear(v1));
 	}
 	
 	@Test
-	void laFechaIngresadaEsIGUALALaDelViaje() throws Exception {
+	void laFechaIngresadaEsIGUALALaDelViaje() {
+		when(v1.contienePuertos(tp1, null)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha1);
 		assertTrue(hf.chequear(v1));
 	}
 	
 	@Test
-	void laFechaEsMayorQueryFALSE() throws Exception {
+	void laFechaEsMayorQueryFALSE() {
+		when(v1.contienePuertos(tp1, null)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha3);
 		assertFalse(hf.chequear(v1));
 	}
 	
 	@Test
-	void catcheaCorrectamente() throws Exception {
-		when(v1.fechaDeArriboAlPuerto(tp1)).thenThrow(new Exception("No contiene los puertos"));
+	void catcheaCorrectamente() {
+		when(v1.contienePuertos(tp1, null)).thenReturn(false);
 		// En caso de no poder catchear la exception, explota el test.
-		hf.chequear(v1);
-		assertEquals(0, 0);
+		assertFalse(hf.chequear(v1));
+		
 	}
 
 }

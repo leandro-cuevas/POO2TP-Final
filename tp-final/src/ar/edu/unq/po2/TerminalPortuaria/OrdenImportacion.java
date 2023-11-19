@@ -20,4 +20,8 @@ public class OrdenImportacion extends Orden {
 		return consignee;
 	}
 
+	public Camion getCamion() {
+		return camion;
+	}
+
 }

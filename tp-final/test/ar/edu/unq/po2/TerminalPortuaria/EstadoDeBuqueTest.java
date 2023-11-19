@@ -33,7 +33,7 @@ class EstadoDeBuqueTest {
 		depart.setSiguiente(outbound);
 	}
 	@Test
-	void testOutboundMenorA50() {
+	void testOutboundMenorA50() throws Exception {
 		//Cuando pida la distancia, está cerca.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(15d);
 		outbound.activarGPS(buque);
@@ -43,7 +43,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testOutboundMayorA50() {
+	void testOutboundMayorA50() throws Exception {
 		//Cuando pida la distancia, es demasiado lejos.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(70d);
 		outbound.comunicarConTerminal(buque);
@@ -54,7 +54,7 @@ class EstadoDeBuqueTest {
 	}
 
 	@Test
-	void testInboundMayora0() {
+	void testInboundMayora0() throws Exception {
 		//Cuando pida la distancia, no es igual a la terminal.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
 		//Entonces no cambia de fase.
@@ -64,7 +64,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testInboundIgualA0() {
+	void testInboundIgualA0() throws Exception {
 		//Cuando pida la distancia, es igual a la terminal.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(0d);
 		//Entonces cambia de fase.
@@ -75,7 +75,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testArrived() {
+	void testArrived() throws Exception {
 		//Activo gps.
 		arrived.activarGPS(buque);
 		//En este caso no se pide distancia con la terminal.
@@ -85,7 +85,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testWorking() {
+	void testWorking() throws Exception {
 		//Activo gps.
 		working.activarGPS(buque);
 		//Comunico con la terminal. No hace nada.
@@ -96,7 +96,7 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testDepart() {
+	void testDepart() throws Exception {
 		//Cuando pida la distancia, ya está suficientemente lejos
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
 		//Activo gps

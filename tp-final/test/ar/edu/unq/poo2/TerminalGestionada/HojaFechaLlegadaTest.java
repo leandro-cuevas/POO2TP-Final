@@ -34,27 +34,28 @@ class HojaFechaLlegadaTest {
 
 	@Test
 	void laFechaIngresadaEsMayorALaDelViaje() throws Exception {
+		when(v1.contienePuertos(null, tp1)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha2);
 		assertTrue(hf.chequear(v1));
 	}
 	
 	@Test
 	void laFechaIngresadaEsIGUALALaDelViaje() throws Exception {
+		when(v1.contienePuertos(null, tp1)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha1);
 		assertTrue(hf.chequear(v1));
 	}
 	
 	@Test
-	void laFechaEsMayorQueryFALSE() throws Exception {
+	void laFechaEsMayorQueryFALSE() {
+		when(v1.contienePuertos(null, tp1)).thenReturn(true);
 		when(v1.fechaDeArriboAlPuerto(tp1)).thenReturn(fecha3);
 		assertFalse(hf.chequear(v1));
 	}
 	
 	@Test
-	void catcheaCorrectamente() throws Exception {
-		when(v1.fechaDeArriboAlPuerto(tp1)).thenThrow(new Exception("No contiene los puertos"));
-		// En caso de no poder catchear la exception, explota el test.
-		hf.chequear(v1);
-		assertEquals(0, 0);
+	void noContieneElPuertoDaFALSE() {
+		when(v1.contienePuertos(null, tp1)).thenReturn(false);
+		assertFalse(hf.chequear(v1));
 	}
 }

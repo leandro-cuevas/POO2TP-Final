@@ -21,8 +21,9 @@ public class OrdenExportacion extends Orden {
 		this.chofer = chofer;
 				
 	}
-
-	public LocalDateTime fechaSalida() throws Exception{
+	
+	@Override
+	public LocalDateTime fechaSalida(){
 		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
 	}
 	

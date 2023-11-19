@@ -57,7 +57,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
 		no está claro cómo la terminal lo sabría */
 		buque.recibirOrdenInicioDeTrabajo();
-		this.importarCargas(buque);
+		this.importarCargas(buque);     
 		this.exportarCargas(buque);
 		buque.depart();
 		
@@ -127,6 +127,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	private void generarOrdenExportacion(Viaje viaje, Container carga, Conductor chofer, Camion camion,
 			TerminalPortuaria destino, Cliente shipper) {
+		carga.setDestino(destino);
 		ordenes.add(new OrdenExportacion(viaje, carga, chofer, camion, destino, this, shipper));
 	}
 
@@ -159,7 +160,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	
 	private void generarOrdenImportacion(Buque buque, Container carga) {
-		ordenes.add(new OrdenImportacion(buque.getViaje(), carga , this, carga.getDuenio()));
+		ordenes.add(new OrdenImportacion(buque.getViaje(), carga, this, carga.getDuenio()));
 	}
 	
 
