@@ -68,5 +68,14 @@ class ViajeTest {
 		assertEquals(fecha2, viaje.fechaDeArriboAlPuerto(terminal2));
 		verify(circuito, times(1)).getTiempoEntrePuertos(terminal1, terminal2);
 	}
+	
+	@Test
+	void testContieneCircuitos() {
+		//Testea que direcciona bien el mensaje a su circuito de variable de instancia.
+		when(circuito.contienePuertos(terminal1, terminal2)).thenReturn(false);
+		when(circuito.contienePuertos(terminal2, terminal1)).thenReturn(true);
+		assertTrue(viaje.contienePuertos(terminal2, terminal1));
+		assertFalse(viaje.contienePuertos(terminal1, terminal2));
+	}
 }
 
