@@ -22,6 +22,8 @@ public abstract class Orden {
 	
 	protected Cliente cliente;
 	
+	protected boolean cargaDepositada;
+	
 	//Constructor de Orden, para que le hagan super las subclases ya que es abstracta
 	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente cliente) {
 		this.viaje = viaje;
@@ -30,6 +32,7 @@ public abstract class Orden {
 		this.servicios = new ArrayList<Servicio>();
 		this.fechaRetirada = null;
 		this.cliente = cliente;
+		this.cargaDepositada = false;
 	}
 
 	//Getter de fecha de salida, se calcula ya que es algo que depende del viaje.
@@ -72,5 +75,17 @@ public abstract class Orden {
 	
 	public Cliente getCliente() {
 		return cliente;
+	}
+	
+	public boolean esContainer(Container carga) {
+		return carga == container;
+	}
+	
+	public void setCargaDepositada() {
+		this.cargaDepositada = true;
+	}
+
+	public boolean isCargaDepositada() {
+		return this.cargaDepositada;
 	}
 }

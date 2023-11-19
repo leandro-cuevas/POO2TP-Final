@@ -124,7 +124,7 @@ class TerminalGestionadaTest {
 	}
 	
 	/////////////////////////////////////////
-	// TESTEO PARA INGRESAR CARGA
+	// TESTEO PARA INGRESAR CARGA ///////////
 	/////////////////////////////////////////
 	@Test
 	void ingresarCargaElTurnoDifiereEn4HorasMAS() {

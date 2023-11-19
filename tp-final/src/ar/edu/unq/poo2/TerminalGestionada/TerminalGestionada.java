@@ -35,8 +35,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.ordenesExportadas = new ArrayList<OrdenExportacion>();
 	}
 
-	
-	
 	public void arriboInminenteDelBuque(Buque buque) {
 		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
@@ -61,24 +59,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.exportarCargas(buque);
 		buque.depart();
 		
-	}
-
-	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga) throws Exception {
-		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
-		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);         
-		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS); // Le resta 12 horas a la fecha de arribo a la terminal, para hacier eficiente todo el tiempo que la carga este en la terminal
-		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
-		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
-		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
-	}
-	
-	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
-		validarTurno(chofer.getTurno(), diaYHora, 3);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
-		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
-		//TODO cambiar a ordenes cargasSinRetirar.add(turno.getCarga());
-		int indexTurno = turnos.indexOf(chofer.getTurno());
-		turnos.remove(indexTurno);
-		//TODO cambiar a ordenes cargasSinRetirar.add(chofer.getCarga());
 	}
 		
 	/// VALIDACIONES
@@ -125,14 +105,32 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 
+	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga) throws Exception {
+		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
+		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);         
+		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS); // Le resta 12 horas a la fecha de arribo a la terminal, para hacier eficiente todo el tiempo que la carga este en la terminal
+		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
+		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
+		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
+	}
+	
 	private void generarOrdenExportacion(Viaje viaje, Container carga, Conductor chofer, Camion camion,
 			TerminalPortuaria destino, Cliente shipper) {
 		carga.setDestino(destino);
 		ordenes.add(new OrdenExportacion(viaje, carga, chofer, camion, destino, this, shipper));
 	}
 
+	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
+		validarTurno(chofer.getTurno(), diaYHora, 3);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
+		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
+		int indexTurno = turnos.indexOf(chofer.getTurno());
+		turnos.remove(indexTurno);
+		Orden ordenDeCarga = ordenes.stream().filter(ord -> ord.esContainer(chofer.getCarga())).findFirst().get();
+		ordenDeCarga.setCargaDepositada();
+	}
+	
 	public void exportarCargas(Buque buque) {
-		List<Orden> ordenesParaExportar = ordenes.stream().filter(o->o.tieneMismoViaje(buque.getViaje())).toList();
+		List<Orden> ordenesParaExportar = ordenes.stream().filter(o->o.tieneMismoViaje(buque.getViaje()) && o.isCargaDepositada()).toList();
 		ordenesParaExportar.stream().forEach(o-> manejarExportaciones(buque, o));
 	}
 	
@@ -232,13 +230,14 @@ public class TerminalGestionada extends TerminalPortuaria {
 		ordenDelContainer(c).agregarServicio(lavado);
 	}
 	
-
+	////////////////////////////////////
+	// SERVICIO DE FILTRADO DE VIAJES //
+	////////////////////////////////////
 	public List<Viaje> filtrarViajes(Condicion query) {
 		return navieras.stream()
 				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
 				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception
-				.toList();
-		
+				.toList();	
 	}
 	
 
@@ -285,7 +284,4 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void setCostoDePesado(int costoDePesado) {
 		this.costoDePesado =  costoDePesado;
 	}
-	
-	
-
 }
