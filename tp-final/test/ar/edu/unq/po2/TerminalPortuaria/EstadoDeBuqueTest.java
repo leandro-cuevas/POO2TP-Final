@@ -54,9 +54,9 @@ class EstadoDeBuqueTest {
 	}
 
 	@Test
-	void testInboundMayora0() throws Exception {
-		//Cuando pida la distancia, no es igual a la terminal.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
+	void testInboundMayora50() throws Exception {
+		//Cuando pida la distancia, no es menor a 50.
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(52d);
 		//Entonces no cambia de fase.
 		inbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
@@ -64,8 +64,8 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
-	void testInboundIgualA0() throws Exception {
-		//Cuando pida la distancia, es igual a la terminal.
+	void testInboundMenorA50() throws Exception {
+		//Cuando pida la distancia, es menor a 50.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(0d);
 		//Entonces cambia de fase.
 		inbound.activarGPS(buque);
