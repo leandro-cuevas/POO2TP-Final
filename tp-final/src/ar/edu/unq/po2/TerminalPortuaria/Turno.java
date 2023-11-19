@@ -19,6 +19,14 @@ public class Turno {
 		chofer.setCamionManejado(camion);
 		camion.cargar(carga);
 	}
+	
+	public Turno(Cliente cliente, LocalDateTime diaYHora, Container carga) {
+		super();
+		this.chofer = null;
+		this.camion = null;
+		this.cliente = cliente;
+		this.diaYHora = diaYHora;
+	}
 
 	public Camion getCamion() {
 		return camion;
@@ -33,5 +41,18 @@ public class Turno {
 	
 	public boolean esCamion(Camion coche) {
 		return camion == coche;
+	}
+	
+	public void setCamion(Camion coche) {
+		this.camion = coche;
+	}
+	
+	public void setChofer(Conductor chofer) {
+		this.chofer = chofer;
+		chofer.setCamionManejado(camion);
+	}
+	
+	public boolean esDeCliente(Cliente c) {
+		return cliente == c;
 	}
 }
