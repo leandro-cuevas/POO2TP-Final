@@ -35,7 +35,7 @@ class OrdenImportacionTest {
 
 	@Test
 	void getterConsignee() {
-		assertEquals(consignee, orden.getConsignee());
+		assertEquals(consignee, orden.getCliente());
 	}
 	
 	@Test

@@ -2,11 +2,9 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 public class OrdenImportacion extends Orden {
 	
-	private Cliente consignee;
 
 	public OrdenImportacion(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente consignee) {
-		super(viaje, container, terminalDestino);
-		this.consignee = consignee;
+		super(viaje, container, terminalDestino, consignee);
 	}
 	
 	public void setCamion(Camion c) {
@@ -14,10 +12,6 @@ public class OrdenImportacion extends Orden {
 	}
 	public void setChofer(Conductor c) {
 		this.chofer = c;
-	}
-
-	public Cliente getConsignee() {
-		return consignee;
 	}
 
 	public Camion getCamion() {

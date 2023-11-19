@@ -49,7 +49,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO la terminal enviará un mail a todos los shippers cuyas órdenes de
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
-		ordenesExportadas.stream().forEach(o->o.getShipper().avisarExportacion());
+		ordenesExportadas.stream().forEach(o->o.getCliente().avisarExportacion());
 		ordenesExportadas.clear();
 	}
 
@@ -146,7 +146,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 
 
-	/// IMPORTACIONES
+	/// IMPORTACIONES /////////////////////
 	
 	public void importarCargas(Buque buque) {
 		List<Container> cargasParaAca = buque.containersParaDescargar(this);
@@ -154,17 +154,23 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 	public void manejarImportaciones(Buque buque, Container carga) {
+		Cliente consignee = carga.getDuenio();
 		buque.descargarContainer(carga);
-		this.generarOrdenImportacion(buque, carga);
+		this.generarOrdenImportacion(buque, carga, consignee);
+		consignee.listoPararRetirar(this, carga);
 	}
 	
-	
-	private void generarOrdenImportacion(Buque buque, Container carga) {
-		ordenes.add(new OrdenImportacion(buque.getViaje(), carga, this, carga.getDuenio()));
+	private void generarOrdenImportacion(Buque buque, Container carga, Cliente consignee) {
+		ordenes.add(new OrdenImportacion(buque.getViaje(), carga, this, consignee));
 	}
 	
-
-
+	// RETIRAR IMPORTACIONES ///////////////////
+	public void avisarTransporteParaRetiro(Cliente consignee, Conductor chofer, Camion camion) {
+		OrdenImportacion ordenDeConsignee = (OrdenImportacion) ordenes.stream().filter(orden -> orden.esDeCliente(consignee)).findFirst().get();
+		ordenDeConsignee.setCamion(camion);
+		ordenDeConsignee.setChofer(chofer);
+	}
+	
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
 	}

@@ -20,15 +20,16 @@ public abstract class Orden {
 	
 	protected LocalDateTime fechaRetirada;
 	
-
+	protected Cliente cliente;
 	
 	//Constructor de Orden, para que le hagan super las subclases ya que es abstracta
-	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino) {
+	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente cliente) {
 		this.viaje = viaje;
 		this.container = container;
 		this.terminalDestino = terminalDestino;
 		this.servicios = new ArrayList<Servicio>();
 		this.fechaRetirada = null;
+		this.cliente = cliente;
 	}
 
 	//Getter de fecha de salida, se calcula ya que es algo que depende del viaje.
@@ -63,5 +64,13 @@ public abstract class Orden {
 	
 	public TerminalPortuaria getDestino() {
 		return terminalDestino;
+	}
+
+	public boolean esDeCliente(Cliente consignee) {
+		return cliente == consignee;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 }

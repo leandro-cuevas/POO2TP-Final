@@ -14,9 +14,8 @@ public class OrdenExportacion extends Orden {
 
 	public OrdenExportacion(Viaje viaje, Container container, Conductor chofer, Camion camion,
 			TerminalPortuaria terminalDestino, TerminalPortuaria terminalOrigen, Cliente shipper) {
-		super(viaje, container, terminalDestino);
+		super(viaje, container, terminalDestino, shipper);
 		this.terminalOrigen = terminalOrigen;
-		this.shipper = shipper;
 		this.camion = camion;
 		this.chofer = chofer;
 				
@@ -26,9 +25,4 @@ public class OrdenExportacion extends Orden {
 	public LocalDateTime fechaSalida(){
 		return viaje.fechaDeArriboAlPuerto(terminalOrigen);			
 	}
-	
-	public Cliente getShipper() {
-		return shipper;
-	}
-
 }

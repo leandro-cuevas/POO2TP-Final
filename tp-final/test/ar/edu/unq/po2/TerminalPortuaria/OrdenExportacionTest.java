@@ -45,6 +45,6 @@ class OrdenExportacionTest {
 
 	@Test
 	void getterDeCliente() {
-		assertEquals(shipper, orden.getShipper());
+		assertEquals(shipper, orden.getCliente());
 	}
 }
