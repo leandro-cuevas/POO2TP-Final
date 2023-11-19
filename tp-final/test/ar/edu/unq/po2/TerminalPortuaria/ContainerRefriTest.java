@@ -9,12 +9,10 @@ import org.junit.jupiter.api.Test;
 class ContainerRefriTest {
 
 	Container container;
-	Cliente duenio;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		duenio = mock(Cliente.class);		
-		container = new ContainerRefri(20, 40, 60, 200, 25, duenio);
+		container = new ContainerRefri(20, 40, 60, 200, 25);
 	}
 
 	@Test

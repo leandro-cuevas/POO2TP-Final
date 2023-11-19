@@ -88,4 +88,8 @@ public abstract class Orden {
 	public boolean isCargaDepositada() {
 		return this.cargaDepositada;
 	}
+	
+	public boolean esViaje(Viaje viaje) {
+		return this.viaje == viaje;
+	}
 }

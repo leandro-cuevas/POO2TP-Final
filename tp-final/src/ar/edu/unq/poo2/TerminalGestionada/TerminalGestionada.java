@@ -39,8 +39,8 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
 		que su carga está llegando */
-		List<Container> cargasParaAca = buque.containersParaDescargar(this);
-		cargasParaAca.stream().forEach(c -> c.getDuenio().avisarProntaLlegada());
+		List<Orden> ordenesParaViaje = ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
+		ordenesParaViaje.stream().forEach(o -> o.getCliente().avisarProntaLlegada());
 	}
 
 	public void elBuqueHaPartido(Buque buque) {
@@ -147,26 +147,29 @@ public class TerminalGestionada extends TerminalPortuaria {
 	/// IMPORTACIONES /////////////////////
 	
 	public void importarCargas(Buque buque) {
-		List<Container> cargasParaAca = buque.containersParaDescargar(this);
-		cargasParaAca.stream().forEach(c->manejarImportaciones(buque, c));
+		List<Orden> ordenesParaViaje = ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
+		ordenesParaViaje.stream().forEach(o->manejarImportaciones(buque, o));
 	}
 	
-	public void manejarImportaciones(Buque buque, Container carga) {
-		Cliente consignee = carga.getDuenio();
-		buque.descargarContainer(carga);
-		this.generarOrdenImportacion(buque, carga, consignee);
-		this.crearTurnoConsignee(consignee, carga);
+	public void manejarImportaciones(Buque buque, Orden orden) {
+		Cliente consignee = orden.getCliente();
+		buque.descargarContainer(orden.getContainer());
+		this.avisarConsignee(consignee, orden.getContainer());
 	}
 	
-	private void crearTurnoConsignee(Cliente consignee, Container carga) {
-	// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
-		consignee.listoPararRetirar(this, carga);
+	public void avisarConsignee(Cliente consignee, Container carga) {
+		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
 		LocalDateTime diaYHora = LocalDateTime.now().plus(12, ChronoUnit.HOURS);
 		turnos.add(new Turno(consignee, diaYHora, carga));
 	}
+	
+	private void importar(Cliente consignee, Container carga, Viaje viaje, TerminalPortuaria destino) {
+		this.generarOrdenImportacion(viaje, carga, consignee);
+		
+	}
 
-	private void generarOrdenImportacion(Buque buque, Container carga, Cliente consignee) {
-		ordenes.add(new OrdenImportacion(buque.getViaje(), carga, this, consignee));
+	private void generarOrdenImportacion(Viaje viaje, Container carga, Cliente consignee) {
+		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee));
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////

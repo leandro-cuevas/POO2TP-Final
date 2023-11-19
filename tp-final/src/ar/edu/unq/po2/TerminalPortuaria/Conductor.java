@@ -42,10 +42,12 @@ public class Conductor {
 	}
 	
 	public void setCamionManejado(Camion camion) {
+		//Setter del camion manejado.
 		this.camionManejado = camion;
 	}
 	
 	public void setTurno(Turno t) {
+		//Setter del turno.
 		this.turnoTerminal = t;
 	}
 }
