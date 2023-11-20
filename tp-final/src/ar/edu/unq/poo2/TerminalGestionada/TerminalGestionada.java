@@ -227,6 +227,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		return ordenes;
 	}
 	
+	
 	private Orden ordenDelContainer(Container c) {
 		return ordenes.stream().filter(o-> o.getContainer() == c).findFirst().get();
 	}
