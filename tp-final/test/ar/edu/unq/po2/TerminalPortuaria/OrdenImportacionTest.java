@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class OrdenImportacionTest {
+	
+	//DOC
+	
 	Viaje viaje;
 	Container container; 
 	Conductor chofer; 
@@ -17,10 +20,17 @@ class OrdenImportacionTest {
 	Cliente consignee;
 	LocalDateTime f1;
 	LocalDateTime f2;
+	
 	//SUT 
+	
 	OrdenImportacion orden;
+	
 	@BeforeEach
+	
 	void setUp() throws Exception {
+		
+		//DOC
+		
 		viaje = mock(Viaje.class);
 		container = mock(Container.class);
 		chofer = mock(Conductor.class);
@@ -29,7 +39,9 @@ class OrdenImportacionTest {
 		consignee = mock(Cliente.class);
 		f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
 		f2 = LocalDateTime.of(2023, 8, 20, 12, 0);
+		
 		//SUT
+		
 		orden = new OrdenImportacion(viaje, container, terminalDestino, consignee);
 	}
 
@@ -45,5 +57,9 @@ class OrdenImportacionTest {
 		orden.setCamion(camion);
 		assertEquals(camion, orden.getCamion());
 	}
+	
+	@Test
+	void () {
+	
 
 }
