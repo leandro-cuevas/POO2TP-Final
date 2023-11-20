@@ -148,6 +148,11 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	/// IMPORTACIONES /////////////////////
 	
+	public void importar(Viaje viaje, Container carga, Cliente consignee, TerminalPortuaria terminalOrigen) {
+		//Genera una orden de importación
+		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee, terminalOrigen));
+	}
+
 	private void importarCargas(Buque buque) {
 		this.ordenesParaViaje(buque).stream().forEach(o->manejarImportaciones(buque, o));
 	}
@@ -162,12 +167,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private void avisarConsignee(Cliente consignee, Container carga) {
 		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
 		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
-		turnos.add(new Turno(consignee, diaYHora, carga));
-	}
-	
-	public void importar(Viaje viaje, Container carga, Cliente consignee, TerminalPortuaria terminalOrigen) {
-		//Genera una orden de importación
-		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee, terminalOrigen));
+		Turno turno = new Turno(consignee, diaYHora, carga);
+		turnos.add(turno);
+		consignee.listoPararRetirar(this, carga);
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////

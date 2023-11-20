@@ -37,6 +37,8 @@ class TerminalGestionadaTest {
 	TerminalPortuaria destino; 
 	EmpresaTransportista empresaT;
 	Buque buque;
+	LocalDateTime f1;
+	LocalDateTime f2;
 	
 	// DOC de ingresarCarga
 	
@@ -68,6 +70,8 @@ class TerminalGestionadaTest {
 	destino  = mock(TerminalPortuaria.class);
 	empresaT = mock(EmpresaTransportista.class);
 	buque    = mock(Buque.class);
+	f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
+	f2 = LocalDateTime.of(2023, 12, 16, 12, 0);
 	
 	turno    = mock(Turno.class);
 	
@@ -222,6 +226,32 @@ class TerminalGestionadaTest {
 	void testGetterXY() {
 		assertEquals(8, terminal.getX());
 		assertEquals(20, terminal.getY());
+	}
+	
+	/////////////////////////////////////////
+	///////// TESTEO PARA IMPORTAR //////////
+	/////////////////////////////////////////
+	
+	@Test 
+	void testImportarYAvisosAClienteArriboInminente() {
+		//Testea que se genera una orden y al recibir el arribo inminente, se le avisa al cliente.
+		terminal.importar(viaje1, carga, cliente, terminal);
+		when(buque.getViaje()).thenReturn(viaje1);
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f1);
+		terminal.arriboInminenteDelBuque(buque);
+		verify(cliente, times(1)).avisarProntaLlegada(f1);		
+	}
+	
+	@Test 
+	void testImportarYAvisosAClienteArribo() throws Exception {
+		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
+		terminal.ingresarCarga(chofer, f2);
+		terminal.importar(viaje1, carga, cliente, terminal);
+		when(buque.getViaje()).thenReturn(viaje1);
+		terminal.arriboElBuque(buque);
+		verify(buque, times(1)).recibirOrdenInicioDeTrabajo();
+		verify(buque, times(1)).descargarContainer(carga);
+		verify(cliente, times(1)).listoPararRetirar(terminal, carga);
 	}
 	
 	
