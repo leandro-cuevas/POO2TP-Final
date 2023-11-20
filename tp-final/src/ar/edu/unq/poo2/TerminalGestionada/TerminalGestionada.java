@@ -39,8 +39,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
 		que su carga está llegando */
-		List<Orden> ordenesParaViaje = ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
-		ordenesParaViaje.stream().forEach(o -> o.getCliente().avisarProntaLlegada(buque.getViaje().fechaDeArriboAlPuerto(this)));
+		this.ordenesParaViaje(buque).stream().forEach(o -> o.getCliente().avisarProntaLlegada(buque.getViaje().fechaDeArriboAlPuerto(this)));
 	}
 
 	public void elBuqueHaPartido(Buque buque) {
@@ -59,6 +58,10 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.exportarCargas(buque);
 		buque.depart();
 		
+	}
+
+	private List<Orden> ordenesParaViaje(Buque buque) {
+		return ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
 	}
 		
 	/// VALIDACIONES
@@ -143,12 +146,10 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 
-
 	/// IMPORTACIONES /////////////////////
 	
 	public void importarCargas(Buque buque) {
-		List<Orden> ordenesParaViaje = ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
-		ordenesParaViaje.stream().forEach(o->manejarImportaciones(buque, o));
+		this.ordenesParaViaje(buque).stream().forEach(o->manejarImportaciones(buque, o));
 	}
 	
 	public void manejarImportaciones(Buque buque, Orden orden) {
@@ -163,7 +164,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.add(new Turno(consignee, diaYHora, carga));
 	}
 	
-	private void importar(Cliente consignee, Container carga, Viaje viaje) {
+	public void importar(Cliente consignee, Container carga, Viaje viaje) {
 		this.generarOrdenImportacion(viaje, carga, consignee);
 		
 	}
@@ -173,6 +174,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////
+	
 	public void avisarTransporteParaRetiro(Cliente consignee, Conductor chofer, Camion camion) {
 		OrdenImportacion ordenDeConsignee = (OrdenImportacion) ordenes.stream().filter(orden -> orden.esDeCliente(consignee)).findFirst().get();
 		Turno turnoDeConsignee = turnos.stream().filter(t -> t.esDeCliente(consignee)).findFirst().get();

@@ -49,52 +49,58 @@ public abstract class Orden {
 		servicios.add(s);
 	}
 	
+	public double getCostosDeServicios() {
+		int horas = (int) Duration.between(fechaRetirada, this.fechaSalida()).toHours();
+		return servicios.stream().mapToDouble(serv -> serv.getCostoDeServicio(horas)).sum();
+	}
+	
+	//GETTERS
+	
 	public Container getContainer() {
-		return this.container;
+		return container;
+	}
+	
+	public TerminalPortuaria getDestino() {
+		return terminalDestino;
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 	public LocalDateTime fechaRetirada() {
 		return fechaRetirada;
 	}
+	
+	public boolean isCargaDepositada() {
+		return cargaDepositada;
+	}
+	
+	//SETTERS
 
 	public void setFechaRetirada(LocalDateTime fechaDeRetiro) {
 		this.fechaRetirada = fechaDeRetiro;
 	}
 	
-	public boolean tieneMismoViaje(Viaje viaje) {
-		return this.viaje == viaje;
+	public void setCargaDepositada() {
+		this.cargaDepositada = true;
 	}
 	
-	public TerminalPortuaria getDestino() {
-		return terminalDestino;
+	//EVALUADORES
+	
+	public boolean tieneMismoViaje(Viaje viaje) {
+		return this.viaje == viaje;
 	}
 
 	public boolean esDeCliente(Cliente consignee) {
 		return cliente == consignee;
 	}
 	
-	public Cliente getCliente() {
-		return cliente;
-	}
-	
 	public boolean esContainer(Container carga) {
-		return carga == container;
-	}
-	
-	public void setCargaDepositada() {
-		this.cargaDepositada = true;
-	}
-
-	public boolean isCargaDepositada() {
-		return this.cargaDepositada;
+		return container == carga;
 	}
 	
 	public boolean esViaje(Viaje viaje) {
 		return this.viaje == viaje;
-	}
-	
-	public double getCostosDeServicios() {
-		int horas = (int) Duration.between(fechaRetirada, this.fechaSalida()).toHours();
-		return servicios.stream().mapToDouble(serv -> serv.getCostoDeServicio(horas)).sum();
 	}
 }
