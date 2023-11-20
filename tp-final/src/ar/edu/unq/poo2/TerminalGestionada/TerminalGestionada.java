@@ -192,14 +192,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		validarTurnoImp(chofer.getTurno(), diaYHora, ordenDeConsignee);   // Chequea que el ingreso no difiera en mas horas al turno otorgado, sino asigna almacenamiento excedente
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
-		ordenDeConsignee.setFechaRetirada(LocalDateTime.now());
-		ordenes.remove(ordenDeConsignee);
+		ordenDeConsignee.setFechaRetirada(LocalDateTime.now());	
 	}
 	
 	private void validarTurnoImp(Turno turno, LocalDateTime diaYHora, Orden orden) {
 		// En caso de que la fecha del parametro sea mayor a la del turno, asigna el servicio.
 		if (turno.getDiaYHora().compareTo(diaYHora) < 0) {
-			this.realizarServicioDeAlmacenamientoExcedente(orden);
+			this.realizarServicioDePesado(orden);
 		}
 	}
 
@@ -223,12 +222,15 @@ public class TerminalGestionada extends TerminalPortuaria {
 		return turnos;
 	}
 	
-	public List<Orden> getOrdenes(){
-		return ordenes;
-	}
-	
 	private Orden ordenDelContainer(Container c) {
 		return ordenes.stream().filter(o-> o.getContainer() == c).findFirst().get();
+	}
+
+	
+	public void retirarCarga(Conductor ch, Container c) {
+		Orden orden = ordenDelContainer(c);
+		orden.setFechaRetirada(LocalDateTime.now());
+		ordenes.remove(orden);	
 	}
 
 	
@@ -282,7 +284,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void setCostoPorContainerGrande(int costoPorContainerGrande) {
 		this.costoPorContainerGrande = costoPorContainerGrande;
 	}
-
 
 	public void setCostoPorKw(int costoPorKw) {
 		this.costoPorKw = costoPorKw;
