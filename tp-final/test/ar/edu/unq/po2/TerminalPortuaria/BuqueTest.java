@@ -20,15 +20,23 @@ class BuqueTest {
 	EstadoDeBuque otroEstado;
 	Buque buque;
 	Container container;
+	Container container2;
+	Container container3;
+	Container container4;
 	
+	Viaje viaje1;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		terminal = mock(TerminalGestionada.class);
-		estado = mock(EstadoDeBuque.class);
+		terminal   = mock(TerminalGestionada.class);
+		estado 	   = mock(EstadoDeBuque.class);
 		otroEstado = mock(EstadoDeBuque.class);
-		container = mock(Container.class);
-		buque = new Buque(terminal, estado);
+		container  = mock(Container.class);
+		container2 = mock(Container.class);
+		container3 = mock(Container.class);
+		container4 = mock(Container.class);
+		buque      = new Buque(terminal, estado);
+		viaje1     = mock(Viaje.class);
 	}
 
 	@Test
@@ -36,9 +44,11 @@ class BuqueTest {
 		//Por defecto no lo está.
 		assertFalse(buque.estaEnViaje());
 		//Se asigna un viaje.
-		buque.asignarViaje();
+		buque.asignarViaje(viaje1);
 		//Ahora es verdadero.
 		assertTrue(buque.estaEnViaje());
+		// Y tiene el viaje asignado correctamente
+		assertEquals(viaje1, buque.getViaje());
 	}
 	
 	@Test
@@ -108,5 +118,28 @@ class BuqueTest {
 		//No tengo containers cargados.
 		assertEquals(0,buque.getContainers().size());
 	}
-
+	
+	@Test 
+	void comunicarConLaTerminalDelegado() throws Exception {
+		// Testea que delegue bien el mensaje comunicar con la terminal a su estado
+		buque.comunicarConLaTerminal();
+		buque.comunicarConLaTerminal();
+		verify(estado, times(2)).comunicarConTerminal(buque);
+	}
+	
+	@Test 
+	void cargasParaTerminalT1() {
+		// Seteamos el destino de todos los containers.	
+		when(container.finDelRecorrido(terminal)).thenReturn(true);
+		when(container2.finDelRecorrido(terminal)).thenReturn(true);
+		when(container3.finDelRecorrido(terminal)).thenReturn(false);
+		when(container4.finDelRecorrido(terminal)).thenReturn(false);
+		// Cargamos el buque con todos los containers, para la terminal y para la terminal2.
+		buque.cargarContainer(container);
+		buque.cargarContainer(container2);
+		buque.cargarContainer(container3);
+		buque.cargarContainer(container4);
+		// Verificamos que el size de las cargas para la terminal es 2.
+		assertEquals(2, buque.containersParaDescargar(terminal).size());
+	}
 }

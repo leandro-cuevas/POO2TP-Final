@@ -67,8 +67,8 @@ class NavieraTest {
 		naviera.agregarCircuito(circuito1);
 		naviera.agregarCircuito(circuito2);
 		naviera.establecerViaje(fecha, circuito1);
-		verify(buque2, times(1)).asignarViaje();
 		Viaje viaje = naviera.getViajes().get(0);
+		verify(buque2, times(1)).asignarViaje(viaje);
 		assertEquals(buque2,viaje.getBuqueRecorrido());
 		assertEquals(fecha, viaje.getFechaSalida());
 		assertEquals(circuito1, viaje.getCircuitoRecorrido());

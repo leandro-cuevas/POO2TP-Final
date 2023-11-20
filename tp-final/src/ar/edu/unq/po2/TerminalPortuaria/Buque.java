@@ -95,10 +95,11 @@ public class Buque {
 		containers.remove(c);
 	}
 	
-	public void asignarViaje() {
+	public void asignarViaje(Viaje viaje) {
 		//Una vez que se asigna un viaje, el buque pasa a estar en viaje.
 		//Es una manera de poder decidir que buque está o no disponible para un nuevo viaje.
-		this.estaEnViaje = true;
+		this.estaEnViaje   = true;
+		this.viajeAsignado = viaje;
 	}
 
 	

@@ -35,8 +35,9 @@ public class Naviera {
 	public void establecerViaje(LocalDateTime fechaSalida, Circuito circuitoElegido) throws Exception {
 		validarCircuito(circuitoElegido);
 		Buque buqueAsignado = this.busquesDisponibles().get(0); 
-		viajes.add(new Viaje(fechaSalida, circuitoElegido, buqueAsignado));
-		buqueAsignado.asignarViaje(); 
+		Viaje viaje = new Viaje(fechaSalida, circuitoElegido, buqueAsignado);
+		viajes.add(viaje);
+		buqueAsignado.asignarViaje(viaje); 
 	}
 	
 	private void validarCircuito(Circuito circuitoAValidar) throws Exception {
