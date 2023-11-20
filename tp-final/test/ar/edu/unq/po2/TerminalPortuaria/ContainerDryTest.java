@@ -7,11 +7,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ContainerDryTest {
-
+	TerminalPortuaria terminal;
+	TerminalPortuaria terminal2;
+	
 	Container container;
+	
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		terminal  = mock(TerminalPortuaria.class);
+		terminal2 = mock(TerminalPortuaria.class);
 		container = new ContainerDry(20, 40, 60, 200);
 	}
 
@@ -27,5 +32,12 @@ class ContainerDryTest {
 	@Test
 	void metrosCubicosTest() {
 		assertEquals(48000, container.getMetrosCubicos());
+	}
+	
+	@Test 
+	void setterDeDestino() {
+		container.setDestino(terminal);
+		assertTrue(container.finDelRecorrido(terminal));
+		assertFalse(container.finDelRecorrido(terminal2));
 	}
 }
