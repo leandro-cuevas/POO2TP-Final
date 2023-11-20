@@ -12,7 +12,8 @@ class OrdenExportacionTest {
 	Container container; 
 	Conductor chofer; 
 	Camion camion;
-	TerminalPortuaria terminalDestino; 
+	TerminalPortuaria terminalDestino;
+	TerminalPortuaria terminalOrigen;
 	Cliente shipper;
 	LocalDateTime f1;
 	LocalDateTime f2;
@@ -30,8 +31,7 @@ class OrdenExportacionTest {
 		f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
 		f2 = LocalDateTime.of(2023, 8, 20, 12, 0);
 		//SUT
-		orden = new OrdenExportacion(viaje, container, chofer, camion, terminalDestino, terminalOrigen, shipper);
-		
+		orden = new OrdenExportacion(viaje, container, chofer, camion, terminalDestino, terminalOrigen, shipper);	
 	}
 
 	@Test
