@@ -18,10 +18,10 @@ public class Lavado implements Servicio {
 
 	public double getCostoDeServicio(int cantHoras) {
 		if (orden.getContainer().getMetrosCubicos() > 70) {
-			return costoPorContainerPequenio;
+			return costoPorContainerGrande;
 		}
 			else {
-				return costoPorContainerGrande;
+				return costoPorContainerPequenio;
 			}
 		}
 }
