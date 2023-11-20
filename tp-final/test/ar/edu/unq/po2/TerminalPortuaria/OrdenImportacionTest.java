@@ -57,9 +57,4 @@ class OrdenImportacionTest {
 		orden.setCamion(camion);
 		assertEquals(camion, orden.getCamion());
 	}
-	
-	@Test
-	void () {
-	
-
 }
