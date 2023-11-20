@@ -71,13 +71,9 @@ class BuqueTest {
 		//Ahora está en la misma ubicación
 		when(terminal.getX()).thenReturn(0d);
 		when(terminal.getY()).thenReturn(0d);
-		//No está habilitado para salir
-		when(estado.isHabilitadoParaSalir()).thenReturn(false);
 		//Se cumplen las condiciones y funciona.
 		buque.recibirOrdenInicioDeTrabajo();
-		//Ahora está habilitado para salir y por tanto no deberia funcionar.
-		when(estado.isHabilitadoParaSalir()).thenReturn(true);	
-		assertThrowsExactly(Exception.class,()->{buque.recibirOrdenInicioDeTrabajo();}, "La nave no está en la terminal o no puede empezar a trabajar") ;
+		verify(estado, times(1)).cambiarFase(buque);
 	}
 	
 	@Test
@@ -85,33 +81,10 @@ class BuqueTest {
 		//Esta en la terminal y es igual a la ubicación del buque.
 		when(terminal.getX()).thenReturn(0d);
 		when(terminal.getY()).thenReturn(0d);
-		when(estado.isHabilitadoParaSalir()).thenReturn(true);
 		//Ejecuto depart
 		buque.depart();
 		//Como funciona, se realiza una vez el cambio de fase del buque.
 		verify(estado, times(1)).cambiarFase(buque);
-	}
-	
-	@Test
-	void departTestFalse() throws Exception{
-		//Esta en la terminal y es igual a la ubicación del buque.
-		when(terminal.getX()).thenReturn(0d);
-		when(terminal.getY()).thenReturn(0d);
-		//Pero no puede salir
-		when(estado.isHabilitadoParaSalir()).thenReturn(false);
-		//Falla
-		assertThrowsExactly(Exception.class,()->{buque.depart();}, "La nave no está en la terminal o no esta habilitada para salir y por tanto no puede ser Depart");
-	}
-	
-	@Test
-	void departTestFalseOtroCaso() throws Exception{
-		//No está en la terminal
-		when(terminal.getX()).thenReturn(10d);
-		when(terminal.getY()).thenReturn(10d);
-		//Aunque sí puede salir
-		when(estado.isHabilitadoParaSalir()).thenReturn(true);
-		//Falla
-		assertThrowsExactly(Exception.class,()->{buque.depart();}, "La nave no está en la terminal o no esta habilitada para salir y por tanto no puede ser Depart");
 	}
 	
 	@Test

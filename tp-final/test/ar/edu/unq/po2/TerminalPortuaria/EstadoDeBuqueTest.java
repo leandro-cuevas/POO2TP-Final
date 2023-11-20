@@ -38,8 +38,9 @@ class EstadoDeBuqueTest {
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(15d);
 		outbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
+		// E indica el arribo inminente.
+		verify(buque, times(1)).comunicarConLaTerminal();
 		verify(buque, times(1)).setEstado(inbound);
-
 	}
 	
 	@Test
@@ -50,28 +51,29 @@ class EstadoDeBuqueTest {
 		//Entonces llama a la condicion y no cambia de fase.
 		outbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
-		verify(buque, never()).avisarArriboInminente();
+		verify(buque, never()).comunicarConLaTerminal();
 	}
 
 	@Test
-	void testInboundMayora50() throws Exception {
-		//Cuando pida la distancia, no es menor a 50.
-		when(buque.getDistanciaDeLaTerminal()).thenReturn(52d);
+	void testInboundMayorA0() throws Exception {
+		//Cuando pida la distancia, no es igual a 0.
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
 		//Entonces no cambia de fase.
 		inbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
-		verify(buque, never()).avisarArriboInminente();
+		verify(buque, never()).comunicarConLaTerminal();
 	}
 	
 	@Test
-	void testInboundMenorA50() throws Exception {
-		//Cuando pida la distancia, es menor a 50.
+	void testInboundIGUAL0() throws Exception {
+		//Cuando pida la distancia, es igual a 00.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(0d);
 		//Entonces cambia de fase.
 		inbound.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
-		verify(buque, times(1)).avisarArriboInminente();
-
+		// E indica que se arribo.
+		verify(buque, times(1)).comunicarConLaTerminal();
+		verify(buque, times(1)).setEstado(arrived);
 	}
 	
 	@Test
@@ -80,8 +82,7 @@ class EstadoDeBuqueTest {
 		arrived.activarGPS(buque);
 		//En este caso no se pide distancia con la terminal.
 		verify(buque, never()).getDistanciaDeLaTerminal();
-		//Pero sí se indica que se arribó.
-		verify(buque, times(1)).avisarQueSeArribo();
+		verify(buque, never()).comunicarConLaTerminal();
 	}
 	
 	@Test
@@ -91,8 +92,9 @@ class EstadoDeBuqueTest {
 		//Comunico con la terminal. No hace nada.
 		working.comunicarConTerminal(buque);
 		//No hace nada porque el cambio de estado depende de la terminal.
+		verify(buque, never()).comunicarConLaTerminal();
+		// La condicion para pasar de fase, no pregunta distancia
 		verify(buque, never()).getDistanciaDeLaTerminal();
-		verify(buque, never()).avisarQueSeArribo();
 	}
 	
 	@Test
@@ -102,30 +104,8 @@ class EstadoDeBuqueTest {
 		//Activo gps
 		depart.activarGPS(buque);
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
-		verify(buque, times(1)).avisarQueSePartio();
+		verify(buque, times(1)).setEstado(outbound);
+		verify(buque, times(1)).comunicarConLaTerminal();
 
 	}
-	
-	@Test
-	void testHabilitacionParaSalir() {
-		//Por defecto, ninguno esta habilitado para salir.
-		assertFalse(inbound.isHabilitadoParaSalir()); 
-		assertFalse(outbound.isHabilitadoParaSalir()); 
-		assertFalse(arrived.isHabilitadoParaSalir()); 
-		assertFalse(working.isHabilitadoParaSalir());
-		assertFalse(depart.isHabilitadoParaSalir()); 
-		//Seteo que pueden salir.
-		inbound.setHabilitadoParaSalir(true);
-		outbound.setHabilitadoParaSalir(true);
-		arrived.setHabilitadoParaSalir(true);
-		working.setHabilitadoParaSalir(true);
-		depart.setHabilitadoParaSalir(true);
-		//Ahora todos estan habilitados.
-		assertTrue(inbound.isHabilitadoParaSalir()); 
-		assertTrue(outbound.isHabilitadoParaSalir()); 
-		assertTrue(arrived.isHabilitadoParaSalir()); 
-		assertTrue(working.isHabilitadoParaSalir());
-		assertTrue(depart.isHabilitadoParaSalir()); 
-	}
-
 }

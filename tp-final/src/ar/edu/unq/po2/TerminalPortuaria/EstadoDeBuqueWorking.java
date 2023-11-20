@@ -3,13 +3,12 @@ package ar.edu.unq.po2.TerminalPortuaria;
 public class EstadoDeBuqueWorking extends EstadoDeBuque {
 
 	@Override
-	public void comunicarConTerminal(Buque buque) {
-
+	protected boolean condicionParaPasarFase(Buque buque) {
+	// Esto devuelve siempre falso ya que la orden para pasar de fase la recibe de la terminal. Entonces
+	// nunca este estado debe cambiarse solo. El false implica que nunca se realice el if de activarGPS()
+		return false;
 	}
 
-	@Override
-	public void activarGPS(Buque buque) {
-
-	}
+	
 
 }

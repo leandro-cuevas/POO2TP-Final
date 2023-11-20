@@ -57,20 +57,14 @@ public class Buque {
 	public void recibirOrdenInicioDeTrabajo() throws Exception {
 		//Orden de inicio de trabajo que debería ser ejecutada por la terminal.
 		//Para que ocurra debe estar dentro de la terminal, es decir, su distancia debe ser 0.
-		//También debe ser falso que esté habilitado para salir, porque como todavía no se trabajó, no debe salir.
-		if (this.getDistanciaDeLaTerminal() > 0 || estado.isHabilitadoParaSalir()) {
+		if (this.getDistanciaDeLaTerminal() > 0) {
 			throw new Exception("La nave no está en la terminal o no puede empezar a trabajar");
 		} else estado.cambiarFase(this);
-		//Una vez realizado el cambio de estado, está habilitado para salir.
-		estado.setHabilitadoParaSalir(true);
 	}
 	
-	public void depart() throws Exception {
+	public void depart() {
 		//Orden de depart que debería ser ejecutada por la terminal.
-		//Para que ocurra, debe estar en la terminal y debe ser verdarera la habilitación para salir.
-		if (this.getDistanciaDeLaTerminal() > 0 || !estado.isHabilitadoParaSalir()) {
-			throw new Exception("La nave no está en la terminal o no esta habilitada para salir y por tanto no puede ser Depart");
-		} else estado.cambiarFase(this);
+		estado.cambiarFase(this);
 	}
 	
 	public void avisarArriboInminente() {
@@ -117,5 +111,10 @@ public class Buque {
 		//Retorna la lista de los containers de este buque.
 		return containers;
 
+	}
+
+	public void comunicarConLaTerminal() throws Exception {
+		// Avisa a la terminal que ha cambiado de fase
+		estado.comunicarConTerminal(this);
 	}
 }

@@ -9,10 +9,9 @@ public class EstadoDeBuqueArrived extends EstadoDeBuque {
 	}
 
 	@Override
-	public void activarGPS(Buque buque) throws Exception {
-		//La activación del gps se comporta de distinta manera según el estado del buque.
-		this.comunicarConTerminal(buque);
-
+	protected boolean condicionParaPasarFase(Buque buque) {
+	// Esto devuelve siempre falso ya que la orden para pasar de fase la recibe de la terminal. Entonces
+	// nunca este estado debe cambiarse solo. El false implica que nunca se realice el if de activarGPS()
+		return false;
 	}
-
 }

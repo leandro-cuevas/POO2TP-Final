@@ -4,18 +4,14 @@ public class EstadoDeBuqueInbound extends EstadoDeBuque {
 
 	@Override
 	public void comunicarConTerminal(Buque buque) {
-		//Avisa que está cercano a la terminal.
+		//Avisa que está cercano a la terminal.	
 		buque.avisarArriboInminente();
-
 	}
 
 	@Override
-	public void activarGPS(Buque buque) {
-		//Si ya estoy a menos de 50, me comunico.
-		if (buque.getDistanciaDeLaTerminal() < 50) {
-			this.comunicarConTerminal(buque);
-			buque.setEstado(siguiente);
-		}
+	protected boolean condicionParaPasarFase(Buque buque) {
+	// Indica si el buque esta a la misma distancia de la terminal. Debe pasar a la siguiente fase.
+		return buque.getDistanciaDeLaTerminal() == 0;
 	}
 
 }
