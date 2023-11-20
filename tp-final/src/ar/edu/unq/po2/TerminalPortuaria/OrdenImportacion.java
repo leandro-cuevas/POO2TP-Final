@@ -27,9 +27,5 @@ public class OrdenImportacion extends Orden {
 	public void setChofer(Conductor c) {
 		this.chofer = c;
 	}
-
-	public Camion getCamion() {
-		return camion;
-	}
 	
 }

@@ -1,12 +1,14 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ar.edu.unq.poo2.TerminalGestionada.*;
 
 class OrdenImportacionTest {
 	
@@ -24,6 +26,9 @@ class OrdenImportacionTest {
 	Cliente consignee2;
 	LocalDateTime f1;
 	LocalDateTime f2;
+	Lavado lavado;
+	Electricidad electro;
+	Pesado pesado;
 	
 	//SUT 
 	
@@ -46,7 +51,7 @@ class OrdenImportacionTest {
 		consignee1 = mock(Cliente.class);
 		consignee2 = mock(Cliente.class);
 		f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
-		f2 = LocalDateTime.of(2023, 8, 20, 12, 0);
+		f2 = LocalDateTime.of(2023, 12, 16, 12, 0);
 		
 		//SUT
 		
@@ -86,6 +91,21 @@ class OrdenImportacionTest {
 		assertFalse(orden.esDeCliente(consignee2));
 		assertTrue(orden.esContainer(container1));
 		assertFalse(orden.esContainer(container2));		
+	}
+	
+	@Test
+	void costosDeServicioYViaje() throws Exception {
+		//Testea el costo de los servicios mockeados.
+		when(viaje1.getCircuitoRecorrido().getPrecioEntrePuertos(terminalOrigen, terminalDestino)).thenReturn(1000d);
+		when(viaje1.fechaDeArriboAlPuerto(terminalDestino)).thenReturn(f1);
+		orden.setFechaRetirada(f2);
+		when(lavado.getCostoDeServicio(96)).thenReturn(200d);
+		when(pesado.getCostoDeServicio(96)).thenReturn(300d);
+		when(electro.getCostoDeServicio(96)).thenReturn(400d);
+		orden.agregarServicio(pesado);
+		orden.agregarServicio(electro);
+		orden.agregarServicio(lavado);
+		assertEquals(1900, orden.getCostosDeServicios());		
 	}
 		
 }

@@ -79,6 +79,10 @@ public abstract class Orden {
 		return chofer;
 	}
 	
+	public Camion getCamion() {
+		return camion;
+	}
+	
 	public boolean isCargaDepositada() {
 		return cargaDepositada;
 	}
