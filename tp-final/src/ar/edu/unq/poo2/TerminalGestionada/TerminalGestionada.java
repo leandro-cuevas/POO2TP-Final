@@ -36,14 +36,14 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	public void arriboInminenteDelBuque(Buque buque) {
-		/* TODO Ante este aviso, la terminal enviará un mail a todos los consignees
+		/* Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
 		que su carga está llegando */
 		this.ordenesParaViaje(buque).stream().forEach(o -> o.getCliente().avisarProntaLlegada(buque.getViaje().fechaDeArriboAlPuerto(this)));
 	}
 
 	public void elBuqueHaPartido(Buque buque) {
-		/* TODO la terminal enviará un mail a todos los shippers cuyas órdenes de
+		/* La terminal enviará un mail a todos los shippers cuyas órdenes de
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
 		ordenesExportadas.stream().forEach(o->o.getCliente().avisarExportacion());
@@ -51,7 +51,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	public void arriboElBuque(Buque buque) throws Exception {
-		/* TODO Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
+		/* Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
 		no está claro cómo la terminal lo sabría */
 		buque.recibirOrdenInicioDeTrabajo();
 		this.importarCargas(buque);     
@@ -61,7 +61,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	private List<Orden> ordenesParaViaje(Buque buque) {
-		return ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
+		return ordenes.stream().filter(o-> o.tieneMismoViaje(buque.getViaje())).toList();
 	}
 		
 	/// VALIDACIONES
@@ -130,6 +130,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.remove(indexTurno);
 		Orden ordenDeCarga = ordenes.stream().filter(ord -> ord.esContainer(chofer.getCarga())).findFirst().get();
 		ordenDeCarga.setCargaDepositada();
+		this.realizarServicioDePesado(ordenDeCarga);
 	}
 	
 	public void exportarCargas(Buque buque) {
@@ -155,6 +156,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void manejarImportaciones(Buque buque, Orden orden) {
 		Cliente consignee = orden.getCliente();
 		buque.descargarContainer(orden.getContainer());
+		orden.setCargaDepositada();
 		this.avisarConsignee(consignee, orden.getContainer());
 	}
 	
@@ -164,13 +166,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.add(new Turno(consignee, diaYHora, carga));
 	}
 	
-	public void importar(Cliente consignee, Container carga, Viaje viaje) {
-		this.generarOrdenImportacion(viaje, carga, consignee);
-		
-	}
-
-	private void generarOrdenImportacion(Viaje viaje, Container carga, Cliente consignee) {
-		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee));
+	public void importar(Viaje viaje, Container carga, Cliente consignee, TerminalPortuaria terminalOrigen) {
+		//Genera una orden de importación
+		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee, terminalOrigen));
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////
@@ -254,7 +252,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 
-	private void realizarServicioElectrico(Container c) {
+	public void realizarServicioElectrico(Container c) {
 		//Creo el servicio eléctrico
 		Electricidad electricidad = new Electricidad(this.costoPorKw, ordenDelContainer(c));
 		//Busco la orden del container.
@@ -262,17 +260,17 @@ public class TerminalGestionada extends TerminalPortuaria {
 		ordenDelContainer(c).agregarServicio(electricidad);
 	}
 	
-	private void realizarServicioDePesado(Container c) {
+	public void realizarServicioDePesado(Orden orden) {
 		//Creo el servicio de pesado
-		Pesado pesado = new Pesado(costoDePesado, ordenDelContainer(c));
+		Pesado pesado = new Pesado(costoDePesado);
 		//Busco la orden del container.
 		//Le agrego este servicio
-		ordenDelContainer(c).agregarServicio(pesado);
+		ordenDelContainer(orden.getContainer()).agregarServicio(pesado);
 
 	}
 	
-	private void realizarServicioDeAlmacenamientoExcedente(Container c) {
-		//Creo el servicio de pesado
+	public void realizarServicioDeAlmacenamientoExcedente(Container c) {
+		//Creo el servicio de almacenamiento excedente
 		Almacenamiento almacenamiento = new Almacenamiento(costoPorEstadia, ordenDelContainer(c));
 		//Busco la orden del container.
 		//Le agrego este servicio

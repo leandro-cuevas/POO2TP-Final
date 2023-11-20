@@ -15,6 +15,8 @@ public abstract class Orden {
 	
 	protected Camion camion;
 	
+	protected TerminalPortuaria terminalOrigen;
+	
 	protected TerminalPortuaria terminalDestino;
 	
 	protected List<Servicio> servicios;
@@ -26,19 +28,15 @@ public abstract class Orden {
 	protected boolean cargaDepositada;
 	
 	//Constructor de Orden, para que le hagan super las subclases ya que es abstracta
-	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente cliente) {
+	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente cliente, TerminalPortuaria terminalOrigen) {
 		this.viaje = viaje;
 		this.container = container;
+		this.terminalOrigen = terminalOrigen;
 		this.terminalDestino = terminalDestino;
 		this.servicios = new ArrayList<Servicio>();
 		this.fechaRetirada = null;
 		this.cliente = cliente;
 		this.cargaDepositada = false;
-	}
-
-	//Getter de fecha de salida, se calcula ya que es algo que depende del viaje.
-	public LocalDateTime fechaSalida() {
-		return viaje.fechaDeArriboAlPuerto(terminalDestino);		
 	}
 	
 	public LocalDateTime fechaLlegada(){
@@ -49,9 +47,14 @@ public abstract class Orden {
 		servicios.add(s);
 	}
 	
-	public double getCostosDeServicios() {
-		int horas = (int) Duration.between(fechaRetirada, this.fechaSalida()).toHours();
-		return servicios.stream().mapToDouble(serv -> serv.getCostoDeServicio(horas)).sum();
+	abstract protected LocalDateTime fechaAEvaluar();
+	
+	abstract protected double precioViaje() throws Exception;
+	
+	public double getCostosDeServicios() throws Exception {
+		int horas = (int) Duration.between(fechaRetirada, this.fechaAEvaluar()).toHours();
+		double precioServicios = servicios.stream().mapToDouble(serv -> serv.getCostoDeServicio(horas)).sum();
+		return precioServicios + this.precioViaje();
 	}
 	
 	//GETTERS
@@ -70,6 +73,10 @@ public abstract class Orden {
 
 	public LocalDateTime fechaRetirada() {
 		return fechaRetirada;
+	}
+	
+	public Conductor getChofer() {
+		return chofer;
 	}
 	
 	public boolean isCargaDepositada() {
@@ -100,7 +107,4 @@ public abstract class Orden {
 		return container == carga;
 	}
 	
-	public boolean esViaje(Viaje viaje) {
-		return this.viaje == viaje;
-	}
 }

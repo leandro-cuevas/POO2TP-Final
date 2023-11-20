@@ -13,7 +13,6 @@ class OrdenExportacionTest {
 	Conductor chofer; 
 	Camion camion;
 	TerminalPortuaria terminalDestino; 
-	TerminalPortuaria terminalOrigen; 
 	Cliente shipper;
 	LocalDateTime f1;
 	LocalDateTime f2;
