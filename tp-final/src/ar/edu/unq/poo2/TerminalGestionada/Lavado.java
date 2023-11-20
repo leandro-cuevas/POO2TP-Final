@@ -16,7 +16,7 @@ public class Lavado implements Servicio {
 		this.orden = orden;
 	}
 
-	public double getCostoDeServicio() {
+	public double getCostoDeServicio(int cantHoras) {
 		if (orden.getContainer().getMetrosCubicos() > 70) {
 			return costoPorContainerPequenio;
 		}

@@ -1,5 +1,6 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,7 @@ public abstract class Orden {
 
 	//Getter de fecha de salida, se calcula ya que es algo que depende del viaje.
 	public LocalDateTime fechaSalida() {
-		return viaje.fechaDeArriboAlPuerto(terminalDestino);			
-
+		return viaje.fechaDeArriboAlPuerto(terminalDestino);		
 	}
 	
 	public LocalDateTime fechaLlegada(){
@@ -91,5 +91,10 @@ public abstract class Orden {
 	
 	public boolean esViaje(Viaje viaje) {
 		return this.viaje == viaje;
+	}
+	
+	public double getCostosDeServicios() {
+		int horas = (int) Duration.between(fechaRetirada, this.fechaSalida()).toHours();
+		return servicios.stream().mapToDouble(serv -> serv.getCostoDeServicio(horas)).sum();
 	}
 }

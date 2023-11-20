@@ -13,7 +13,7 @@ public class Pesado implements Servicio {
 		this.orden = orden;
 	}
 
-	public double getCostoDeServicio() {
+	public double getCostoDeServicio(int cantHoras) {
 		return costo;
 	} 
 

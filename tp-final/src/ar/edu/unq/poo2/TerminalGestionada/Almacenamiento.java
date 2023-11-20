@@ -16,15 +16,10 @@ public class Almacenamiento implements Servicio{
 		this.orden = orden;
 	}
 
-	public double getCostoDeServicio() {
+	public double getCostoDeServicio(int cantHoras) {
 		//Tiene un tiempo de tolerancia de un dia.
-		LocalDateTime fechaTolerada = orden.fechaLlegada().plus(1, ChronoUnit.DAYS);
-		
-		if (orden.fechaRetirada().isAfter(fechaTolerada)) {
-			return costoEstadia;
-		} else {
-			return 0;
-		}
+		int dias = cantHoras / 24;
+		return costoEstadia * dias;
 	}
 
 }

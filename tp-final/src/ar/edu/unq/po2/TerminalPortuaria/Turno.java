@@ -55,4 +55,8 @@ public class Turno {
 	public boolean esDeCliente(Cliente c) {
 		return cliente == c;
 	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
 }

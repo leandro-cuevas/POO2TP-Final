@@ -40,7 +40,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
 		que su carga está llegando */
 		List<Orden> ordenesParaViaje = ordenes.stream().filter(o-> o.esViaje(buque.getViaje())).toList();
-		ordenesParaViaje.stream().forEach(o -> o.getCliente().avisarProntaLlegada());
+		ordenesParaViaje.stream().forEach(o -> o.getCliente().avisarProntaLlegada(buque.getViaje().fechaDeArriboAlPuerto(this)));
 	}
 
 	public void elBuqueHaPartido(Buque buque) {
@@ -63,13 +63,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		
 	/// VALIDACIONES
 	
-	private void validarTurno(Turno turno, LocalDateTime now, int horasDeEspera) throws Exception{
+	private void validarTurno(Turno turno, LocalDateTime now) throws Exception{
 		// Planteamos la duracion entre la fecha del turno y la hora en la que se quiere ingresar
 		int duracionEntreTurnoYAhora = (int) Duration.between(turno.getDiaYHora(), now).toHours(); 
 		// En caso de NO ser mayor a -3 horas (es decir, llego 3 horas temprano) O NO ser menor o igual a 3 horas (es decir, llego 3 horas tarde)
 		// lanza la excepcion
-		if (!( duracionEntreTurnoYAhora >= -(horasDeEspera)) || !(duracionEntreTurnoYAhora <= horasDeEspera)) {
-			throw new Exception("El ingreso que quiere realizar difiere en mas de " + horasDeEspera + " horas al turno otorgado. Verifique su horario.");
+		if (!( duracionEntreTurnoYAhora >= -3) || !(duracionEntreTurnoYAhora <= 3)) {
+			throw new Exception("El ingreso que quiere realizar difiere en mas de 3 horas al turno otorgado. Verifique su horario.");
 		}
 	}
 
@@ -121,7 +121,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 
 	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
-		validarTurno(chofer.getTurno(), diaYHora, 3);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
+		validarTurno(chofer.getTurno(), diaYHora);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
 		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
@@ -159,11 +159,11 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public void avisarConsignee(Cliente consignee, Container carga) {
 		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
-		LocalDateTime diaYHora = LocalDateTime.now().plus(12, ChronoUnit.HOURS);
+		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
 		turnos.add(new Turno(consignee, diaYHora, carga));
 	}
 	
-	private void importar(Cliente consignee, Container carga, Viaje viaje, TerminalPortuaria destino) {
+	private void importar(Cliente consignee, Container carga, Viaje viaje) {
 		this.generarOrdenImportacion(viaje, carga, consignee);
 		
 	}
@@ -183,14 +183,22 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 	public void retirarImportacion(Conductor chofer, LocalDateTime diaYHora) throws Exception{
-		validarTurno(chofer.getTurno(), diaYHora, 12);   // Chequea que el ingreso no difiera en mas de 3 horas al turno otorgado
+		Orden ordenDeConsignee = ordenes.stream().filter(o -> o.esDeCliente(chofer.getTurno().getCliente())).findFirst().get();
 		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
-		//TODO cambiar a ordenes cargasSinRetirar.add(turno.getCarga());
+		validarTurnoImp(chofer.getTurno(), diaYHora, ordenDeConsignee);   // Chequea que el ingreso no difiera en mas horas al turno otorgado, sino asigna almacenamiento excedente
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
-		//TODO cambiar a ordenes cargasSinRetirar.add(chofer.getCarga());
+		ordenDeConsignee.setFechaRetirada(LocalDateTime.now());
+		
 	}
 	
+	private void validarTurnoImp(Turno turno, LocalDateTime diaYHora, Orden orden) {
+		// En caso de que la fecha del parametro sea mayor a la del turno, asigna el servicio.
+		if (turno.getDiaYHora().compareTo(diaYHora) < 0) {
+			orden.agregarServicio(new Almacenamiento(costoPorEstadia, orden));
+		}
+	}
+
 	public void registrarNaviera(Naviera n) {
 		navieras.add(n);
 	}
@@ -273,7 +281,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 	public void setCostoPorContainerPequenio(int costoPorContainerPequenio) {
 		this.costoPorContainerPequenio = costoPorContainerPequenio;
 	}
-
 
 	public void setCostoPorContainerGrande(int costoPorContainerGrande) {
 		this.costoPorContainerGrande = costoPorContainerGrande;

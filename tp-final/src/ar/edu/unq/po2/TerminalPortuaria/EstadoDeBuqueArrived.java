@@ -6,7 +6,6 @@ public class EstadoDeBuqueArrived extends EstadoDeBuque {
 	public void comunicarConTerminal(Buque buque) throws Exception {
 		//Avisa que se arribó a la terminal.
 		buque.avisarQueSeArribo();
-
 	}
 
 	@Override
