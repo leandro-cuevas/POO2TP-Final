@@ -11,21 +11,15 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.Camion;
-import ar.edu.unq.po2.TerminalPortuaria.Cliente;
-import ar.edu.unq.po2.TerminalPortuaria.Conductor;
-import ar.edu.unq.po2.TerminalPortuaria.Container;
-import ar.edu.unq.po2.TerminalPortuaria.EmpresaTransportista;
-import ar.edu.unq.po2.TerminalPortuaria.Naviera;
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Turno;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import ar.edu.unq.po2.TerminalPortuaria.*;
+
 
 class TerminalGestionadaTest {
 	//Tipamos con terminalGestionada para poder probar nuestros propios metodos
 	TerminalGestionada terminal;
 	
-	// DOC 
+	// DOC
+	
 	Viaje viaje1;
 	Viaje viaje2;
 	Naviera n1;
@@ -35,15 +29,25 @@ class TerminalGestionadaTest {
 	List<Viaje> viajes2= new ArrayList<Viaje>();
 	
 	// DOC de exportar
+	
 	Cliente cliente;
 	Camion coche;
 	Conductor chofer;
 	Container carga;
 	TerminalPortuaria destino; 
 	EmpresaTransportista empresaT;
+	Buque buque;
 	
 	// DOC de ingresarCarga
+	
 	Turno turno;
+	
+	//DOC de Servicios
+	
+	Lavado lavado;
+	Electricidad electro;
+	Pesado pesado;
+	Almacenamiento almacenamiento;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -63,12 +67,21 @@ class TerminalGestionadaTest {
 	carga    = mock (Container.class);
 	destino  = mock(TerminalPortuaria.class);
 	empresaT = mock(EmpresaTransportista.class);
+	buque    = mock(Buque.class);
 	
 	turno    = mock(Turno.class);
+	
+	lavado = mock(Lavado.class);
+	pesado = mock(Pesado.class);
+	electro = mock(Electricidad.class);
+	almacenamiento = mock(Almacenamiento.class);
+	
 	}
+	
 	/////////////////////////////////////////
 	// TESTEO PARA FILTRADO DE QUERY
 	/////////////////////////////////////////
+	
 	@Test
 	void testeoDeQueryMockeada() {
 		// Registramos las navieras y ponemos el DOC para que responda como queremos
@@ -86,6 +99,7 @@ class TerminalGestionadaTest {
 	/////////////////////////////////////////
 	// TESTEO PARA METODO EXPORTAR
 	/////////////////////////////////////////
+	
 	@Test 
 	void testNoSePuedeExportarViajeINVALIDO() {
 		when(viaje1.contienePuertos(terminal, destino)).thenReturn(false);
@@ -118,6 +132,9 @@ class TerminalGestionadaTest {
 		when(empresaT.tieneCamion(coche)).thenReturn(true);
 		when(empresaT.tieneChofer(chofer)).thenReturn(true);
 		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
+		//Testea que se setee el la terminalDestino pasada por parámetro en la carga
+		verify(carga, times(1)).setDestino(destino);		
+		//Testea que se haya creado el turno
 		assertEquals(1, terminal.getTurnos().size());
 		assertTrue(terminal.getTurnos().get(0).esCamion(coche));
 		assertEquals(terminal.getTurnos().get(0).getDiaYHora(), LocalDateTime.of(2023,12,12,22,00));
@@ -126,6 +143,7 @@ class TerminalGestionadaTest {
 	/////////////////////////////////////////
 	// TESTEO PARA INGRESAR CARGA ///////////
 	/////////////////////////////////////////
+	
 	@Test
 	void ingresarCargaElTurnoDifiereEn4HorasMAS() {
 		// Seteamos el DOC para el chofer, con un camion y un turno asignado (supuestamente ya asignado en Exportar)

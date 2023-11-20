@@ -133,12 +133,12 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.realizarServicioDePesado(ordenDeCarga);
 	}
 	
-	public void exportarCargas(Buque buque) {
+	private void exportarCargas(Buque buque) {
 		List<Orden> ordenesParaExportar = ordenes.stream().filter(o->o.tieneMismoViaje(buque.getViaje()) && o.isCargaDepositada()).toList();
 		ordenesParaExportar.stream().forEach(o-> manejarExportaciones(buque, o));
 	}
 	
-	public void manejarExportaciones(Buque buque, Orden orden) {
+	private void manejarExportaciones(Buque buque, Orden orden) {
 		Container carga = orden.getContainer();
 		carga.setDestino(orden.getDestino());
 		buque.cargarContainer(carga);
@@ -148,18 +148,18 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	/// IMPORTACIONES /////////////////////
 	
-	public void importarCargas(Buque buque) {
+	private void importarCargas(Buque buque) {
 		this.ordenesParaViaje(buque).stream().forEach(o->manejarImportaciones(buque, o));
 	}
 	
-	public void manejarImportaciones(Buque buque, Orden orden) {
+	private void manejarImportaciones(Buque buque, Orden orden) {
 		Cliente consignee = orden.getCliente();
 		buque.descargarContainer(orden.getContainer());
 		orden.setCargaDepositada();
 		this.avisarConsignee(consignee, orden.getContainer());
 	}
 	
-	public void avisarConsignee(Cliente consignee, Container carga) {
+	private void avisarConsignee(Cliente consignee, Container carga) {
 		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
 		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
 		turnos.add(new Turno(consignee, diaYHora, carga));
