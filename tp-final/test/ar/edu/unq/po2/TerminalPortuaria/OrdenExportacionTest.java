@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 import ar.edu.unq.poo2.TerminalGestionada.Electricidad;
 import ar.edu.unq.poo2.TerminalGestionada.Lavado;
 import ar.edu.unq.poo2.TerminalGestionada.Pesado;
@@ -17,6 +18,7 @@ class OrdenExportacionTest {
 	
 	Viaje viaje1;
 	Viaje viaje2;
+	Circuito circuito;
 	Container container1; 
 	Container container2;
 	Conductor chofer; 
@@ -43,6 +45,7 @@ class OrdenExportacionTest {
 			
 		viaje1 = mock(Viaje.class);
 		viaje2 = mock(Viaje.class);
+		circuito = mock(Circuito.class);
 		container1 = mock(Container.class);
 		container2 = mock(Container.class);
 		chofer = mock(Conductor.class);
@@ -87,6 +90,7 @@ class OrdenExportacionTest {
 	@Test
 	void costosDeServicioYViaje() throws Exception {
 		//Testea el costo de los servicios mockeados.
+		
 		when(viaje1.fechaDeArriboAlPuerto(terminalOrigen)).thenReturn(f1);
 		orden.setFechaRetirada(f2);
 		when(lavado.getCostoDeServicio(96)).thenReturn(200d);
