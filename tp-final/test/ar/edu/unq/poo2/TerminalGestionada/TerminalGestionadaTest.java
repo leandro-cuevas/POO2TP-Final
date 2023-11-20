@@ -244,6 +244,7 @@ class TerminalGestionadaTest {
 	
 	@Test 
 	void testImportarYAvisosAClienteArribo() throws Exception {
+		//Seteamos DOC para exportar
 		when(viaje1.contienePuertos(terminal, destino)).thenReturn(true);
 		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(LocalDateTime.of(2023,12,12,17,00));
 		terminal.registrarEmpresaTransportista(empresaT);
@@ -251,7 +252,7 @@ class TerminalGestionadaTest {
 		when(empresaT.tieneChofer(chofer)).thenReturn(true);
 		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
 		Turno t2 = terminal.getTurnos().get(0);
-		//Seteamos las respuestas que queremos para el chofer. 
+		//Seteamos DOC para importar carga
 		when(chofer.getCamion()).thenReturn(coche);
 		when(chofer.getTurno()).thenReturn(t2);
 		when(chofer.getCarga()).thenReturn(carga);
@@ -263,4 +264,28 @@ class TerminalGestionadaTest {
 		verify(buque, times(1)).descargarContainer(carga);
 		verify(cliente, times(1)).listoPararRetirar(terminal, carga);
 	}
+	
+	@Test 
+	void test() throws Exception {
+		//Seteamos DOC para exportar
+		when(viaje1.contienePuertos(terminal, destino)).thenReturn(true);
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(LocalDateTime.of(2023,12,12,17,00));
+		terminal.registrarEmpresaTransportista(empresaT);
+		when(empresaT.tieneCamion(coche)).thenReturn(true);
+		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
+		Turno t2 = terminal.getTurnos().get(0);
+		//Seteamos DOC para importar carga
+		when(chofer.getCamion()).thenReturn(coche);
+		when(chofer.getTurno()).thenReturn(t2);
+		when(chofer.getCarga()).thenReturn(carga);
+		terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 5, 00));
+		terminal.importar(viaje1, carga, cliente, terminal);
+		terminal.arriboElBuque(buque);
+		terminal.elBuqueHaPartido(buque);
+		verify(cliente, times(1)).avisarExportacion();
+	}
+
+	//retirar todo
+	
 }
