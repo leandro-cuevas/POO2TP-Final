@@ -28,9 +28,6 @@ public class Turno {
 		this.diaYHora = diaYHora;
 	}
 
-	public Camion getCamion() {
-		return camion;
-	}
 	public LocalDateTime getDiaYHora() {
 		return diaYHora;
 	}

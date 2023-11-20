@@ -9,11 +9,9 @@ import ar.edu.unq.po2.TerminalPortuaria.Servicio;
 public class Almacenamiento implements Servicio{
 
 	double costoEstadia;
-	Orden orden;
 	
-	public Almacenamiento(double costoPorEstadia, Orden orden) {
+	public Almacenamiento(double costoPorEstadia) {
 		this.costoEstadia = costoPorEstadia;
-		this.orden = orden;
 	}
 
 	public double getCostoDeServicio(int cantHoras) {

@@ -145,7 +145,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		ordenesExportadas.add((OrdenExportacion) orden);
 		ordenes.remove(orden);		
 	}
-	
 
 	/// IMPORTACIONES /////////////////////
 	
@@ -195,7 +194,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	private void validarTurnoImp(Turno turno, LocalDateTime diaYHora, Orden orden) {
 		// En caso de que la fecha del parametro sea mayor a la del turno, asigna el servicio.
 		if (turno.getDiaYHora().compareTo(diaYHora) < 0) {
-			orden.agregarServicio(new Almacenamiento(costoPorEstadia, orden));
+			orden.agregarServicio(new Almacenamiento(costoPorEstadia));
 		}
 	}
 
@@ -269,9 +268,9 @@ public class TerminalGestionada extends TerminalPortuaria {
 
 	}
 	
-	public void realizarServicioDeAlmacenamientoExcedente(Container c) {
+	private void realizarServicioDeAlmacenamientoExcedente(Container c) {
 		//Creo el servicio de almacenamiento excedente
-		Almacenamiento almacenamiento = new Almacenamiento(costoPorEstadia, ordenDelContainer(c));
+		Almacenamiento almacenamiento = new Almacenamiento(costoPorEstadia);
 		//Busco la orden del container.
 		//Le agrego este servicio
 		ordenDelContainer(c).agregarServicio(almacenamiento);
