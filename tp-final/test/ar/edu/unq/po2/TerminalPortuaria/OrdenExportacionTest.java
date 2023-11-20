@@ -56,6 +56,9 @@ class OrdenExportacionTest {
 		shipper2 = mock(Cliente.class);
 		f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
 		f2 = LocalDateTime.of(2023, 12, 16, 12, 0);
+		lavado  = mock(Lavado.class);
+		pesado  = mock(Pesado.class);
+		electro = mock(Electricidad.class);
 		
 		//SUT
 		
@@ -77,9 +80,11 @@ class OrdenExportacionTest {
 		assertEquals(terminalDestino, orden.getDestino());
 		//Testea el getter de fecha de retirada, debe devolver null antes de setearla.
 		assertEquals(null, orden.fechaRetirada());
+		// Se setea la fecha
 		orden.setFechaRetirada(f1);
 		assertEquals(f1, orden.fechaRetirada());
 		//Testea 
+		
 		assertEquals(chofer, orden.getChofer());
 		//Testea el getter de cargaDepositada que se instancie en false, al llamar al setter se setea en true.
 		assertFalse(orden.isCargaDepositada());
@@ -90,7 +95,7 @@ class OrdenExportacionTest {
 	@Test
 	void costosDeServicioYViaje() throws Exception {
 		//Testea el costo de los servicios mockeados.
-		
+		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
 		when(viaje1.fechaDeArriboAlPuerto(terminalOrigen)).thenReturn(f1);
 		orden.setFechaRetirada(f2);
 		when(lavado.getCostoDeServicio(96)).thenReturn(200d);
@@ -100,6 +105,7 @@ class OrdenExportacionTest {
 		orden.agregarServicio(electro);
 		orden.agregarServicio(lavado);
 		assertEquals(900, orden.getCostosDeServicios());
-		verify(viaje1, never()).getCircuitoRecorrido().getPrecioEntrePuertos(terminalOrigen, terminalDestino);
+		
+		verify(circuito, never()).getPrecioEntrePuertos(terminalOrigen, terminalDestino);
 	}
 }

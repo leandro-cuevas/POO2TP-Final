@@ -54,6 +54,9 @@ class OrdenImportacionTest {
 		consignee2 = mock(Cliente.class);
 		f1 = LocalDateTime.of(2023, 12, 20, 12, 0);
 		f2 = LocalDateTime.of(2023, 12, 16, 12, 0);
+		lavado = mock(Lavado.class);
+		pesado = mock(Pesado.class);
+		electro = mock(Electricidad.class);
 		
 		//SUT
 		

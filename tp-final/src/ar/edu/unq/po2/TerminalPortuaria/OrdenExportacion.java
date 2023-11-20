@@ -4,10 +4,6 @@ import java.time.LocalDateTime;
 
 public class OrdenExportacion extends Orden {
 		
-	protected Conductor chofer;
-	
-	protected Camion camion;
-
 	public OrdenExportacion(Viaje viaje, Container container, Conductor chofer, Camion camion,
 			TerminalPortuaria terminalDestino, TerminalPortuaria terminalOrigen, Cliente shipper) {
 		super(viaje, container, terminalDestino, shipper, terminalOrigen);
