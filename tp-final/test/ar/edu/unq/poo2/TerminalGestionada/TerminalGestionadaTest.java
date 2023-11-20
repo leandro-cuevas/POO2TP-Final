@@ -266,7 +266,7 @@ class TerminalGestionadaTest {
 	}
 	
 	@Test 
-	void test() throws Exception {
+	void testElBuqueHaPartido() throws Exception {
 		//Seteamos DOC para exportar
 		when(viaje1.contienePuertos(terminal, destino)).thenReturn(true);
 		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(LocalDateTime.of(2023,12,12,17,00));
@@ -280,6 +280,7 @@ class TerminalGestionadaTest {
 		when(chofer.getTurno()).thenReturn(t2);
 		when(chofer.getCarga()).thenReturn(carga);
 		terminal.ingresarCarga(chofer, LocalDateTime.of(2023, 12, 12, 5, 00));
+		when(buque.getViaje()).thenReturn(viaje1);
 		terminal.importar(viaje1, carga, cliente, terminal);
 		terminal.arriboElBuque(buque);
 		terminal.elBuqueHaPartido(buque);

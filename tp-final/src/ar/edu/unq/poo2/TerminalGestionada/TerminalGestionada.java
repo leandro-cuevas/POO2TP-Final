@@ -46,7 +46,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* La terminal enviará un mail a todos los shippers cuyas órdenes de
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
-		ordenesExportadas.stream().forEach(o->o.getCliente().avisarExportacion());
+		ordenesExportadas.stream().map(o->o.getCliente()).forEach(cliente -> cliente.avisarExportacion());
 		ordenesExportadas.clear();
 	}
 
@@ -147,7 +147,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		buque.cargarContainer(carga);
 		ordenesExportadas.add((OrdenExportacion) orden);
 		ordenes.remove(orden);
-
 	}
 
 	/// IMPORTACIONES /////////////////////
