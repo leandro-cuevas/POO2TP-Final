@@ -141,8 +141,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		ordenesExportadas.add((OrdenExportacion) orden);
 		ordenes.remove(orden);		
 	}
-	
-
 
 	/// IMPORTACIONES /////////////////////
 	
