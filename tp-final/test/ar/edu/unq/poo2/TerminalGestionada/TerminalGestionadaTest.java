@@ -289,4 +289,24 @@ class TerminalGestionadaTest {
 
 	//retirar todo
 	
+	@Test 
+	void testRetirarCargasYLavado() throws Exception {
+		terminal.registrarEmpresaTransportista(empresaT);
+		when(empresaT.tieneCamion(coche)).thenReturn(true);
+		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+		terminal.importar(viaje1, carga, cliente, terminal);
+		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
+		when(buque.getViaje()).thenReturn(viaje1);
+		terminal.arriboElBuque(buque);
+		terminal.setCostoDePesado(20);
+		when(carga.getMetrosCubicos()).thenReturn(80);
+		terminal.realizarLavadoDeContainer(carga);
+		assertEquals(80, terminal.getOrdenes().get(0).getCostosDeServicios());
+		assertEquals(1, terminal.getTurnos().size());
+		terminal.retirarImportacion(chofer, f1);
+		assertEquals(0, terminal.getTurnos().size());		
+	}
+	
+	
+	
 }
