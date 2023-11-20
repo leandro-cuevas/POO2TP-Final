@@ -119,7 +119,7 @@ class TerminalGestionadaTest {
 		when(empresaT.tieneChofer(chofer)).thenReturn(true);
 		terminal.exportar(viaje1, cliente, coche, chofer, carga, destino);
 		assertEquals(1, terminal.getTurnos().size());
-		assertEquals(coche, terminal.getTurnos().get(0).getCamion());
+		assertTrue(terminal.getTurnos().get(0).esCamion(coche));
 		assertEquals(terminal.getTurnos().get(0).getDiaYHora(), LocalDateTime.of(2023,12,12,22,00));
 	}
 	

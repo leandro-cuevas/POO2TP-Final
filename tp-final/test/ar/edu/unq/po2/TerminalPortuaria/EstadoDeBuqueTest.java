@@ -55,6 +55,12 @@ class EstadoDeBuqueTest {
 	}
 
 	@Test
+	void testOutboundComunicarTerminal() throws Exception {
+		outbound.comunicarConTerminal(buque);
+		verify(buque, times(1)).avisarQueSePartio();
+	}
+	
+	@Test
 	void testInboundMayorA0() throws Exception {
 		//Cuando pida la distancia, no es igual a 0.
 		when(buque.getDistanciaDeLaTerminal()).thenReturn(2d);
@@ -77,12 +83,24 @@ class EstadoDeBuqueTest {
 	}
 	
 	@Test
+	void testInboundComunicarTerminal() throws Exception {
+		inbound.comunicarConTerminal(buque);
+		verify(buque, times(1)).avisarArriboInminente();
+	}
+	
+	@Test
 	void testArrived() throws Exception {
 		//Activo gps.
 		arrived.activarGPS(buque);
 		//En este caso no se pide distancia con la terminal.
 		verify(buque, never()).getDistanciaDeLaTerminal();
 		verify(buque, never()).comunicarConLaTerminal();
+	}
+	
+	@Test
+	void testArrivedComunicarTerminal() throws Exception {
+		arrived.comunicarConTerminal(buque);
+		verify(buque, times(1)).avisarQueSeArribo();
 	}
 	
 	@Test
@@ -106,6 +124,16 @@ class EstadoDeBuqueTest {
 		verify(buque, times(1)).getDistanciaDeLaTerminal();
 		verify(buque, times(1)).setEstado(outbound);
 		verify(buque, times(1)).comunicarConLaTerminal();
-
+	}
+	
+	@Test
+	void testDepartNoSeEjecuta() throws Exception {
+		//Cuando pida la distancia, ya está suficientemente lejos
+		when(buque.getDistanciaDeLaTerminal()).thenReturn(0d);
+		//Activo gps
+		depart.activarGPS(buque);
+		verify(buque, times(1)).getDistanciaDeLaTerminal();
+		verify(buque, never()).setEstado(outbound);
+		verify(buque, never()).comunicarConLaTerminal();
 	}
 }

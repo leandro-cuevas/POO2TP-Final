@@ -1,5 +1,6 @@
 package ar.edu.unq.po2.TerminalPortuaria;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -10,11 +11,13 @@ import org.junit.jupiter.api.Test;
 
 class TurnoTest {
 	Turno t1;
+	Turno t2;
 	Conductor c1;
 	Conductor c2;
 	Camion cam1;
 	Camion cam2;
 	Cliente cliente;
+	Cliente clienteFalso;
 	Container carga;
 	LocalDateTime fecha;
 	
@@ -28,8 +31,12 @@ class TurnoTest {
 	carga = mock(Container.class);
 	fecha = LocalDateTime.of(2020, 12, 20, 10, 00);
 	cliente = mock(Cliente.class);
+	clienteFalso = mock(Cliente.class);
 	// SUT
+	// Caso para turno de exportacion, donde ya contamos con el camion y el chofer
 	t1 = new Turno(c1, cam1, cliente, fecha, carga);
+	// Caso para turno de importacion, donde el cliente aun no nos informo quien es el camion y el chofer a designar
+	t2 = new Turno(cliente, fecha, carga);
 	}
 
 	@Test
@@ -58,8 +65,20 @@ class TurnoTest {
 	}
 	
 	@Test
-	void getterCamion() {
-		assertEquals(t1.getCamion(), cam1);
+	void getterCliente() {
+		assertEquals(cliente, t1.getCliente());
 	}
-
+	
+	@Test
+	void evaluadorCliente() {
+		assertTrue(t2.esDeCliente(cliente));
+		assertFalse(t2.esDeCliente(clienteFalso));
+	}
+	@Test 
+	void setterDeCamionYChofer() {
+		t2.setCamion(cam2);
+		t2.setChofer(c2);
+		assertTrue(t2.esCamion(cam2));
+		assertTrue(t2.esChofer(c2));
+	}
 }
