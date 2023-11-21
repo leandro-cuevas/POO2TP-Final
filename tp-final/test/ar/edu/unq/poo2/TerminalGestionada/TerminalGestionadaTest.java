@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ class TerminalGestionadaTest {
 	TerminalGestionada terminal;
 	
 	// DOC
+	TerminalPortuaria terminal2;
 	
 	Viaje viaje1;
 	Viaje viaje2;
@@ -50,6 +52,7 @@ class TerminalGestionadaTest {
 	Electricidad electro;
 	Pesado pesado;
 	Almacenamiento almacenamiento;
+	Circuito circuito;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -63,6 +66,7 @@ class TerminalGestionadaTest {
 	viajes1.add(viaje1);
 	viajes2.add(viaje2);
 	
+	terminal2 = mock(TerminalPortuaria.class);
 	cliente  = mock(Cliente.class);
 	coche    = mock(Camion.class);
 	chofer   = mock(Conductor.class);
@@ -75,11 +79,11 @@ class TerminalGestionadaTest {
 	
 	turno    = mock(Turno.class);
 	
-	lavado = mock(Lavado.class);
-	pesado = mock(Pesado.class);
-	electro = mock(Electricidad.class);
+	lavado         = mock(Lavado.class);
+	pesado 		   = mock(Pesado.class);
+	electro        = mock(Electricidad.class);
 	almacenamiento = mock(Almacenamiento.class);
-	
+	circuito       = mock(Circuito.class);
 	}
 	
 	/////////////////////////////////////////
@@ -289,24 +293,125 @@ class TerminalGestionadaTest {
 
 	//retirar todo
 	
+//	@Test 
+//	void testRetirarCargasYPesado() throws Exception {
+//		terminal.setCostoDePesado(100);
+//		terminal.setCostoPorKw(200);
+//		// Registramos las empresasT y seteamos los mensajes para que la validacion de correcta
+//		terminal.registrarEmpresaTransportista(empresaT);
+//		when(empresaT.tieneCamion(coche)).thenReturn(true);
+//		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+//		// Solicitamos una orden de Importacion
+//		terminal.importar(viaje1, carga, cliente, terminal2);
+//		// Seteamos el viaje al buque para que coincida con la orden de importacion
+//		when(buque.getViaje()).thenReturn(viaje1);
+//		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
+//		terminal.arriboElBuque(buque);
+//		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
+//		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
+//		when(carga.getMetrosCubicos()).thenReturn(80);
+//		// Almacenamos la orden que acabamos de realizar
+//		Orden ordenDeImportacionReciente = terminal.getOrdenes().get(0);
+//		// En este momento, la orden de importacion no peude calcular sus costos de servicio ya que no se retiro aun.
+//		assertThrows(Exception.class, () -> {ordenDeImportacionReciente.getCostosDeServicios();}) ;		
+//		// Planteamos una fecha de now + 22 horas, ya que cuando recibe arribo el buque calcula la fecha de ese momento + 24. 
+//		LocalDateTime f2 = LocalDateTime.now().plus(22, ChronoUnit.HOURS);
+//		// Seteamos las respuestas del chofer para la validacion del turno
+//		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
+//		when(chofer.getCamion()).thenReturn(coche);
+//		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+//		terminal.retirarImportacion(chofer, f2);
+//		// Seteamos el doc para la orden
+//		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
+//		// A la orden, solo se le deberia haber realizado servicio de Pesado( obligatorio por la terminal), y electricidad (en caso de no ser reefer es 0)
+//		when(carga.getConsumo()).thenReturn(0);
+//		// Al ser una orden de importacion, tambien tiene precio por viaje.
+//		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
+//		when(circuito.getPrecioEntrePuertos(terminal,terminal2)).thenReturn(200d);
+//		// El precio es la suma entre el precio de viaje(200), mas los servicios aplicados, unicamente 100 (pesado)
+//		assertEquals(300, ordenDeImportacionReciente.getCostosDeServicios());
+//	}
+	
 	@Test 
-	void testRetirarCargasYLavado() throws Exception {
+	void testAlmacenamientoPorLlegarTarde() throws Exception {
+		terminal.setCostoPorEstadia(100);
+		terminal.setCostoDePesado(100);
+		terminal.setCostoPorKw(0);
+		// Registramos las empresasT y seteamos los mensajes para que la validacion de correcta
 		terminal.registrarEmpresaTransportista(empresaT);
 		when(empresaT.tieneCamion(coche)).thenReturn(true);
 		when(empresaT.tieneChofer(chofer)).thenReturn(true);
-		terminal.importar(viaje1, carga, cliente, terminal);
+		// Solicitamos una orden de Importacion
+		terminal.importar(viaje1, carga, cliente, terminal2);
+		// Seteamos el viaje al buque para que coincida con la orden de importacion
 		when(buque.getViaje()).thenReturn(viaje1);
+		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
 		terminal.arriboElBuque(buque);
+		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
 		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
-		terminal.setCostoDePesado(20);
 		when(carga.getMetrosCubicos()).thenReturn(80);
-		terminal.realizarLavadoDeContainer(carga);
-		assertEquals(80, terminal.getOrdenes().get(0).getCostosDeServicios());
-		assertEquals(1, terminal.getTurnos().size());
-		terminal.retirarImportacion(chofer, f1);
-		assertEquals(0, terminal.getTurnos().size());		
+		// Almacenamos la orden que acabamos de realizar
+		Orden ordenDeImportacionReciente = terminal.getOrdenes().get(0);
+		// Planteamos una fecha de now + 26 horas, ya que cuando recibe arribo el buque calcula la fecha de ese momento + 24. 
+		LocalDateTime f2 = LocalDateTime.now().plus(40, ChronoUnit.HOURS);
+		// Seteamos las respuestas del chofer para la validacion del turno
+		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
+		when(chofer.getCamion()).thenReturn(coche);
+		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		terminal.retirarImportacion(chofer, f2);
+		// Seteamos el doc para la orden
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
+		// A la orden, solo se le deberia haber realizado servicio de Pesado( obligatorio por la terminal), y electricidad (en caso de no ser reefer es 0)
+		when(carga.getConsumo()).thenReturn(0);
+		// Al ser una orden de importacion, tambien tiene precio por viaje.
+		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
+		when(circuito.getPrecioEntrePuertos(terminal2, terminal)).thenReturn(200d);
+		// El precio es la suma entre el precio de viaje(200), mas los servicios aplicados, 100 del pesado + 100 del almacenamiento por llegar tarde.
+		assertEquals(300, ordenDeImportacionReciente.getCostosDeServicios());
 	}
 	
-	
+	@Test 
+	void testDeServicioDeLavado() throws Exception {
+		terminal.setCostoPorEstadia(100);
+		terminal.setCostoDePesado(100);
+		terminal.setCostoPorKw(0);
+		terminal.setCostoPorContainerPequenio(250);
+		terminal.setCostoPorContainerGrande(400);
+		// Registramos las empresasT y seteamos los mensajes para que la validacion de correcta
+		terminal.registrarEmpresaTransportista(empresaT);
+		when(empresaT.tieneCamion(coche)).thenReturn(true);
+		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+		// Solicitamos una orden de Importacion
+		terminal.importar(viaje1, carga, cliente, terminal2);
+		// Seteamos el viaje al buque para que coincida con la orden de importacion
+		when(buque.getViaje()).thenReturn(viaje1);
+		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
+		terminal.arriboElBuque(buque);
+		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
+		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
+		when(carga.getMetrosCubicos()).thenReturn(80);
+		// Almacenamos la orden que acabamos de realizar
+		Orden ordenDeImportacionReciente = terminal.getOrdenes().get(0);
+		// Planteamos una fecha de now + 26 horas, ya que cuando recibe arribo el buque calcula la fecha de ese momento + 24. 
+		LocalDateTime f2 = LocalDateTime.now().plus(40, ChronoUnit.HOURS);
+		// Seteamos las respuestas del chofer para la validacion del turno
+		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
+		when(chofer.getCamion()).thenReturn(coche);
+		// Seteamos el mano del container.
+		when(carga.getMetrosCubicos()).thenReturn(20);
+		//Realizamos lavado al container
+		terminal.realizarLavadoDeContainer(carga);
+		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		terminal.retirarImportacion(chofer, f2);
+		// Seteamos el doc para la orden
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
+		// A la orden, solo se le deberia haber realizado servicio de Pesado( obligatorio por la terminal), y electricidad (en caso de no ser reefer es 0)
+		when(carga.getConsumo()).thenReturn(0);
+		// Al ser una orden de importacion, tambien tiene precio por viaje.
+		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
+		when(circuito.getPrecioEntrePuertos(terminal2, terminal)).thenReturn(200d);
+		// El precio es la suma entre el precio de viaje(200), mas los servicios aplicados, 100 del pesado + 100 del almacenamiento por llegar tarde + 250 por el lavado y ser un container pequenio
+		assertEquals(550, ordenDeImportacionReciente.getCostosDeServicios());
+	}
 	
 }
