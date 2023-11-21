@@ -295,9 +295,9 @@ class TerminalGestionadaTest {
 		when(empresaT.tieneCamion(coche)).thenReturn(true);
 		when(empresaT.tieneChofer(chofer)).thenReturn(true);
 		terminal.importar(viaje1, carga, cliente, terminal);
-		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
 		when(buque.getViaje()).thenReturn(viaje1);
 		terminal.arriboElBuque(buque);
+		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
 		terminal.setCostoDePesado(20);
 		when(carga.getMetrosCubicos()).thenReturn(80);
 		terminal.realizarLavadoDeContainer(carga);
