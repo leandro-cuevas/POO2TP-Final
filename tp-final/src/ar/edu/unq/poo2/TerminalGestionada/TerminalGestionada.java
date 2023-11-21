@@ -46,16 +46,16 @@ public class TerminalGestionada extends TerminalPortuaria {
 		/* La terminal enviará un mail a todos los shippers cuyas órdenes de
 		exportación estén asociadas a ese viaje, avisando que su carga ya ha salido
 		de la terminal */
-		ordenesExportadas.stream().forEach(o->o.getCliente().avisarExportacion());
+		ordenesExportadas.stream().map(o->o.getCliente()).forEach(cliente -> cliente.avisarExportacion());
 		ordenesExportadas.clear();
 	}
 
 	public void arriboElBuque(Buque buque) throws Exception {
 		/* Ver si hace falta este método. Porque si no se avisa que el buque ya llegó,
 		no está claro cómo la terminal lo sabría */
-		buque.recibirOrdenInicioDeTrabajo();
-		this.importarCargas(buque);     
+		buque.recibirOrdenInicioDeTrabajo();     
 		this.exportarCargas(buque);
+		this.importarCargas(buque);
 		buque.depart();
 		
 	}
@@ -130,44 +130,51 @@ public class TerminalGestionada extends TerminalPortuaria {
 		turnos.remove(indexTurno);
 		Orden ordenDeCarga = ordenes.stream().filter(ord -> ord.esContainer(chofer.getCarga())).findFirst().get();
 		ordenDeCarga.setCargaDepositada();
-		this.realizarServicioDePesado(ordenDeCarga);
+		// Le aplica servicio electrico a todos los containters que lleguen.
+		this.realizarServicioElectrico(ordenDeCarga);
 	}
 	
-	public void exportarCargas(Buque buque) {
+	private void exportarCargas(Buque buque) {
 		List<Orden> ordenesParaExportar = ordenes.stream().filter(o->o.tieneMismoViaje(buque.getViaje()) && o.isCargaDepositada()).toList();
 		ordenesParaExportar.stream().forEach(o-> manejarExportaciones(buque, o));
 	}
 	
-	public void manejarExportaciones(Buque buque, Orden orden) {
+	private void manejarExportaciones(Buque buque, Orden orden) {
 		Container carga = orden.getContainer();
 		carga.setDestino(orden.getDestino());
+		// Aplica el servicio de pesado antes de que suba al buque
+		this.realizarServicioDePesado(orden);
 		buque.cargarContainer(carga);
 		ordenesExportadas.add((OrdenExportacion) orden);
-		ordenes.remove(orden);		
+		ordenes.remove(orden);
 	}
 
 	/// IMPORTACIONES /////////////////////
 	
-	public void importarCargas(Buque buque) {
-		this.ordenesParaViaje(buque).stream().forEach(o->manejarImportaciones(buque, o));
-	}
-	
-	public void manejarImportaciones(Buque buque, Orden orden) {
-		Cliente consignee = orden.getCliente();
-		buque.descargarContainer(orden.getContainer());
-		orden.setCargaDepositada();
-		this.avisarConsignee(consignee, orden.getContainer());
-	}
-	
-	public void avisarConsignee(Cliente consignee, Container carga) {
-		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
-		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
-		turnos.add(new Turno(consignee, diaYHora, carga));
-	}
-	
 	public void importar(Viaje viaje, Container carga, Cliente consignee, TerminalPortuaria terminalOrigen) {
 		//Genera una orden de importación
 		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee, terminalOrigen));
+	}
+
+	private void importarCargas(Buque buque) {
+		this.ordenesParaViaje(buque).stream().forEach(o->manejarImportaciones(buque, o));
+	}
+	
+	private void manejarImportaciones(Buque buque, Orden orden) {
+		Cliente consignee = orden.getCliente();
+		buque.descargarContainer(orden.getContainer());
+		orden.setCargaDepositada();
+		this.realizarServicioElectrico(orden);
+		this.realizarServicioDePesado(orden);
+		this.avisarConsignee(consignee, orden.getContainer());
+	}
+	
+	private void avisarConsignee(Cliente consignee, Container carga) {
+		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
+		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
+		Turno turno = new Turno(consignee, diaYHora, carga);
+		turnos.add(turno);
+		consignee.listoPararRetirar(this, carga);
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////
@@ -187,14 +194,14 @@ public class TerminalGestionada extends TerminalPortuaria {
 		validarTurnoImp(chofer.getTurno(), diaYHora, ordenDeConsignee);   // Chequea que el ingreso no difiera en mas horas al turno otorgado, sino asigna almacenamiento excedente
 		int indexTurno = turnos.indexOf(chofer.getTurno());
 		turnos.remove(indexTurno);
-		ordenDeConsignee.setFechaRetirada(LocalDateTime.now());
-		
+		ordenDeConsignee.setFechaRetirada(diaYHora);	
+		ordenes.remove(ordenDeConsignee);
 	}
 	
 	private void validarTurnoImp(Turno turno, LocalDateTime diaYHora, Orden orden) {
 		// En caso de que la fecha del parametro sea mayor a la del turno, asigna el servicio.
 		if (turno.getDiaYHora().compareTo(diaYHora) < 0) {
-			orden.agregarServicio(new Almacenamiento(costoPorEstadia));
+			this.realizarServicioDeAlmacenamientoExcedente(orden);
 		}
 	}
 
@@ -218,19 +225,13 @@ public class TerminalGestionada extends TerminalPortuaria {
 		return turnos;
 	}
 	
+	public List<Orden> getOrdenes(){
+		return ordenes;
+	}
+
 	private Orden ordenDelContainer(Container c) {
 		return ordenes.stream().filter(o-> o.getContainer() == c).findFirst().get();
 	}
-
-	
-	public void retirarCarga(Conductor ch, Container c) {
-		//Aca va todo lo demás
-		Orden orden = ordenDelContainer(c);
-		orden.setFechaRetirada(LocalDateTime.now());
-		ordenes.remove(orden);
-		
-	}
-
 	
 	public void realizarLavadoDeContainer(Container c) {
 		//Creo el servicio lavado con los costos.
@@ -251,29 +252,27 @@ public class TerminalGestionada extends TerminalPortuaria {
 	}
 	
 
-	public void realizarServicioElectrico(Container c) {
+	private void realizarServicioElectrico(Orden orden) {
 		//Creo el servicio eléctrico
-		Electricidad electricidad = new Electricidad(this.costoPorKw, ordenDelContainer(c));
+		Electricidad electricidad = new Electricidad(this.costoPorKw, orden);
 		//Busco la orden del container.
 		//Le agrego este servicio
-		ordenDelContainer(c).agregarServicio(electricidad);
+		orden.agregarServicio(electricidad);
 	}
 	
-	public void realizarServicioDePesado(Orden orden) {
+	private void realizarServicioDePesado(Orden orden) {
 		//Creo el servicio de pesado
 		Pesado pesado = new Pesado(costoDePesado);
 		//Busco la orden del container.
 		//Le agrego este servicio
-		ordenDelContainer(orden.getContainer()).agregarServicio(pesado);
-
+		orden.agregarServicio(pesado);
 	}
 	
-	private void realizarServicioDeAlmacenamientoExcedente(Container c) {
+	private void realizarServicioDeAlmacenamientoExcedente(Orden orden) {
 		//Creo el servicio de almacenamiento excedente
 		Almacenamiento almacenamiento = new Almacenamiento(costoPorEstadia);
-		//Busco la orden del container.
 		//Le agrego este servicio
-		ordenDelContainer(c).agregarServicio(almacenamiento);
+		orden.agregarServicio(almacenamiento);
 	}
 
 
@@ -285,12 +284,15 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.costoPorContainerGrande = costoPorContainerGrande;
 	}
 
-
 	public void setCostoPorKw(int costoPorKw) {
 		this.costoPorKw = costoPorKw;
 	}
 	
 	public void setCostoDePesado(int costoDePesado) {
 		this.costoDePesado =  costoDePesado;
+	}
+	
+	public void setCostoPorEstadia(int costoPorEstadia) {
+		this.costoPorEstadia = costoPorEstadia;
 	}
 }

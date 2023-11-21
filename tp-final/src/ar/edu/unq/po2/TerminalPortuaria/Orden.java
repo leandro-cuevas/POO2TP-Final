@@ -49,7 +49,7 @@ public abstract class Orden {
 	
 	abstract protected LocalDateTime fechaAEvaluar();
 	
-	abstract protected double precioViaje() throws Exception;
+	protected abstract double precioViaje() throws Exception;
 	
 	public double getCostosDeServicios() throws Exception {
 		int horas = (int) Duration.between(fechaRetirada, this.fechaAEvaluar()).toHours();
