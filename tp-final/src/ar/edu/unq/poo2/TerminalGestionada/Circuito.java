@@ -175,5 +175,9 @@ public class Circuito {
 		// Retorna el puerto de origen. El circuito debe tener al menos un tramo.
 		return listaDeTramos.get(0).getOrigen();
 	}
+	
+	public int getCantidadDeTerminalesQueRecorre() {
+		return this.listaDeTramos.size();
+	}
 
 }
