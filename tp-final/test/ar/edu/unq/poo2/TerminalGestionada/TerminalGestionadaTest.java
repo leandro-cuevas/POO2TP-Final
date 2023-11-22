@@ -324,6 +324,7 @@ class TerminalGestionadaTest {
 		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
 		when(chofer.getCamion()).thenReturn(coche);
 		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		when(coche.getCarga()).thenReturn(carga);
 		terminal.retirarImportacion(chofer, f2);
 		// Seteamos el doc para la orden
 		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
@@ -362,6 +363,7 @@ class TerminalGestionadaTest {
 		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
 		when(chofer.getCamion()).thenReturn(coche);
 		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		when(coche.getCarga()).thenReturn(carga);
 		terminal.retirarImportacion(chofer, f2);
 		// Seteamos el doc para la orden
 		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
@@ -406,6 +408,7 @@ class TerminalGestionadaTest {
 		//Realizamos lavado al container
 		terminal.realizarLavadoDeContainer(carga);
 		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		when(coche.getCarga()).thenReturn(carga);
 		terminal.retirarImportacion(chofer, f2);
 		// Seteamos el doc para la orden
 		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));

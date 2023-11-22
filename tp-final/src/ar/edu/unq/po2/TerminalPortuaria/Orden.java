@@ -11,11 +11,7 @@ public abstract class Orden {
 	
 	protected Viaje viaje;
 	
-	protected Container container;
-	
-	protected Conductor chofer;
-	
-	protected Camion camion;
+	protected Container container;	
 	
 	protected TerminalPortuaria terminalOrigen;
 	
@@ -25,20 +21,23 @@ public abstract class Orden {
 	
 	protected LocalDateTime fechaRetirada;
 	
-	protected Cliente cliente;
-	
 	protected boolean cargaDepositada;
 	
+	protected Turno turno;
+	
+	protected Cliente cliente;
+	
 	//Constructor de Orden, para que le hagan super las subclases ya que es abstracta
-	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, Cliente cliente, TerminalPortuaria terminalOrigen) {
+	public Orden(Viaje viaje, Container container, TerminalPortuaria terminalDestino, TerminalPortuaria terminalOrigen, Turno turno, Cliente cliente) {
 		this.viaje = viaje;
 		this.container = container;
 		this.terminalOrigen = terminalOrigen;
 		this.terminalDestino = terminalDestino;
 		this.servicios = new ArrayList<Servicio>();
 		this.fechaRetirada = null;
-		this.cliente = cliente;
 		this.cargaDepositada = false;
+		this.turno = turno;
+		this.cliente = cliente;
 	}
 	
 	public LocalDateTime fechaLlegada(){
@@ -78,11 +77,11 @@ public abstract class Orden {
 	}
 	
 	public Conductor getChofer() {
-		return chofer;
+		return turno.getConductor();
 	}
 	
 	public Camion getCamion() {
-		return camion;
+		return turno.getCamion();
 	}
 	
 	public boolean isCargaDepositada() {

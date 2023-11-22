@@ -30,6 +30,7 @@ class OrdenImportacionTest {
 	Lavado lavado;
 	Electricidad electro;
 	Pesado pesado;
+	Turno turno;
 	
 	//SUT 
 	
@@ -57,14 +58,16 @@ class OrdenImportacionTest {
 		lavado = mock(Lavado.class);
 		pesado = mock(Pesado.class);
 		electro = mock(Electricidad.class);
+		turno = mock(Turno.class);
 		
 		//SUT
 		
-		orden = new OrdenImportacion(viaje1, container1, terminalDestino, consignee1, terminalOrigen);
+		orden = new OrdenImportacion(viaje1, container1, terminalDestino, terminalOrigen, consignee1);
 	}
 
 	@Test
 	void gettersYSetters() {
+		orden.setTurno(turno);
 		//Testea los getters para atributos seteados en el constructor
 		assertEquals(consignee1, orden.getCliente());
 		assertEquals(container1, orden.getContainer());
@@ -76,10 +79,12 @@ class OrdenImportacionTest {
 		//Testea el getter de camion, debe devolver null antes de setearlo.
 		assertEquals(null, orden.getCamion());
 		orden.setCamion(camion);
+		when(turno.getCamion()).thenReturn(camion);
 		assertEquals(camion, orden.getCamion());
 		//Testea el getter de chofer, debe devolver null antes de setearlo.
 		assertEquals(null, orden.getChofer());
 		orden.setChofer(chofer);
+		when(turno.getConductor()).thenReturn(chofer);
 		assertEquals(chofer, orden.getChofer());
 		//Testea el getter de cargaDepositada que se instancie en false, al llamar al setter se setea en true.
 		assertFalse(orden.isCargaDepositada());
