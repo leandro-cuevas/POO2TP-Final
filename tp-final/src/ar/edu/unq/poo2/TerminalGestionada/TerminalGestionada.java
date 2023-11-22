@@ -5,7 +5,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import ar.edu.unq.po2.TerminalPortuaria.*;
 
@@ -50,6 +52,14 @@ public class TerminalGestionada extends TerminalPortuaria {
 				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
 				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception	
 				.toList();	
+	}
+	
+	public Optional<LocalDateTime> proximaFechaDePartidaA(TerminalPortuaria destino) {
+		return navieras.stream()
+				.flatMap(naviera -> naviera.getViajes().stream())
+				.filter(viaje -> viaje.contienePuertos(this, destino))
+				.map(viaje -> viaje.getFechaSalida())
+				.min(Comparator.naturalOrder());
 	}
 	
 	public double cuantoTardaEnLlegar(Naviera naviera, TerminalPortuaria terminalDestino) {
