@@ -1,7 +1,6 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
 import ar.edu.unq.po2.TerminalPortuaria.Orden;
-import ar.edu.unq.po2.TerminalPortuaria.Servicio;
 
 public class Electricidad implements Servicio {
 	

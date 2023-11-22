@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package ar.edu.unq.poo2.TerminalGestionada;
 
 public interface Servicio {
 	
