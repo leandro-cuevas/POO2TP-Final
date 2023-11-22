@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 
-public class Viaje implements Comparable<Viaje> {
+public class Viaje {
 
 		private LocalDateTime fechaSalida;
 		private Circuito circuitoRecorrido;
@@ -43,10 +43,4 @@ public class Viaje implements Comparable<Viaje> {
 		public boolean contienePuertos (TerminalPortuaria origen, TerminalPortuaria destino){
 			return circuitoRecorrido.contienePuertos(origen, destino);
 		}
-
-		@Override
-		public int compareTo(Viaje o) {
-			return fechaSalida.compareTo(o.getFechaSalida());
-		}
-
 }
