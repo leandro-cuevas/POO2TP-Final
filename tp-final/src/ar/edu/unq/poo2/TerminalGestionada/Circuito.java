@@ -176,8 +176,14 @@ public class Circuito {
 		return listaDeTramos.get(0).getOrigen();
 	}
 	
-	public int getCantidadDeTerminalesQueRecorre() {
-		return this.listaDeTramos.size();
+	public int getCantidadDeTerminalesEntrePuertos(TerminalPortuaria origen, TerminalPortuaria destino) {
+		//Dados un origen y un destino, me dice cuantas terminales se recorren
+		
+		//Consigo el index de origen.
+		final int indexDelOrigen = listaDeTramos.indexOf(this.tramoConOrigen(origen));
+				
+		//Consigo el index de destino.
+		final int indexDelDestino = listaDeTramos.indexOf(this.tramoConDestino(destino));
+		return indexDelDestino - indexDelOrigen;
 	}
-
 }

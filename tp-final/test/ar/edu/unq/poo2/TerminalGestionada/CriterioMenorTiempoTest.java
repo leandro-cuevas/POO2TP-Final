@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
 import ar.edu.unq.po2.TerminalPortuaria.Tramo;
 
 class CriterioMenorTiempoTest {
@@ -19,6 +20,8 @@ class CriterioMenorTiempoTest {
 			Circuito c2;
 			Circuito c3;
 			Tramo t1;
+			TerminalPortuaria terminal1;
+			TerminalPortuaria terminal2;
 			List<Circuito> circuitos;
 			List<Tramo> tramos;
 			@BeforeEach
@@ -30,6 +33,8 @@ class CriterioMenorTiempoTest {
 				c2 = mock(Circuito.class);
 				c3 = mock(Circuito.class);
 				t1 = mock(Tramo.class);
+				terminal1 = mock(TerminalPortuaria.class);
+				terminal2 = mock(TerminalPortuaria.class);
 				// Creamos Arrays de circuitos y tramos de mocks.
 				circuitos = new ArrayList<Circuito>();
 				tramos = new ArrayList<Tramo>();
@@ -43,14 +48,14 @@ class CriterioMenorTiempoTest {
 				circuitos.add(c2);
 				circuitos.add(c3);
 				// Seteo precios de cada circuito, ya que el comparador del criterio compara por tiempo.
-				when(c1.getTiempo()).thenReturn(800.0);
-				when(c2.getTiempo()).thenReturn(900.0);
-				when(c3.getTiempo()).thenReturn(2040.0);
+				when(c1.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(800);
+				when(c2.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(900);
+				when(c3.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(2040);
 				// C1 es el tramo mas barato, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
 				// le pregunten el tramo queremos que nos devuelva eso mismo.
 				when(c1.getListaDeTramos()).thenReturn(tramos);
 				// La lista de tramos de C1 == elMejor circuito 
-				assertEquals(tramos, criterioMP.elMejor(circuitos));
+				assertEquals(tramos, criterioMP.elMejor(terminal1, terminal2, circuitos));
 			}
 			
 			@Test
@@ -59,27 +64,27 @@ class CriterioMenorTiempoTest {
 				circuitos.add(c2);
 				circuitos.add(c3);
 				// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
-				when(c1.getTiempo()).thenReturn(800.0);
-				when(c2.getTiempo()).thenReturn(800.0);
-				when(c3.getTiempo()).thenReturn(900.0);
+				when(c1.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(800);
+				when(c2.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(800);
+				when(c3.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(900);
 				// C1 es el tramo mas rapido, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
 				// le pregunten el tramo queremos que nos devuelva eso mismo.
 				when(c1.getListaDeTramos()).thenReturn(tramos);
 				// La lista de tramos de C1 == elMejor circuito 
-				assertEquals(tramos, criterioMP.elMejor(circuitos));
+				assertEquals(tramos, criterioMP.elMejor(terminal1, terminal2, circuitos));
 			}
 			
 			@Test
 			void elMejorCon1SoloCircuito() {
 				circuitos.add(c1);
-				when(c1.getTiempo()).thenReturn(200.0);
+				when(c1.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(200);
 				when(c1.getListaDeTramos()).thenReturn(tramos);
-				assertEquals(tramos, criterioMP.elMejor(circuitos));
+				assertEquals(tramos, criterioMP.elMejor(terminal1, terminal2, circuitos));
 			}
 			
 			@Test 
 			void elMejorConListaDeCircuitosVacia() {
 				// Testeamos que devuelve una lista vacia.
-				assertEquals(criterioMP.elMejor(circuitos), circuitos);
+				assertEquals(criterioMP.elMejor(terminal1, terminal2, circuitos), circuitos);
 			}
 }

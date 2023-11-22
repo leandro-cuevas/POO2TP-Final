@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.mockito.Mock;
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
@@ -84,5 +86,35 @@ class NavieraTest {
 		assertThrows (Exception.class,()->{naviera.establecerViaje(fecha, circuito1);});
 		assertTrue(naviera.getViajes().isEmpty());
 	}
-
+	
+	@Test 
+	void enCuantoLlegaFalso() {
+		// Seteamos el DOC para el circuito
+		naviera.agregarCircuito(circuito1);
+		when(circuito1.contienePuertos(terminal1, terminal2)).thenReturn(false);
+		// Como no va a contener los circuitos, devuelve 0.
+		assertEquals(0d, naviera.enCuantoLlega(terminal1, terminal2));
+	}
+	
+	@Test 
+	void enCuantoLlegaCorrecto() {
+		// Seteamos el DOC para el circuito
+		naviera.agregarCircuito(circuito1);
+		naviera.agregarCircuito(circuito2);
+		when(circuito1.contienePuertos(terminal1, terminal2)).thenReturn(true);
+		when(circuito1.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(50);
+		when(circuito2.contienePuertos(terminal1, terminal2)).thenReturn(true);
+		when(circuito2.getTiempoEntrePuertos(terminal1, terminal2)).thenReturn(100);
+		// Como el menor tiempo entre los puertos es del circuito 1, devuelve 50.
+		assertEquals(50d, naviera.enCuantoLlega(terminal1, terminal2));
+	}
+	
+	@Test
+	void getterCircuitos() {
+		List<Circuito> listaVacia = new ArrayList<Circuito>();
+		assertEquals(listaVacia, naviera.getCircuitos());
+		listaVacia.add(circuito1);
+		naviera.agregarCircuito(circuito1);
+		assertEquals(listaVacia, naviera.getCircuitos());
+	}
 }

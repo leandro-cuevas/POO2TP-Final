@@ -22,6 +22,7 @@ class TerminalGestionadaTest {
 	// DOC
 	TerminalPortuaria terminal2;
 	
+	Criterio criterio;
 	Viaje viaje1;
 	Viaje viaje2;
 	Naviera n1;
@@ -56,8 +57,9 @@ class TerminalGestionadaTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+	criterio = mock(Criterio.class);
 	// Seteamos el SUT, sin criterio por el momento
-	terminal  = new TerminalGestionada(null, 8, 20);
+	terminal  = new TerminalGestionada(criterio, 8, 20);
 	queryMock = mock(Condicion.class);
 	n1        = mock(Naviera.class);
 	n2        = mock(Naviera.class);	
@@ -93,6 +95,8 @@ class TerminalGestionadaTest {
 	@Test
 	void testeoDeQueryMockeada() {
 		// Registramos las navieras y ponemos el DOC para que responda como queremos
+		when(n1.contienePuertos(terminal, null)).thenReturn(true);
+		when(n2.contienePuertos(terminal, null)).thenReturn(true);
 		terminal.registrarNaviera(n1);
 		terminal.registrarNaviera(n2);
 		when(n1.getViajes()).thenReturn(viajes1);
@@ -293,44 +297,44 @@ class TerminalGestionadaTest {
 
 	//retirar todo
 	
-//	@Test 
-//	void testRetirarCargasYPesado() throws Exception {
-//		terminal.setCostoDePesado(100);
-//		terminal.setCostoPorKw(200);
-//		// Registramos las empresasT y seteamos los mensajes para que la validacion de correcta
-//		terminal.registrarEmpresaTransportista(empresaT);
-//		when(empresaT.tieneCamion(coche)).thenReturn(true);
-//		when(empresaT.tieneChofer(chofer)).thenReturn(true);
-//		// Solicitamos una orden de Importacion
-//		terminal.importar(viaje1, carga, cliente, terminal2);
-//		// Seteamos el viaje al buque para que coincida con la orden de importacion
-//		when(buque.getViaje()).thenReturn(viaje1);
-//		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
-//		terminal.arriboElBuque(buque);
-//		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
-//		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
-//		when(carga.getMetrosCubicos()).thenReturn(80);
-//		// Almacenamos la orden que acabamos de realizar
-//		Orden ordenDeImportacionReciente = terminal.getOrdenes().get(0);
-//		// En este momento, la orden de importacion no peude calcular sus costos de servicio ya que no se retiro aun.
-//		assertThrows(Exception.class, () -> {ordenDeImportacionReciente.getCostosDeServicios();}) ;		
-//		// Planteamos una fecha de now + 22 horas, ya que cuando recibe arribo el buque calcula la fecha de ese momento + 24. 
-//		LocalDateTime f2 = LocalDateTime.now().plus(22, ChronoUnit.HOURS);
-//		// Seteamos las respuestas del chofer para la validacion del turno
-//		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
-//		when(chofer.getCamion()).thenReturn(coche);
-//		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
-//		terminal.retirarImportacion(chofer, f2);
-//		// Seteamos el doc para la orden
-//		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
-//		// A la orden, solo se le deberia haber realizado servicio de Pesado( obligatorio por la terminal), y electricidad (en caso de no ser reefer es 0)
-//		when(carga.getConsumo()).thenReturn(0);
-//		// Al ser una orden de importacion, tambien tiene precio por viaje.
-//		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
-//		when(circuito.getPrecioEntrePuertos(terminal,terminal2)).thenReturn(200d);
-//		// El precio es la suma entre el precio de viaje(200), mas los servicios aplicados, unicamente 100 (pesado)
-//		assertEquals(300, ordenDeImportacionReciente.getCostosDeServicios());
-//	}
+	@Test 
+	void testRetirarCargasYPesado() throws Exception {
+		terminal.setCostoDePesado(100);
+		terminal.setCostoPorKw(200);
+		// Registramos las empresasT y seteamos los mensajes para que la validacion de correcta
+		terminal.registrarEmpresaTransportista(empresaT);
+		when(empresaT.tieneCamion(coche)).thenReturn(true);
+		when(empresaT.tieneChofer(chofer)).thenReturn(true);
+		// Solicitamos una orden de Importacion
+		terminal.importar(viaje1, carga, cliente, terminal2);
+		// Seteamos el viaje al buque para que coincida con la orden de importacion
+		when(buque.getViaje()).thenReturn(viaje1);
+		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
+		terminal.arriboElBuque(buque);
+		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
+		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
+		when(carga.getMetrosCubicos()).thenReturn(80);
+		// Almacenamos la orden que acabamos de realizar
+		Orden ordenDeImportacionReciente = terminal.getOrdenes().get(0);
+		// En este momento, la orden de importacion no peude calcular sus costos de servicio ya que no se retiro aun.
+		assertThrows(Exception.class, () -> {ordenDeImportacionReciente.getCostosDeServicios();}) ;		
+		// Planteamos una fecha de now + 22 horas, ya que cuando recibe arribo el buque calcula la fecha de ese momento + 24. 
+		LocalDateTime f2 = LocalDateTime.now().plus(22, ChronoUnit.HOURS);
+		// Seteamos las respuestas del chofer para la validacion del turno
+		when(chofer.getTurno()).thenReturn(turnoDeImportacionReciente);
+		when(chofer.getCamion()).thenReturn(coche);
+		// En este caso, no se le aplicara costo de almacenamiento ya que no nos excederemos de la fecha.
+		terminal.retirarImportacion(chofer, f2);
+		// Seteamos el doc para la orden
+		when(viaje1.fechaDeArriboAlPuerto(terminal)).thenReturn(f2.minus(10, ChronoUnit.HOURS));
+		// A la orden, solo se le deberia haber realizado servicio de Pesado( obligatorio por la terminal), y electricidad (en caso de no ser reefer es 0)
+		when(carga.getConsumo()).thenReturn(0);
+		// Al ser una orden de importacion, tambien tiene precio por viaje.
+		when(viaje1.getCircuitoRecorrido()).thenReturn(circuito);
+		when(circuito.getPrecioEntrePuertos(terminal2,terminal)).thenReturn(200d);
+		// El precio es la suma entre el precio de viaje(200), mas los servicios aplicados, unicamente 100 (pesado)
+		assertEquals(300, ordenDeImportacionReciente.getCostosDeServicios());
+	}
 	
 	@Test 
 	void testAlmacenamientoPorLlegarTarde() throws Exception {
@@ -414,4 +418,18 @@ class TerminalGestionadaTest {
 		assertEquals(550, ordenDeImportacionReciente.getCostosDeServicios());
 	}
 	
+	
+	@Test
+	void elMejorViaje() {
+		// Instanciamos una lista vacia, que va a ser igual a la lista de circuitos de la terminal
+		List<Circuito> listaVacia = new ArrayList<Circuito>();
+		terminal.elMejorCircuito(terminal);
+		verify(criterio, times(1)).elMejor(terminal, terminal, listaVacia);
+	}
+	
+	@Test
+	void cuantoTardaEnLlegar() {
+		terminal.cuantoTardaEnLlegar(n1, terminal);
+		verify(n1, times(1)).enCuantoLlega(terminal, terminal);
+	}
 }

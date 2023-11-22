@@ -2,9 +2,11 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
+import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
 
 public class Naviera {
 	
@@ -52,6 +54,18 @@ public class Naviera {
 
 	public List<Viaje> getViajes() {
 		return viajes;
+	}
+
+	public List<Circuito> getCircuitos() {
+		return circuitos;
+	}
+
+	public double enCuantoLlega(TerminalPortuaria origen, TerminalPortuaria destino) {
+	if (this.contienePuertos(origen, destino)) {
+		return circuitos.stream().filter(circuito -> circuito.contienePuertos(origen, destino)).mapToDouble(circuito -> circuito.getTiempoEntrePuertos(origen, destino)).min().getAsDouble();
+	} else {
+		return 0d;
+	}
 	}
 	
 }

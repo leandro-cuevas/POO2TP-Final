@@ -34,7 +34,29 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.ordenes = new ArrayList<Orden>();
 		this.ordenesExportadas = new ArrayList<OrdenExportacion>();
 	}
-
+	
+	// SERVICIOS PARA LOS CLIENTES 
+	
+	public List<Tramo> elMejorCircuito(TerminalPortuaria terminalDestino) {
+	List<Circuito> circuitosQueVanATerminal = navieras.stream()
+											.flatMap(naviera -> naviera.getCircuitos().stream())
+											.filter(circ -> circ.contienePuertos(this, terminalDestino))
+											.toList();
+		return criterioElMejor.elMejor(this, terminalDestino, circuitosQueVanATerminal);
+	}
+	
+	public List<Viaje> filtrarViajes(Condicion query) {
+		return navieras.stream()
+				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
+				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception	
+				.toList();	
+	}
+	
+	public double cuantoTardaEnLlegar(Naviera naviera, TerminalPortuaria terminalDestino) {
+		return naviera.enCuantoLlega(this, terminalDestino);
+	}
+	// AVISOS DEL BUQUE 
+	
 	public void arriboInminenteDelBuque(Buque buque) {
 		/* Ante este aviso, la terminal enviará un mail a todos los consignees
 		que estén esperando ese buque (orden de importación con ese viaje) avisando
@@ -204,10 +226,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 			this.realizarServicioDeAlmacenamientoExcedente(orden);
 		}
 	}
-
-	public void registrarNaviera(Naviera n) {
-		navieras.add(n);
-	}
 	
 	public void registrarEmpresaTransportista(EmpresaTransportista et) {
 		transportistas.add(et);
@@ -241,17 +259,6 @@ public class TerminalGestionada extends TerminalPortuaria {
 		ordenDelContainer(c).agregarServicio(lavado);
 	}
 	
-	////////////////////////////////////
-	// SERVICIO DE FILTRADO DE VIAJES //
-	////////////////////////////////////
-	public List<Viaje> filtrarViajes(Condicion query) {
-		return navieras.stream()
-				.flatMap(naviera -> naviera.getViajes().stream()) // Aplica FlatMap para poder mapear navieras con sus viajes y que no quede una lista de listas, sino una lista de Viajes, sin discriminar por naviera
-				.filter(viaje -> query.chequear(viaje))         // Filtra los viajes que cumplen con la query. Si bien la query tira exception
-				.toList();	
-	}
-	
-
 	private void realizarServicioElectrico(Orden orden) {
 		//Creo el servicio eléctrico
 		Electricidad electricidad = new Electricidad(this.costoPorKw, orden);
@@ -294,5 +301,11 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public void setCostoPorEstadia(int costoPorEstadia) {
 		this.costoPorEstadia = costoPorEstadia;
+	}
+	
+	public void registrarNaviera(Naviera naviera) {
+		if(naviera.contienePuertos(this, null)) {
+			navieras.add(naviera);	
+		}
 	}
 }
