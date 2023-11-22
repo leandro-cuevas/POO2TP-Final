@@ -1,6 +1,6 @@
 package Container;
 
-class ContainerRefri extends Container {
+public class ContainerRefri extends Container {
 	
 	private int consumoPorHora;
 	

@@ -1,6 +1,6 @@
 package Buque;
 
-abstract class EstadoDeBuque {
+public abstract class EstadoDeBuque {
 	
 	protected EstadoDeBuque siguiente;
 		
