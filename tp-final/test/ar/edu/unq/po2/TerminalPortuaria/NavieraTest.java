@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.Mock;
+
+import Buque.Buque;
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 
 import org.junit.jupiter.api.Test;

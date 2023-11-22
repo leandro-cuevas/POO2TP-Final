@@ -3,6 +3,9 @@ package ar.edu.unq.po2.TerminalPortuaria;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
+import EmpresaTransportista.Camion;
+import EmpresaTransportista.Conductor;
+
 public class Turno {
 	Conductor chofer;
 	Camion camion;

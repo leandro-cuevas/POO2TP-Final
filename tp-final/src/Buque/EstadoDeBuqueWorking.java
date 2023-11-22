@@ -1,12 +1,6 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Buque;
 
-public class EstadoDeBuqueArrived extends EstadoDeBuque {
-
-	@Override
-	public void comunicarConTerminal(Buque buque) throws Exception {
-		//Avisa que se arribó a la terminal.
-		buque.avisarQueSeArribo();
-	}
+public class EstadoDeBuqueWorking extends EstadoDeBuque {
 
 	@Override
 	protected boolean condicionParaPasarFase(Buque buque) {
@@ -14,4 +8,7 @@ public class EstadoDeBuqueArrived extends EstadoDeBuque {
 	// nunca este estado debe cambiarse solo. El false implica que nunca se realice el if de activarGPS()
 		return false;
 	}
+
+	
+
 }

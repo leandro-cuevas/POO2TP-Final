@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import Buque.Buque;
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
 

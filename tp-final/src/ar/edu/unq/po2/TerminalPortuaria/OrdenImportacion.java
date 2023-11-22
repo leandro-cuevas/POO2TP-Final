@@ -2,6 +2,9 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
 
+import EmpresaTransportista.Camion;
+import EmpresaTransportista.Conductor;
+
 public class OrdenImportacion extends Orden {
 	
 

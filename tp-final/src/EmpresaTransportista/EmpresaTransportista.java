@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package EmpresaTransportista;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.mockito.Mock;
 
+import EmpresaTransportista.Camion;
+import EmpresaTransportista.Conductor;
+import EmpresaTransportista.EmpresaTransportista;
+
 class EmpresaTransportistaTest {
 	
 	//DOC

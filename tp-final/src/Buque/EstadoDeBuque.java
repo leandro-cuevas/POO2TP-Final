@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Buque;
 
 abstract class EstadoDeBuque {
 	

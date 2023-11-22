@@ -1,0 +1,166 @@
+Ignacio Moreira Toja (29):
+      Clase Naviera implementada
+      Naviera ampliado y Viaje, faltan correcciones
+      Tests Naviera, falta comprobar
+      error de tipeo
+      Tests Viaje a comprobar
+      Test Naviera completo
+      Error en Naviera arreglado
+      Viaje Test terminado
+      Naviera Test Ampliado y Comentado.
+      Test Viaje expandido y comentado
+      EmpresaTransportista terminada
+      Camion y Conductor mejorados, EmpresaTransportista ampliada.
+      Ampliados y mejorados Camion y Conductor
+      Tests a terminar
+      Test finalizados, falta documentación
+      Clase Orden creada y varios arreglos.
+      Orden de importación por la mitad
+      Mejorados métodos de importacion - exportacion
+      Pequeño error de casteo en lista ordenesExportadas arreglado
+      Faltan tests y documentado. Métodos de avisos de buque terminados.
+      Arreglos varios
+      Refactors
+      Tests de OrdenImportacion y OrdenExportacion
+      Arreglo en test de OrdenImportacion y OrdenExportacion
+      Tests de exportar completos
+      Tests de importar en TerminalGestionada
+      Test de elBuqueHaPartido.
+      Tests de servicios y retiro de cargas
+      Commit anterior arreglado
+
+IgnacioMoreiraToja (15):
+      Merge pull request #1 from leandro-cuevas/ComparadoresYStrategy
+      Merge pull request #2 from leandro-cuevas/Naviera
+      Merge pull request #4 from leandro-cuevas/NavieraTests
+      Merge pull request #5 from leandro-cuevas/ViajeTests
+      Clases y tests documentados
+      Merge pull request #8 from leandro-cuevas/EmpresaTransportista_Camion_y_Conductor
+      Tests en verde casi
+      Merge branch 'main' into Ordenes
+      Merge pull request #9 from leandro-cuevas/Ordenes
+      Merge pull request #10 from leandro-cuevas/servicios
+      Merge branch 'main' into OrdenImportacion
+      Merge pull request #12 from leandro-cuevas/OrdenImportacion
+      Merge branch 'main' into Refactor_y_Tests
+      Merge pull request #15 from leandro-cuevas/Refactor_y_Tests
+      Merge pull request #17 from leandro-cuevas/Tests_Ordenes_Importacion_Exportacion
+
+Leandro (46):
+      Creacion del repositorio tp final
+      Implementación Containers
+      corregido error nombre de un metodo
+      Implementacion parcial de buque
+      Creacion file TerminalPortuaria
+      Implementacion estados del buque
+      Creacion file TerminalPortuaria
+      Eliminado archivo duplicado
+      Implementacion de tramo
+      Faltan algunos tests de EstadoDeBuque
+      Constructor de Tramo
+      Ahora Tramo conoce su distancia
+      Editado tramo
+      Circuito
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Implementacion de algunos metodos de circuitos
+      Agregado getMetrosCubicos
+      Corregidos pequeños errores
+      Containers test
+      Algunos tests buque
+      Tramo test
+      Tests unitarios terminados de EstadoDeBuque
+      método agregarTramo(Tramo tramo) implementado
+      eliminarUltimoTramo() implementado
+      Testeado agregar tramo al circuito
+      Pequeños cambios
+      Pequeños de talles
+      Circuito conoce su origen y destino
+      Breve documentacion de viaje
+      El buque ahora carga containers
+      Desarrollo parcial de Camion
+      .
+      Viaje sabe responder si contiene dos puertos
+      Agregada la distancia como una coordenada
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Circuito test cobertura 97.7%
+      Ediciones de Buque y circuito, y tests de buque
+      Buque y sus test con documentacion y corriendo al 100.
+      orden conoce fecha de retiro
+      orden conoce fecha retirada
+      Lavado terminado
+      correccion de coma que rompia todo
+      Agregados servicios faltantes
+      Se eliminaron excepciones que no eran necesarias.
+      Refactor de orden, buque, estado de buque y terminal
+      Corregido error en el criterio menor distancia
+
+Leandro Cuevas (2):
+      Corrección
+      Merge pull request #11 from leandro-cuevas/otrosServicios
+
+RODRIGO BOLAÑOS (9):
+      Agregado UML
+      Delete tp-final/Hasta Composite.drawio.png
+      UML TP Final
+      Merge pull request #6 from leandro-cuevas/Test_composite
+      Merge pull request #7 from leandro-cuevas/Test_Naviera_Expandido_y_Comentado
+      Merge pull request #13 from leandro-cuevas/OrdenImportacion
+      Merge pull request #14 from leandro-cuevas/Test_2.0
+      Merge pull request #16 from leandro-cuevas/Test_Buque_y_Container
+      Merge pull request #18 from leandro-cuevas/Tests_TerminalGestionada
+
+Rodrigo Bolaños (53):
+      Agregado Clases Comparador y Criterio
+      Criterio Precio
+      Cambio de package
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Refactor de Criterio
+      Test de los criterios
+      Terminada Composite
+      Merge remote-tracking branch 'origin/CompositeQuery' into main
+      Terminado Criterio y Comparadores
+      Arreglados buque y naviera
+      Agregada TerminalGestionada y metodo para filtrar
+      Agregados Test para Hojas de Composite y correcciones
+      Terminado test composite
+      Eliminado comparador de circuito
+      Comentarios
+      TerminalGestionada exportar completo
+      a
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      criterio arreglado
+      Tests de exportar
+      Test de terminal y modificaciones en Turno
+      Terminados Test TerminalGestionada
+      ARREGLOS EN CARGA
+      Actualizacion de Estados en el constructor
+      TurnoTest
+      Arreglos container
+      Merge branch 'OrdenImportacion' of https://github.com/leandro-cuevas/POO2TP-Final.git into OrdenImportacion
+      Terminado Test Viaje, Conductor y Ordenes
+      Arreglos en Orden y agregado metodo para avisar al cliente que su pedido llego
+      Terminado logaritmo importaciones
+      Agregado metodos para ingresarCarga y depositarCarga
+      Arreglado estado d buque
+      Arreglos en servicios
+      Refactors en estadoDeBuque y buque
+      s
+      Merge branch 'main' of https://github.com/leandro-cuevas/POO2TP-Final.git into main
+      Test de servicios y refactor en constructores
+      Terminados test turno y estadoDeBuque
+      Arreglos en OrdenExportacion
+      Terminados test de buque y container
+      Arreglos en OrdenExportacion y test
+      Arreglos en terminal
+      Arreglo test terminal
+      a
+      Merge branch 'Tests_TerminalGestionada' of https://github.com/leandro-cuevas/POO2TP-Final.git into Tests_TerminalGestionada
+      Terminados test terminal
+      Mejoras en implementacion de criterio
+      Terminados servicios de terminal gestionada
+      Borro metodo de container
+      Elimino comparable de Viaje.
+

@@ -7,6 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import Buque.Buque;
+import Buque.EstadoDeBuque;
+import Buque.EstadoDeBuqueArrived;
+import Buque.EstadoDeBuqueDepart;
+import Buque.EstadoDeBuqueInbound;
+import Buque.EstadoDeBuqueOutbound;
+import Buque.EstadoDeBuqueWorking;
+
 import static org.mockito.Mockito.*;
 
 class EstadoDeBuqueTest {

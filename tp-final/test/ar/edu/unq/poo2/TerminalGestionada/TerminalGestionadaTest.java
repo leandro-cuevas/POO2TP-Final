@@ -12,6 +12,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Buque.Buque;
+import EmpresaTransportista.Camion;
+import EmpresaTransportista.Conductor;
+import EmpresaTransportista.EmpresaTransportista;
 import ar.edu.unq.po2.TerminalPortuaria.*;
 
 

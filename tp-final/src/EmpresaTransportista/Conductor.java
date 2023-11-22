@@ -1,4 +1,7 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package EmpresaTransportista;
+
+import ar.edu.unq.po2.TerminalPortuaria.Container;
+import ar.edu.unq.po2.TerminalPortuaria.Turno;
 
 public class Conductor {	
 	private boolean disponible;

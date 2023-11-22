@@ -1,6 +1,8 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package EmpresaTransportista;
 
 import java.time.LocalDateTime;
+
+import ar.edu.unq.po2.TerminalPortuaria.Container;
 
 public class Camion {
 	

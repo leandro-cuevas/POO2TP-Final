@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Buque;
 
 public class EstadoDeBuqueOutbound extends EstadoDeBuque {
 	

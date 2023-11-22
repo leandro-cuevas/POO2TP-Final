@@ -11,6 +11,8 @@ import java.awt.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Buque.Buque;
+import Buque.EstadoDeBuque;
 import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
 
 class BuqueTest {

@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.mockito.Mock;
+
+import Buque.Buque;
 import ar.edu.unq.poo2.TerminalGestionada.Circuito;
 import org.junit.jupiter.api.Test;
 

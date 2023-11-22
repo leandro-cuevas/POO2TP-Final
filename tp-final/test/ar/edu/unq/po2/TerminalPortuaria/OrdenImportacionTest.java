@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import EmpresaTransportista.Camion;
+import EmpresaTransportista.Conductor;
 import ar.edu.unq.poo2.TerminalGestionada.*;
 
 class OrdenImportacionTest {
