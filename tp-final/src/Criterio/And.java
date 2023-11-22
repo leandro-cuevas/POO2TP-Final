@@ -1,6 +1,6 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package Criterio;
 
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Naviera.Viaje;
 
 public class And implements Condicion {
 	Condicion exp;

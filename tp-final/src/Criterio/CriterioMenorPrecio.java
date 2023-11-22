@@ -1,6 +1,7 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package Criterio;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
+import Naviera.Circuito;
+import TerminalGestionada.TerminalPortuaria;
 
 public class CriterioMenorPrecio extends Criterio {
 	@Override

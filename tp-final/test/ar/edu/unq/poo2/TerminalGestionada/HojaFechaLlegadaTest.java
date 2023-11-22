@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Criterio.Condicion;
+import Criterio.HojaFechaLlegada;
+import Naviera.Viaje;
+import TerminalGestionada.TerminalPortuaria;
 
 class HojaFechaLlegadaTest {
 	// Tipamos como condicion ya que es como se va a ver para el resto del entorno

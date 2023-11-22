@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Criterio.And;
+import Criterio.Condicion;
+import Naviera.Viaje;
 
 class AndTest {
 	Condicion and1;

@@ -1,9 +1,9 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package Criterio;
 
 import java.time.LocalDateTime;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Naviera.Viaje;
+import TerminalGestionada.TerminalPortuaria;
 
 public class HojaFechaLlegada implements Condicion {
 	LocalDateTime fecha;

@@ -6,8 +6,10 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Criterio.Condicion;
+import Criterio.HojaPuertoDestino;
+import Naviera.Viaje;
+import TerminalGestionada.TerminalPortuaria;
 
 class HojaPuertoDestinoTest {
 	Condicion hf;

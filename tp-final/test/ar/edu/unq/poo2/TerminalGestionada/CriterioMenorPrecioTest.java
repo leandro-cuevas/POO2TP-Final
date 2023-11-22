@@ -9,8 +9,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Tramo;
+import Criterio.Criterio;
+import Criterio.CriterioMenorPrecio;
+import Naviera.Circuito;
+import Naviera.Tramo;
+import TerminalGestionada.TerminalPortuaria;
 
 class CriterioMenorPrecioTest {
 	// Declaramos variables que van a intercambiar mensajes.

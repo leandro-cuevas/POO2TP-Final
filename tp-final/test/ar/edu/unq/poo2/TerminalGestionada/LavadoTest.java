@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import Container.Container;
 import Orden.Orden;
+import Servicios.Lavado;
 
 class LavadoTest {
 	Orden ord;

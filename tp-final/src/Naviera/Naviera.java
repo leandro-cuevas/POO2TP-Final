@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Naviera;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.List;
 
 import Buque.Buque;
-import ar.edu.unq.poo2.TerminalGestionada.Circuito;
-import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
+import TerminalGestionada.TerminalGestionada;
+import TerminalGestionada.TerminalPortuaria;
 
 public class Naviera {
 	

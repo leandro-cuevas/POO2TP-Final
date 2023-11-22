@@ -10,11 +10,15 @@ import org.junit.jupiter.api.Test;
 import Container.Container;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
+import Naviera.Circuito;
+import Naviera.Viaje;
 import Orden.OrdenExportacion;
-import ar.edu.unq.poo2.TerminalGestionada.Circuito;
-import ar.edu.unq.poo2.TerminalGestionada.Electricidad;
-import ar.edu.unq.poo2.TerminalGestionada.Lavado;
-import ar.edu.unq.poo2.TerminalGestionada.Pesado;
+import Servicios.Electricidad;
+import Servicios.Lavado;
+import Servicios.Pesado;
+import TerminalGestionada.Cliente;
+import TerminalGestionada.TerminalPortuaria;
+import TerminalGestionada.Turno;
 
 class OrdenExportacionTest {
 	

@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import Container.Container;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
-import ar.edu.unq.po2.TerminalPortuaria.Cliente;
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Turno;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Naviera.Viaje;
+import TerminalGestionada.Cliente;
+import TerminalGestionada.TerminalPortuaria;
+import TerminalGestionada.Turno;
 
 public class OrdenImportacion extends Orden {
 	

@@ -1,6 +1,6 @@
 package Container;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
+import TerminalGestionada.TerminalPortuaria;
 
 public abstract class Container {
 	

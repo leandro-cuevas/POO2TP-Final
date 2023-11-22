@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import Container.Container;
 import Container.ContainerRefri;
+import TerminalGestionada.TerminalPortuaria;
 
 class ContainerRefriTest {
 	TerminalPortuaria terminal;

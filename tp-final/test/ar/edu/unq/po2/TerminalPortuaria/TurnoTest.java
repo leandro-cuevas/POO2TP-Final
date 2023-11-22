@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import Container.Container;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
+import TerminalGestionada.Cliente;
+import TerminalGestionada.Turno;
 
 class TurnoTest {
 	Turno t1;

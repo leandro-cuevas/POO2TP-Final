@@ -1,4 +1,4 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package Servicios;
 
 import Orden.Orden;
 

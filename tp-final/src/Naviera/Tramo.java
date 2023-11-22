@@ -1,6 +1,8 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Naviera;
 
 import java.sql.Time;
+
+import TerminalGestionada.TerminalPortuaria;
 
 public class Tramo {
 	

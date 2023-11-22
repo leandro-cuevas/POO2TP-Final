@@ -7,8 +7,9 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Tramo;
+import Naviera.Circuito;
+import Naviera.Tramo;
+import TerminalGestionada.TerminalPortuaria;
 
 class CircuitoTest {
 	

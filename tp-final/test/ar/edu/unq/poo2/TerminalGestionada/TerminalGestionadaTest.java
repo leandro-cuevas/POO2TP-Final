@@ -14,10 +14,23 @@ import org.junit.jupiter.api.Test;
 
 import Buque.Buque;
 import Container.Container;
+import Criterio.Condicion;
+import Criterio.Criterio;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
 import EmpresaTransportista.EmpresaTransportista;
+import Naviera.Circuito;
+import Naviera.Naviera;
+import Naviera.Viaje;
 import Orden.Orden;
+import Servicios.Almacenamiento;
+import Servicios.Electricidad;
+import Servicios.Lavado;
+import Servicios.Pesado;
+import TerminalGestionada.Cliente;
+import TerminalGestionada.TerminalGestionada;
+import TerminalGestionada.TerminalPortuaria;
+import TerminalGestionada.Turno;
 import ar.edu.unq.po2.TerminalPortuaria.*;
 
 

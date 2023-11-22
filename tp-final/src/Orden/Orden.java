@@ -8,11 +8,11 @@ import java.util.List;
 import Container.Container;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
-import ar.edu.unq.po2.TerminalPortuaria.Cliente;
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Turno;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
-import ar.edu.unq.poo2.TerminalGestionada.Servicio;
+import Naviera.Viaje;
+import Servicios.Servicio;
+import TerminalGestionada.Cliente;
+import TerminalGestionada.TerminalPortuaria;
+import TerminalGestionada.Turno;
 
 public abstract class Orden {
 	

@@ -1,10 +1,11 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package Criterio;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Tramo;
+import Naviera.Circuito;
+import Naviera.Tramo;
+import TerminalGestionada.TerminalPortuaria;
 
 public abstract class Criterio {
 	

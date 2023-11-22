@@ -1,10 +1,10 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Naviera;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import Buque.Buque;
-import ar.edu.unq.poo2.TerminalGestionada.Circuito;
+import TerminalGestionada.TerminalPortuaria;
 
 public class Viaje {
 

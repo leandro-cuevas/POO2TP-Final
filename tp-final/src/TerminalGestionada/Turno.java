@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package TerminalGestionada;
 
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;

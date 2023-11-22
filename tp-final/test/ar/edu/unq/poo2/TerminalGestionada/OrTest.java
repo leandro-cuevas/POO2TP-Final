@@ -6,7 +6,9 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
+import Criterio.Condicion;
+import Criterio.Or;
+import Naviera.Viaje;
 
 class OrTest {
 	Condicion or1;

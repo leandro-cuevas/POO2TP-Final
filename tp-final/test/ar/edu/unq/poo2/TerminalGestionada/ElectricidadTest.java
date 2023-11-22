@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import Container.Container;
 import Orden.Orden;
+import Servicios.Electricidad;
 
 class ElectricidadTest {
 	Electricidad electricidad;

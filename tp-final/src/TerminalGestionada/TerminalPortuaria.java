@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package TerminalGestionada;
 
 public abstract class TerminalPortuaria {
 	public abstract double getX();

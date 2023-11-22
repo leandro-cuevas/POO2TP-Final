@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Container.Container;
-import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
-import ar.edu.unq.po2.TerminalPortuaria.Viaje;
-import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
+import Naviera.Viaje;
+import TerminalGestionada.TerminalGestionada;
+import TerminalGestionada.TerminalPortuaria;
 
 public class Buque {
 		

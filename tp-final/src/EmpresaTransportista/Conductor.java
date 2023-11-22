@@ -1,7 +1,7 @@
 package EmpresaTransportista;
 
 import Container.Container;
-import ar.edu.unq.po2.TerminalPortuaria.Turno;
+import TerminalGestionada.Turno;
 
 public class Conductor {	
 	private boolean disponible;

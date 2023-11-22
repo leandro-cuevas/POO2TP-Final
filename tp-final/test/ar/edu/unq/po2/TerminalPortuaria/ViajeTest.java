@@ -11,7 +11,10 @@ import java.time.temporal.ChronoUnit;
 import org.mockito.Mock;
 
 import Buque.Buque;
-import ar.edu.unq.poo2.TerminalGestionada.Circuito;
+import Naviera.Circuito;
+import Naviera.Viaje;
+import TerminalGestionada.TerminalPortuaria;
+
 import org.junit.jupiter.api.Test;
 
 class ViajeTest {

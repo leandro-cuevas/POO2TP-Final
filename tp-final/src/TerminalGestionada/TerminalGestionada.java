@@ -1,4 +1,4 @@
-package ar.edu.unq.poo2.TerminalGestionada;
+package TerminalGestionada;
 
 import java.awt.Point;
 import java.time.Duration;
@@ -11,12 +11,22 @@ import java.util.Optional;
 
 import Buque.Buque;
 import Container.Container;
+import Criterio.Condicion;
+import Criterio.Criterio;
 import EmpresaTransportista.Camion;
 import EmpresaTransportista.Conductor;
 import EmpresaTransportista.EmpresaTransportista;
+import Naviera.Circuito;
+import Naviera.Naviera;
+import Naviera.Tramo;
+import Naviera.Viaje;
 import Orden.Orden;
 import Orden.OrdenExportacion;
 import Orden.OrdenImportacion;
+import Servicios.Almacenamiento;
+import Servicios.Electricidad;
+import Servicios.Lavado;
+import Servicios.Pesado;
 import ar.edu.unq.po2.TerminalPortuaria.*;
 
 
