@@ -3,7 +3,7 @@ package ar.edu.unq.poo2.TerminalGestionada;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import ar.edu.unq.po2.TerminalPortuaria.Orden;
+import Orden.Orden;
 
 public class Almacenamiento implements Servicio{
 

@@ -6,8 +6,8 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.Container;
-import ar.edu.unq.po2.TerminalPortuaria.Orden;
+import Container.Container;
+import Orden.Orden;
 
 class ElectricidadTest {
 	Electricidad electricidad;

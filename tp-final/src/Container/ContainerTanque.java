@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Container;
 
 public class ContainerTanque extends Container {
 

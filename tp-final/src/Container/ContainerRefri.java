@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.TerminalPortuaria;
+package Container;
 
 class ContainerRefri extends Container {
 	

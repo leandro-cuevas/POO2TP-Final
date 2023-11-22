@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.po2.TerminalPortuaria.Container;
+import Container.Container;
 import ar.edu.unq.po2.TerminalPortuaria.TerminalPortuaria;
 import ar.edu.unq.po2.TerminalPortuaria.Viaje;
 import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;

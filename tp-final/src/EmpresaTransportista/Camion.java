@@ -2,7 +2,7 @@ package EmpresaTransportista;
 
 import java.time.LocalDateTime;
 
-import ar.edu.unq.po2.TerminalPortuaria.Container;
+import Container.Container;
 
 public class Camion {
 	

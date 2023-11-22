@@ -6,6 +6,9 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Container.Container;
+import Container.ContainerTanque;
+
 class ContainerTanqueTest {
 	TerminalPortuaria terminal;
 	TerminalPortuaria terminal2;

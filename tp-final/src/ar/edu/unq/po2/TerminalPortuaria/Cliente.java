@@ -2,6 +2,8 @@ package ar.edu.unq.po2.TerminalPortuaria;
 
 import java.time.LocalDateTime;
 
+import Container.Container;
+
 public class Cliente {
 
 	public void avisarExportacion() {}

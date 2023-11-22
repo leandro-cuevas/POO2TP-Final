@@ -1,7 +1,7 @@
 package ar.edu.unq.poo2.TerminalGestionada;
 
-import ar.edu.unq.po2.TerminalPortuaria.Container;
-import ar.edu.unq.po2.TerminalPortuaria.Orden;
+import Container.Container;
+import Orden.Orden;
 
 public class Lavado implements Servicio {
 	

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.TerminalPortuaria.Orden;
+import Orden.Orden;
 
 class PesadoTest {
 	Pesado pesado;

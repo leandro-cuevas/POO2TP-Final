@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import Buque.Buque;
 import Buque.EstadoDeBuque;
+import Container.Container;
 import ar.edu.unq.poo2.TerminalGestionada.TerminalGestionada;
 
 class BuqueTest {
