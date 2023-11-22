@@ -21,10 +21,6 @@ class ContainerTanqueTest {
 
 	@Test
 	void constructorTest() {
-		assertEquals(20, container.getAncho());
-		assertEquals(40, container.getLargo());
-		assertEquals(60, container.getAltura());
-		assertEquals(200, container.getPeso());
 		assertEquals(0, container.getConsumo());
 	}
 	

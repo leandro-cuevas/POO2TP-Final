@@ -24,26 +24,6 @@ public abstract class Container {
 		//Es un hook por defecto.
 		return 0;
 	}
-
-	public int getAncho() {
-		//El ancho del container.
-		return ancho;
-	}
-
-	public int getLargo() {
-		//El largo del container.
-		return largo;
-	}
-
-	public int getPeso() {
-		//El peso del container.
-		return peso;
-	}
-	
-	public int getAltura() {
-		//La altura del container.
-		return altura;
-	}
 	
 	public int getMetrosCubicos() {
 		//Los metros cúbicos del container.
