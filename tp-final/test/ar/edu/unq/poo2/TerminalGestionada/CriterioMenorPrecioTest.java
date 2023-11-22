@@ -85,5 +85,18 @@ class CriterioMenorPrecioTest {
 		// Testeamos que devuelve una lista vacia.
 		assertEquals(criterioMP.elMejor(terminal1, terminal2, circuitos), circuitos);
 	}
-
+	
+	@Test
+	void elMejorConUnCircuitoQueFallaNoExplota() throws Exception {
+		circuitos.add(c1);
+		circuitos.add(c2);
+		// Seteo precios de cada circuito, ya que el comparador del criterio compara por distancia.
+		when(c1.getPrecioEntrePuertos(terminal1, terminal2)).thenReturn(800.0);
+		when(c2.getPrecioEntrePuertos(terminal1, terminal2)).thenThrow(Exception.class);
+		// C1 es el tramo mas barato, pero el metodo elMejor devuelve una lista de Tramos, por lo que cuando
+		// le pregunten el tramo queremos que nos devuelva eso mismo.
+		when(c1.getListaDeTramos()).thenReturn(tramos);
+		// La lista de tramos de C1 == elMejor circuito 
+		assertEquals(tramos, criterioMP.elMejor(terminal1, terminal2, circuitos));
+	}
 }

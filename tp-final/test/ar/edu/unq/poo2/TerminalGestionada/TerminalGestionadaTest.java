@@ -25,8 +25,8 @@ class TerminalGestionadaTest {
 	Criterio criterio;
 	Viaje viaje1;
 	Viaje viaje2;
-	Naviera n1;
-	Naviera n2;
+	Naviera naviera1;
+	Naviera naviera2;
 	Condicion queryMock;
 	List<Viaje> viajes1 = new ArrayList<Viaje>();
 	List<Viaje> viajes2= new ArrayList<Viaje>();
@@ -61,8 +61,8 @@ class TerminalGestionadaTest {
 	// Seteamos el SUT, sin criterio por el momento
 	terminal  = new TerminalGestionada(criterio, 8, 20);
 	queryMock = mock(Condicion.class);
-	n1        = mock(Naviera.class);
-	n2        = mock(Naviera.class);	
+	naviera1        = mock(Naviera.class);
+	naviera2        = mock(Naviera.class);	
 	viaje1    = mock(Viaje.class);
 	viaje2    = mock(Viaje.class);
 	viajes1.add(viaje1);
@@ -95,12 +95,12 @@ class TerminalGestionadaTest {
 	@Test
 	void testeoDeQueryMockeada() {
 		// Registramos las navieras y ponemos el DOC para que responda como queremos
-		when(n1.contienePuertos(terminal, null)).thenReturn(true);
-		when(n2.contienePuertos(terminal, null)).thenReturn(true);
-		terminal.registrarNaviera(n1);
-		terminal.registrarNaviera(n2);
-		when(n1.getViajes()).thenReturn(viajes1);
-		when(n2.getViajes()).thenReturn(viajes2);
+		when(naviera1.contienePuertos(terminal, null)).thenReturn(true);
+		when(naviera2.contienePuertos(terminal, null)).thenReturn(true);
+		terminal.registrarNaviera(naviera1);
+		terminal.registrarNaviera(naviera2);
+		when(naviera1.getViajes()).thenReturn(viajes1);
+		when(naviera2.getViajes()).thenReturn(viajes2);
 		// Cuando la query cheque el viaje v1, pasara el filtro, el v2 no
 		when(queryMock.chequear(viaje1)).thenReturn(true);
 		when(queryMock.chequear(viaje2)).thenReturn(false);
@@ -311,6 +311,7 @@ class TerminalGestionadaTest {
 		when(buque.getViaje()).thenReturn(viaje1);
 		// El buque llega, entonces la terminal recibe quien es el transporte que lo debe ir a buscar
 		terminal.arriboElBuque(buque);
+		verify(buque, atLeast(1)).getViaje();
 		Turno turnoDeImportacionReciente = terminal.getTurnos().get(0);
 		terminal.avisarTransporteParaRetiro(cliente, chofer, coche);
 		when(carga.getMetrosCubicos()).thenReturn(80);
@@ -423,16 +424,43 @@ class TerminalGestionadaTest {
 	
 	
 	@Test
-	void elMejorViaje() {
+	void elMejorCircuito() {
 		// Instanciamos una lista vacia, que va a ser igual a la lista de circuitos de la terminal
-		List<Circuito> listaVacia = new ArrayList<Circuito>();
+		List<Circuito> listaCircuitos = new ArrayList<Circuito>();
+		listaCircuitos.add(circuito);
+		// Seteamos respuestas para naviera.
+		when(naviera1.contienePuertos(terminal, null)).thenReturn(true);
+		when(naviera1.getCircuitos()).thenReturn(listaCircuitos);
+		when(circuito.contienePuertos(terminal,terminal)).thenReturn(true);
+		// Registramos la naviera
+		terminal.registrarNaviera(naviera1);	
 		terminal.elMejorCircuito(terminal);
-		verify(criterio, times(1)).elMejor(terminal, terminal, listaVacia);
+		verify(naviera1, times(1)).getCircuitos();
+		verify(criterio, times(1)).elMejor(terminal, terminal, listaCircuitos);
 	}
 	
 	@Test
 	void cuantoTardaEnLlegar() {
-		terminal.cuantoTardaEnLlegar(n1, terminal);
-		verify(n1, times(1)).enCuantoLlega(terminal, terminal);
+		terminal.cuantoTardaEnLlegar(naviera1, terminal);
+		verify(naviera1, times(1)).enCuantoLlega(terminal, terminal);
+	}
+	
+	@Test
+	void laProximaFechaDePartida() {
+		// Instanciamos una lista vacia, que va a ser igual a la lista de viajes de la terminal
+		List<Viaje> listaViajes = new ArrayList<Viaje>();
+		// Le agregamos un viaje
+		listaViajes.add(viaje1);
+		// Seteamos respuestas para naviera.
+		when(naviera1.contienePuertos(terminal, null)).thenReturn(true);
+		when(naviera1.getViajes()).thenReturn(listaViajes);
+		when(viaje1.contienePuertos(terminal,terminal)).thenReturn(true);
+		// Seteamos respuesta para el viaje
+		when(viaje1.getFechaSalida()).thenReturn(f1);
+		// Registramos la naviera
+		terminal.registrarNaviera(naviera1);
+		assertEquals(f1, terminal.proximaFechaDePartidaA(terminal).get());
+		verify(naviera1, times(1)).getViajes();
+		verify(viaje1, times(1)).contienePuertos(terminal, terminal);
 	}
 }

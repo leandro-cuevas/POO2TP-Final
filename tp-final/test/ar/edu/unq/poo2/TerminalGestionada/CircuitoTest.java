@@ -164,5 +164,12 @@ class CircuitoTest {
 		assertEquals(laPlata, circuito.puertoOrigen());
 	}
 	
+	@Test
+	void cantidadDeTerminalesEntreDosPuertos() throws Exception {
+		// Agrego los tramos
+		circuito.agregarTramo(laPlataQuilmes);
+		circuito.agregarTramo(quilmesRetiro);
+		assertEquals(1, circuito.getCantidadDeTerminalesEntrePuertos(laPlata, retiro));
+	}
 	
 }

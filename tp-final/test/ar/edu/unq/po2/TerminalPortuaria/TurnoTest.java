@@ -71,4 +71,12 @@ class TurnoTest {
 		assertTrue(t2.esCamion(cam2));
 		assertTrue(t2.esChofer(c2));
 	}
+	
+	@Test
+	void getterConductorYCamion() {
+		t2.setCamion(cam2);
+		t2.setChofer(c2);
+		assertEquals(cam2, t2.getCamion());
+		assertEquals(c2, t2.getConductor());
+	}
 }
