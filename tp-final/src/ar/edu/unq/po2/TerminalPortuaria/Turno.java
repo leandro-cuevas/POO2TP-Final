@@ -6,14 +6,12 @@ import java.time.temporal.Temporal;
 public class Turno {
 	Conductor chofer;
 	Camion camion;
-	Cliente cliente;
 	LocalDateTime diaYHora;
 	
-	public Turno(Conductor chofer, Camion camion, Cliente cliente, LocalDateTime diaYHora, Container carga) {
+	public Turno(Conductor chofer, Camion camion , LocalDateTime diaYHora, Container carga) {
 		super();
 		this.chofer = chofer;
 		this.camion = camion;
-		this.cliente = cliente;
 		this.diaYHora = diaYHora;
 		chofer.setTurno(this);
 		chofer.setCamionManejado(camion);
@@ -24,7 +22,6 @@ public class Turno {
 		super();
 		this.chofer = null;
 		this.camion = null;
-		this.cliente = cliente;
 		this.diaYHora = diaYHora;
 	}
 
@@ -49,11 +46,11 @@ public class Turno {
 		chofer.setCamionManejado(camion);
 	}
 	
-	public boolean esDeCliente(Cliente c) {
-		return cliente == c;
+	public Conductor getConductor() {
+		return this.chofer;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
+	
+	public Camion getCamion() {
+		return this.camion;
 	}
 }

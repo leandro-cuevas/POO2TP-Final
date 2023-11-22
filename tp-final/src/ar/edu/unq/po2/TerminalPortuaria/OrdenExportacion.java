@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 
 public class OrdenExportacion extends Orden {
 		
-	public OrdenExportacion(Viaje viaje, Container container, Conductor chofer, Camion camion,
-			TerminalPortuaria terminalDestino, TerminalPortuaria terminalOrigen, Cliente shipper) {
-		super(viaje, container, terminalDestino, shipper, terminalOrigen);
-		this.camion = camion;
-		this.chofer = chofer;				
+	public OrdenExportacion(Viaje viaje, Container container, TerminalPortuaria terminalDestino,
+							TerminalPortuaria terminalOrigen, Turno turno, Cliente cliente) {
+		super(viaje, container, terminalDestino, terminalOrigen, turno, cliente);			
 	}
 	
 	@Override

@@ -32,6 +32,7 @@ class OrdenExportacionTest {
 	Lavado lavado;
 	Electricidad electro;
 	Pesado pesado;
+	Turno turno;
 		
 	//SUT 
 		
@@ -59,10 +60,11 @@ class OrdenExportacionTest {
 		lavado  = mock(Lavado.class);
 		pesado  = mock(Pesado.class);
 		electro = mock(Electricidad.class);
+		turno = mock(Turno.class);
 		
 		//SUT
 		
-		orden = new OrdenExportacion(viaje1, container1, chofer, camion, terminalDestino, terminalOrigen, shipper1);	
+		orden = new OrdenExportacion(viaje1, container1, terminalDestino, terminalOrigen, turno, shipper1);	
 	}
 
 	@Test
@@ -74,6 +76,7 @@ class OrdenExportacionTest {
 
 	@Test
 	void gettersYSetters() {
+		when(turno.getConductor()).thenReturn(chofer);
 		//Testea los getters para atributos seteados en el constructor
 		assertEquals(shipper1, orden.getCliente());
 		assertEquals(container1, orden.getContainer());

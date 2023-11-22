@@ -34,7 +34,7 @@ class TurnoTest {
 	clienteFalso = mock(Cliente.class);
 	// SUT
 	// Caso para turno de exportacion, donde ya contamos con el camion y el chofer
-	t1 = new Turno(c1, cam1, cliente, fecha, carga);
+	t1 = new Turno(c1, cam1, fecha, carga);
 	// Caso para turno de importacion, donde el cliente aun no nos informo quien es el camion y el chofer a designar
 	t2 = new Turno(cliente, fecha, carga);
 	}
@@ -63,17 +63,7 @@ class TurnoTest {
 	void getterFecha() {
 		assertEquals(t1.getDiaYHora(), fecha);
 	}
-	
-	@Test
-	void getterCliente() {
-		assertEquals(cliente, t1.getCliente());
-	}
-	
-	@Test
-	void evaluadorCliente() {
-		assertTrue(t2.esDeCliente(cliente));
-		assertFalse(t2.esDeCliente(clienteFalso));
-	}
+
 	@Test 
 	void setterDeCamionYChofer() {
 		t2.setCamion(cam2);

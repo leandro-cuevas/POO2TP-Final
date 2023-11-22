@@ -137,22 +137,23 @@ public class TerminalGestionada extends TerminalPortuaria {
 		this.validarExportacion(viaje, destino);  //Chequea si se puede realizar la exportacion para que no haya errores de otras clases que expongan otros mensajes de error.
 		this.validarTransporte(coche, chofer);    // Chequea si el camion y el conductor elegidos por el shipper pertenecen a las empresas transportistas de la terminal.
 		this.generarOrdenExportacion(viaje, carga, chofer, coche, destino, shipper);              // 
-		this.asignarTurno(viaje, shipper, coche, chofer, carga); // Asigna un turno a la lista de turnos de la terminal con los datos asignados.
 	}
 
-	private void asignarTurno(Viaje viaje, Cliente shipper, Camion coche, Conductor chofer, Container carga) throws Exception {
+	private Turno asignarTurno(Viaje viaje, Camion coche, Conductor chofer, Container carga) {
 		// Este metodo no va a tirar un error del circuito ya que se valido previamente.
 		LocalDateTime fechaLlegadaViaje = viaje.fechaDeArriboAlPuerto(this);         
 		LocalDateTime fechaAAsignar = fechaLlegadaViaje.minus(12, ChronoUnit.HOURS); // Le resta 12 horas a la fecha de arribo a la terminal, para hacier eficiente todo el tiempo que la carga este en la terminal
-		turnos.add(new Turno(chofer, coche, shipper, fechaAAsignar, carga));
+		return new Turno(chofer, coche, fechaAAsignar, carga);
 		// SETEAMOS A LA CARGA EL VIAJE QUE TENDRA, YA QUE CUANDO UN BUQUE VENGA A RETIRAR CARGAS,
 		// SE LLEVARA LAS QUE CONTENGAN SU VIAJE.
 	}
 	
 	private void generarOrdenExportacion(Viaje viaje, Container carga, Conductor chofer, Camion camion,
-			TerminalPortuaria destino, Cliente shipper) {
+			TerminalPortuaria destino, Cliente shipper){
+		Turno turno = asignarTurno(viaje,camion,chofer, carga);
 		carga.setDestino(destino);
-		ordenes.add(new OrdenExportacion(viaje, carga, chofer, camion, destino, this, shipper));
+		turnos.add(turno);
+		ordenes.add(new OrdenExportacion(viaje, carga, destino, this, turno, shipper));
 	}
 
 	public void ingresarCarga(Conductor chofer, LocalDateTime diaYHora) throws Exception{
@@ -185,7 +186,7 @@ public class TerminalGestionada extends TerminalPortuaria {
 	
 	public void importar(Viaje viaje, Container carga, Cliente consignee, TerminalPortuaria terminalOrigen) {
 		//Genera una orden de importación
-		ordenes.add(new OrdenImportacion(viaje, carga, this, consignee, terminalOrigen));
+		ordenes.add(new OrdenImportacion(viaje, carga, this, terminalOrigen, consignee));
 	}
 
 	private void importarCargas(Buque buque) {
@@ -198,30 +199,34 @@ public class TerminalGestionada extends TerminalPortuaria {
 		orden.setCargaDepositada();
 		this.realizarServicioElectrico(orden);
 		this.realizarServicioDePesado(orden);
-		this.avisarConsignee(consignee, orden.getContainer());
+		this.avisarConsignee(consignee, orden.getContainer(), (OrdenImportacion)orden);
 	}
 	
-	private void avisarConsignee(Cliente consignee, Container carga) {
+	private void avisarConsignee(Cliente consignee, Container carga, OrdenImportacion orden ) {
 		// Crea un turno para el consignee duenio de la carga que arribo. El turno tiene 24 horas de duracion
 		LocalDateTime diaYHora = LocalDateTime.now().plus(24, ChronoUnit.HOURS);
 		Turno turno = new Turno(consignee, diaYHora, carga);
 		turnos.add(turno);
+		orden.setTurno(turno);
 		consignee.listoPararRetirar(this, carga);
 	}
 	
 	// RETIRAR IMPORTACIONES ///////////////////
 	
 	public void avisarTransporteParaRetiro(Cliente consignee, Conductor chofer, Camion camion) {
-		OrdenImportacion ordenDeConsignee = (OrdenImportacion) ordenes.stream().filter(orden -> orden.esDeCliente(consignee)).findFirst().get();
-		Turno turnoDeConsignee = turnos.stream().filter(t -> t.esDeCliente(consignee)).findFirst().get();
+		OrdenImportacion ordenDeConsignee = (OrdenImportacion) ordenes.stream()
+				.filter(orden -> orden.esDeCliente(consignee))
+				.findFirst()
+				.get();
 		ordenDeConsignee.setCamion(camion);
 		ordenDeConsignee.setChofer(chofer);
-		turnoDeConsignee.setCamion(camion);
-		turnoDeConsignee.setChofer(chofer);
 	}
 	
 	public void retirarImportacion(Conductor chofer, LocalDateTime diaYHora) throws Exception{
-		Orden ordenDeConsignee = ordenes.stream().filter(o -> o.esDeCliente(chofer.getTurno().getCliente())).findFirst().get();
+		Orden ordenDeConsignee = ordenes.stream()
+				.filter(o -> o.esContainer(chofer.getCamion().getCarga()))
+				.findFirst()
+				.get();
 		validarCocheyChofer(chofer.getCamion(), chofer, chofer.getTurno()); 		// Chequea que el coche y el chofer que quieren ingresar, sean los asignados en el turno. 
 		validarTurnoImp(chofer.getTurno(), diaYHora, ordenDeConsignee);   // Chequea que el ingreso no difiera en mas horas al turno otorgado, sino asigna almacenamiento excedente
 		int indexTurno = turnos.indexOf(chofer.getTurno());
